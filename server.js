@@ -1,12 +1,13 @@
+
 const express  = require('express');
 const app = express();
 
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-mongoose.connect('monogodb//localhost/ourdbname' ,{ useNewUrlParser:true});
-const db = mongoose.connect;
-db.on('error', (error) => console.error(error));
-db.once('open' , () => console.log('Connected to Database'));
+// mongoose.connect('monogodb//localhost/ourdbname' ,{ useNewUrlParser:true});
+// const db = mongoose.connect;
+// db.on('error', (error) => console.error(error));
+// db.once('open' , () => console.log('Connected to Database'));
 
 
 app.use(express.json());
