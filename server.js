@@ -14,6 +14,10 @@ app.use(express.json());
 const sourcesRoute = require('./routes/sources');
 app.use('/sources', sourcesRoute);
 
+app.use(express.json());
+const dataMigrationRoute = require('./routes/DataMigration');
+app.use('/DataMigration' , dataMigrationRoute);
+
 
 
 app.listen(5000, () => console.log('server has started'));
