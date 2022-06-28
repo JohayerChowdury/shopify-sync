@@ -1,19 +1,39 @@
+//assigning port environment variable
+const port = 5000 || process.env.PORT;
 
-const express  = require('express');
+//installing express package
+const express = require('express');
 const app = express();
-
-// const mongoose = require('mongoose');
-
-// mongoose.connect('monogodb//localhost/ourdbname' ,{ useNewUrlParser:true});
-// const db = mongoose.connect;
-// db.on('error', (error) => console.error(error));
-// db.once('open' , () => console.log('Connected to Database'));
-
-
 app.use(express.json());
-const sourcesRoute = require('./routes/sources');
-app.use('/sources', sourcesRoute);
 
+//env file for security
+require('dotenv').config();
 
+//installing mongoose package
+const mongoose = require('mongoose');
 
-app.listen(5000, () => console.log('server has started'));
+mongoose.connect(
+  process.env.DB_URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Mongo DB Connection is successful.');
+    }
+  }
+);
+
+const db = mongoose.connection;
+
+const shopifyRoute = require('./routes/Shopify');
+app.use('/api/shopify', shopifyRoute);
+
+app.get('/', function (req, res) {
+  res.send('Backend homepage');
+});
+
+app.listen(5000, () => console.log(`Server started on port ${port}.`));
