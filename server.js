@@ -27,8 +27,6 @@ mongoose.connect(
   }
 );
 
-const db = mongoose.connection;
-
 const shopifyRoute = require('./routes/Shopify');
 app.use('/api/shopify', shopifyRoute);
 

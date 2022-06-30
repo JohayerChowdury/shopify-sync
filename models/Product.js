@@ -176,6 +176,7 @@ const ImageSchema = new mongoose.Schema({
 const productSchema = new mongoose.Schema({
   id: {
     type: Number,
+    index: { unique: true },
   },
   title: {
     type: String,
