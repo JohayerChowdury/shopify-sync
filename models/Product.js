@@ -174,7 +174,7 @@ const ImageSchema = new mongoose.Schema({
 
 //initializing Product model
 const productSchema = new mongoose.Schema({
-  id: {
+  product_id: {
     type: Number,
     index: { unique: true },
   },
@@ -248,5 +248,9 @@ const productSchema = new mongoose.Schema({
     'image',
   ],
 });
+
+productSchema.query.byProductId = (product_id) => {
+  return this.where({ product_id: product_id });
+};
 
 module.exports = mongoose.model('Product', productSchema);

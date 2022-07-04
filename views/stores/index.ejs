@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <title>All stores</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-4">Shopify Stores</h1>
+      <a href="stores/add" class="btn btn-success">Add a new shopify store</a>
+      <% stores.forEach(store => { %>
+      <div class="card mt-4">
+        <div class="card-body">
+          <h4 class="card-title"><%= store.name %></h4>
+          <div class="card-text mb-2"><%= store.url %></div>
+          <a href="stores/<%= store.storeId %>" class="btn btn-primary"
+            >See More</a
+          >
+          <a href="stores/edit/<%= store.storeId %>" class="btn btn-info"
+            >Edit</a
+          >
+          <form
+            action="stores/<%= store.storeId %>?_method=DELETE"
+            method="POST"
+            class="d-inline"
+          >
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+      <% }) %>
+      <a href="/" class="btn btn-secondary">Back</a>
+    </div>
+  </body>
+</html>
