@@ -30,8 +30,14 @@ mongoose.connect(
 const shopifyRoute = require('./routes/Shopify');
 app.use('/api/shopify', shopifyRoute);
 
+const userRoute = require('./routes/Users'); // connects to the users route
+app.use('/api/users', userRoute);
+
 app.get('/', function (req, res) {
   res.send('Backend homepage');
 });
 
 app.listen(5000, () => console.log(`Server started on port ${port}.`));
+
+app.set('view engine', 'ejs');
+
