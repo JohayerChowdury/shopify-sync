@@ -47,11 +47,12 @@
 <div class="form-group">
   <label for="address">Address</label>
   <input
+    value="<%=store.address %>"
     type="text"
     name="address"
     id="address"
     class="form-control"
-  /><%=store.address %>
+  />
 </div>
 <a href="/shopify_api/stores" class="btn btn-secondary">Cancel</a>
 <button type="submit" class="btn btn-primary">Save</button>

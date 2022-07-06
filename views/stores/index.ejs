@@ -21,10 +21,14 @@
         <div class="card-body">
           <h4 class="card-title"><%= store.name %></h4>
           <div class="card-text mb-2"><%= store.url %></div>
-          <a href="stores/<%= store.storeId %>" class="btn btn-primary"
+          <a
+            href="/shopify_api/stores/<%= store.storeId %>"
+            class="btn btn-primary"
             >See More</a
           >
-          <a href="stores/edit/<%= store.storeId %>" class="btn btn-info"
+          <a
+            href="/shopify_api/stores/edit/<%= store.storeId %>"
+            class="btn btn-info"
             >Edit</a
           >
           <form

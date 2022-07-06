@@ -23,8 +23,4 @@ const storeSchema = new mongoose.Schema({
   },
 });
 
-storeSchema.query.byStoreId = function (storeId) {
-  return this.where({ storeId: storeId });
-};
-
 module.exports = mongoose.model('Store', storeSchema);

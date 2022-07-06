@@ -1,58 +1,63 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const axios = require('axios').default;
+let StoreModel = require('../models/Store');
 let ProductModel = require('../models/Product');
 
 //GET all documents in MongoDB database
-router.get('/', (req, res, next) => {
-  let storeId = req.storeId;
-  ProductModel.find({}, (err, documents) => {
-    if (err) {
-      res.send('Something went wrong with finding ALL documents');
-    } else {
-      return documents;
-    }
-  });
+router.get('/', async (req, res, next) => {
+  let storeId = req.params.storeId;
+  const store = await StoreModel.findOne({ storeId: storeId }).exec();
+  const products = await ProductModel.find({ storeId: storeId })
+    .sort({ title: 'asc' })
+    .exec();
+  res.render('products/index', { store: store, products: products });
+});
+
+router.get('/:product_id', async (req, res) => {
+  let storeId = req.params.storeId;
+  const store = await StoreModel.findOne({ storeId: storeId }).exec();
+  const product = await ProductModel.findOne({
+    storeId: storeId,
+    product_id: req.params.product_id,
+  }).exec();
+  res.render('products/show', { store: store, product: product });
 });
 
 //GET all documents from Shopify API into MongoDB database
-router.get('/sync', (req, res, next) => {
-  let storeId = req.storeId;
+router.post('/', async (req, res) => {
+  const store = await StoreModel.findOne({ storeId: req.storeId }).exec();
   axios
-    .get(
-      'https://test-store-ap.myshopify.com/admin/api/2022-04/products.json',
-      {
-        // GET 'list of products'
-        headers: {
-          'X-Shopify-Access-Token': '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', // required to access our instance
-        },
-      }
-    )
-    .then((res) => {
-      // numberOfProductsOld = getAllProducts().length;
+    .get(`https://${store.url}.myshopify.com/admin/api/2022-07/products.json`, {
+      // GET 'list of products'
+      headers: {
+        'X-Shopify-Access-Token': `${store.access_token}`, // required to access our instance
+      },
+    })
+    .then(async (res) => {
       console.log(
         'There are ' + res.data.products.length + ' products in shopify store.'
       );
-      updateProducts(Object.values(res.data.products));
+      await updateProducts(Object.values(res.data.products), req.storeId);
       console.log('Finished uploading to MongoDB database');
-      // numberOfProductsNew = getAllProducts().length;
-      // console.log('Number of products before insert: ' + numberOfProductsOld);
-      // console.log('Number of products after insert: ' + numberOfProductsNew);
+      const products = await ProductModel.find({ storeId: req.storeId });
+      res.redirect('products/index', { store: store, products: products });
     })
     .catch((err) => {
-      console.log(err);
+      res.send(err);
     });
 });
 
-async function updateProducts(products) {
+async function updateProducts(products, requestStoreId) {
   try {
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
-      filter = { product_id: product.product_id };
+      filter = { product_id: product.id };
       (update = {
         $set: {
+          storeId: requestStoreId,
           title: product.title,
           body_html: product.body_html,
           vendor: product.vendor,
@@ -73,13 +78,11 @@ async function updateProducts(products) {
         },
       }),
         //mongoose method that finds and updates record if exists, inserts/creates if does not exist
-        ProductModel.findOneAndUpdate(filter, update, { upsert: true })
-          .then(
-            console.log(product.id + ' ' + product.title + ' Successfuly saved')
-          )
-          .catch((err) => {
+        ProductModel.findOneAndUpdate(filter, update, { upsert: true }).catch(
+          (err) => {
             console.log(err);
-          });
+          }
+        );
     }
   } catch (err) {
     console.log(err);

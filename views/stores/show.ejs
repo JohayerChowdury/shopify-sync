@@ -14,12 +14,25 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="mb-4"><%= store.name%></h1>
-      <h4><%= store.address %></h4>
-      <h4><%= store.url %></h4>
-      <h4><%= store.access_token %></h4>
-      <a href="stores" class="btn btn-secondary">All stores</a>
-      <a href="edit/<%= store.storeId %>" class="btn btn-info">Edit</a>
+      <h1 class="mb-4">Name: <%= store.name%></h1>
+      <h4>Address: <%= store.address %></h4>
+      <h4>URL: <%= store.url %></h4>
+      <h4>Access token: <%= store.access_token %></h4>
+    </div>
+    <div class="container">
+      <a
+        href="/shopify_api/stores/edit/<%= store.storeId %>"
+        class="btn btn-info"
+        >Edit</a
+      >
+      <a
+        href="/shopify_api/stores/<%= store.storeId %>/products"
+        class="btn btn-secondary"
+        >View Products</a
+      >
+    </div>
+    <div class="container">
+      <a href="/shopify_api/stores" class="btn btn-dark">All stores</a>
     </div>
   </body>
 </html>

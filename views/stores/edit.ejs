@@ -15,7 +15,10 @@
   <body>
     <div class="container">
       <h1 class="mb-4">Edit Shopify store</h1>
-      <form action="../stores/<%=store.storeId%>?_method=PUT" method="POST">
+      <form
+        action="/shopify_api/stores/<%=store.storeId%>?_method=PUT"
+        method="POST"
+      >
         <%- include('_form_fields') %>
       </form>
     </div>

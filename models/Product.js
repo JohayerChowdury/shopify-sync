@@ -174,6 +174,9 @@ const ImageSchema = new mongoose.Schema({
 
 //initializing Product model
 const productSchema = new mongoose.Schema({
+  storeId: {
+    type: String,
+  },
   product_id: {
     type: Number,
     index: { unique: true },

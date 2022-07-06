@@ -1,8 +1,5 @@
 const express = require('express');
-const Store = require('../models/Store');
-const app = express();
-app.use(express.json());
-const storeRouter = express.Router();
+const storeRouter = express.Router({ mergeParams: true });
 let StoreModel = require('../models/Store');
 
 storeRouter.get('/', async (req, res) => {
@@ -13,28 +10,21 @@ storeRouter.get('/', async (req, res) => {
 storeRouter.post(
   '/',
   async (req, res, next) => {
-    const store = new StoreModel({
-      storeId: req.body.storeId,
-      url: req.body.url,
-      access_token: req.body.access_token,
-      name: req.body.name,
-      address: req.body.address,
-    });
-    try {
-      await store.save();
-      console.log('Success!');
-      res.redirect(`/stores/${store.storeId}`);
-    } catch (err) {
-      console.log('Error found!: ' + err);
-      res.render('stores/add', { store: store });
-    }
-    // next();
-  }
-  //   saveStoreAndRedirect('add')
+    req.store = new StoreModel();
+    next();
+  },
+  saveStoreAndRedirect('add')
 );
 
 storeRouter.get('/add', (req, res) => {
   res.render('stores/add', { store: new StoreModel() });
+});
+
+storeRouter.get('/edit/:storeId', async (req, res) => {
+  let storeId = req.params.storeId;
+  const store = await StoreModel.findOne({ storeId: storeId }).exec();
+  //   console.log('Editing store: ' + store);
+  res.render('stores/edit', { store: store });
 });
 
 //products API
@@ -49,51 +39,51 @@ storeRouter.use(
   productsRoute
 );
 
-storeRouter.get('/edit/:id', async (req, res) => {
-  const store = await Store.find().byStoreId(req.params.storeId).exec();
-  res.render('stores/edit', { store: store });
-});
+storeRouter
+  .route('/:storeId')
+  .get(async (req, res, next) => {
+    let storeId = req.params.storeId;
+    const store = await StoreModel.findOne({ storeId: storeId }).exec();
+    // console.log('Found store: ' + store);
+    if (store == null) {
+      res.redirect('../stores');
+    }
+    res.render('stores/show', { store: store });
+  })
+  .put(async (req, res, next) => {
+    req.store = await StoreModel.findOne({
+      storeId: req.params.storeId,
+    }).exec();
+    next();
+  }, saveStoreAndRedirect('edit'))
+  .delete(async (req, res) => {
+    let storeId = req.params.storeId;
+    // console.dir(storeId);
+    await StoreModel.findOneAndDelete({ storeId: storeId });
+    res.redirect('../stores');
+  });
 
-storeRouter.route('/:storeId').get(async (req, res) => {
-  //   const store = await StoreModel.find().byStoreId(req.params.storeId).exec();
-  const store = await StoreModel.find({ storeId: req.body.storeId }).exec();
-  if (store == null) {
-    res.redirect('../');
-  }
-  res.render('stores/show', { store: store });
-});
-//   .put(async (req, res, next) => {
-//     req.store = await StoreModel.find().byStoreId(req.params.storeId).exec();
-//     next();
-//   }, saveStoreAndRedirect('edit'))
-//   .delete(async (req, res) => {
-//     await StoreModel.findOneAndDelete(
-//       { storeId: req.params.storeId },
-//       (err, docs) => {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           console.log('Deleted store: ', docs);
-//         }
-//       }
-//     );
-//   }, saveStoreAndRedirect('add'));
-
-// function saveStoreAndRedirect(path) {
-//   return async (req, res) => {
-//     let store = req.store;
-//     store.storeId = req.body.storeId;
-//     store.url = req.body.url;
-//     store.access_token = req.body.access_token;
-//     store.name = req.body.name;
-//     store.address = req.body.address;
-//     try {
-//       store = await store.save();
-//       res.redirect(`stores/${store.storeId}`);
-//     } catch (err) {
-//       res.render(`stores/${path}`, { store: store });
-//     }
-//   };
-// }
+function saveStoreAndRedirect(path) {
+  return async (req, res) => {
+    let store = req.store;
+    store.storeId = req.body.storeId;
+    store.url = req.body.url;
+    store.access_token = req.body.access_token;
+    store.name = req.body.name;
+    store.address = req.body.address;
+    try {
+      store = await store.save();
+      //   if (path === 'add') {
+      //     res.json('New store added');
+      //   } else if (path === 'edit') {
+      //     res.json('Store is updated');
+      //   }
+      res.redirect(`/shopify_api/stores/${store.storeId}`);
+    } catch (err) {
+      res.status(500).send({ message: err.message } || 'Error Occurred');
+      // res.render(`stores/${path}`, { store: store });
+    }
+  };
+}
 
 module.exports = storeRouter;

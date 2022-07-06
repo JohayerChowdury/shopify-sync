@@ -23,21 +23,22 @@ mongoose
     console.log('MongoDB connection is successful.');
     const app = express();
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
     //assiging view to engine to ejs
     app.set('view engine', 'ejs');
 
     app.use(methodOverride('_method'));
 
-    //API routing
-    const apiRouter = require('./routes/apiRouter');
-    app.use('/shopify_api', apiRouter);
-
     //homepage
     app.get('/', (req, res) => {
       res.render('index');
     });
 
+    //API routing
+    const apiRouter = require('./routes/apiRouter');
+    app.use('/shopify_api', apiRouter);
+
     //listening on port
-    app.listen(5000, () => console.log(`Server started on port ${port}.`));
+    app.listen(port, () => console.log(`Server started on port ${port}.`));
   });
