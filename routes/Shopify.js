@@ -5,6 +5,7 @@ const router = express.Router();
 const axios = require('axios').default;
 let ProductModel = require('../models/Product');
 
+
 //GET all documents in MongoDB database
 router.get('/products', () => {
   getAllProducts();

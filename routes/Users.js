@@ -2,16 +2,31 @@ const router = require("express").Router();
 const User = require("../models/Usermodel");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
+const methodOverride = require('method-override');
+const express = require('express');
+const app = express();
+
+//return the views
+// 
+
+app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
+
+router.get("/", (req,res) => {
+    res.render("users/index" , {});
+})
 
 router.get("/register", (req,res) => { // this finds a list of all the users already registered
-    User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json("Error: " + err));
+    // User.find()
+    // .then((users) => res.json(users))
+    // .catch((err) => res.status(400).json("Error: " + err));
+    res.render("users/register");
 });
 
 router.post("/register", async (req, res) => {
     if(!req.body.username || !req.body.password) {
-        return res.status(400).json({msg: "Please enter in all fields"});
+        res.redirect("/register")
+        return res.status(400).json({msg: "Please enter in all fields"}); 
     }
     const user = await User.findOne({username: req.body.username});
     if(user){
@@ -26,14 +41,15 @@ router.post("/register", async (req, res) => {
             });
             newUser
                 .save()
-                .then((user) => res.json(user))
+                .then((user) => res.redirect("/"))
                 .catch((err) => res.status(400).json("Error: " + err));
         });
     });
 });
 //login functions
-router.get("/login", (req, res)=> {
-    res.send("Login")
+router.get("/login", async (req, res)=> {
+    res.render("users/login");
+    
 });
 
 router.post("/login", async(req,res) => {
@@ -48,16 +64,17 @@ router.post("/login", async(req,res) => {
     const valid = await bcrypt.compare(req.body.password, user.password);
     if(valid){
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
-        res.json({
-            token: token, 
-            user:{
-                id: user._id,
-                username: user.username,
+        // res.json({
+        //     token: token, 
+        //     user:{
+        //         id: user._id,
+        //         username: user.username,
 
 
-            },
-            msg: "Successfully Logged in"
-        });
+        //     },
+        //     msg: "Successfully Logged in"
+        // });
+        res.redirect("/");
     }
     else{
         return res.status(400).json({msg: "Authentication error"});

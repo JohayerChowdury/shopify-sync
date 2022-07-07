@@ -1,43 +1,54 @@
+
 //assigning port environment variable
 const port = 5000 || process.env.PORT;
-
+ 
 //installing express package
 const express = require('express');
-const app = express();
-app.use(express.json());
-
+ 
 //env file for security
 require('dotenv').config();
-
+ 
+//installing and using method-override package to integrate PUT & DELETE requests for HTML forms
+const methodOverride = require('method-override');
+ 
 //installing mongoose package
 const mongoose = require('mongoose');
-
-mongoose.connect(
-  process.env.DB_URI,
-  {
+ 
+//connecting to mongoDB database using DB_URI parameter
+mongoose
+  .connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  },
-  function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('Mongo DB Connection is successful.');
-    }
-  }
-);
+  })
+  .then(() => {
+    console.log('MongoDB connection is successful.');
+    const app = express();
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-const shopifyRoute = require('./routes/Shopify');
-app.use('/api/shopify', shopifyRoute);
+ 
+    //assiging view to engine to ejs
+    app.set('view engine', 'ejs');
+ 
+    app.use(methodOverride('_method'));
+ 
+    
+    
 
-const userRoute = require('./routes/Users'); // connects to the users route
-app.use('/api/users', userRoute);
+ 
+    //homepage
+    app.get('/', (req, res) => {
+      res.render('index');
+    });
 
-app.get('/', function (req, res) {
-  res.send('Backend homepage');
-});
 
-app.listen(5000, () => console.log(`Server started on port ${port}.`));
-
-app.set('view engine', 'ejs');
-
+    //API routing
+    const apiRouter = require('./routes/apiRouter');
+    app.use('/shopify_api', apiRouter);
+    
+  
+    
+ 
+    //listening on port
+    app.listen(port, () => console.log(`Server started on port ${port}.`));
+  });
