@@ -10,13 +10,36 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <title>Show Product</title>
   </head>
   <body>
     <div class="container">
-      <h1 class="mb-4">Title: <%= product.title%></h1>
+      <a
+        href="/shopify_api/stores/<%= store.storeId %>/products"
+        class="btn btn-secondary"
+        >Back</a
+      >
+      <h1 class="mb-4">Product Name: <%= product.title%></h1>
     </div>
     <div class="container">
+      <h2>Type: <%=product.product_type%></h2>
+      <h2>created_at: <%=product.created_at.toLocaleDateString()%></h2>
+      <h2>Status: <%=product.status%></h2>
+      <!-- variants: product.variants,
+      options: product.options, -->
+      <%if (product.image){%>
+      <img src="<%=product.image.src%>" class="img-thumbnail" />
+      <% } %> <%if (product.images){%>
+      <picture>
+        <%product.images.forEach(image =>{%>
+        <img src="<%=image.src%>" class="img-thumbnail" />
+        <% })%>
+      </picture>
+      <% } %> <% if(!product.image && !product.images){ %>
+      <h3>No images found</h3>
+      <% } %>
+
       <!-- <a href="/shopify_api/stores" class="btn btn-secondary">All stores</a>
       <a
         href="/shopify_api/stores/edit/<%= store.storeId %>"
@@ -28,11 +51,6 @@
         class="btn btn-secondary"
         >View Products</a
       > -->
-      <a
-        href="/shopify_api/stores/<%= store.storeId %>/products"
-        class="btn btn-secondary"
-        >Back</a
-      >
     </div>
   </body>
 </html>
