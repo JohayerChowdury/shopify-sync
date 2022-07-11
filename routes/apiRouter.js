@@ -14,5 +14,12 @@ apiRouter.get("/", (req,res) => {
 
 
 
+
+
+//stores API
+const storesRoute = require('./store_routes');
+apiRouter.use('/stores', storesRoute);
+
+
 module.exports = apiRouter;
 

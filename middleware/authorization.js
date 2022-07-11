@@ -15,6 +15,6 @@ module.exports = (req, res, next) => {
         req.user = verified;
         next();
     } catch(err){
-        rs.status(401).json({msg: err});
+        res.status(401).json({msg: err});
     }
 }

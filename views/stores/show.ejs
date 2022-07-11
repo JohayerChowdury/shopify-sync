@@ -10,28 +10,29 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <title>All stores</title>
+    <title>Shopify Store</title>
   </head>
   <body>
     <div class="container">
-      <h1 class="mb-4">Welcome to ShyftLabs Shopify Sync Application.</h1>
-      <p>
-        This is an application that allows users with Shopify stores to easily
-        sync their products in MongoDB.
-      </p>
-      <p>Click the button below to view all Shopify stores for your account.</p>
+      <h1 class="mb-4">Name: <%= store.name%></h1>
+      <h4>Address: <%= store.address %></h4>
+      <h4>URL: <%= store.url %></h4>
+      <h4>Access token: <%= store.access_token %></h4>
     </div>
     <div class="container">
-      <a href="/shopify_api/stores" class="btn btn-success"
-        >View Shopify Stores</a
+      <a
+        href="/shopify_api/stores/edit/<%= store.storeId %>"
+        class="btn btn-info"
+        >Edit</a
+      >
+      <a
+        href="/shopify_api/stores/<%= store.storeId %>/products"
+        class="btn btn-secondary"
+        >View Products</a
       >
     </div>
-    &nbsp;
-    &nbsp;
-    <div class = "container">
-      <a href = "/shopify_api/users" class = "btn btn-success">
-        Users
-      </a>
+    <div class="container">
+      <a href="/shopify_api/stores" class="btn btn-dark">All stores</a>
     </div>
   </body>
 </html>

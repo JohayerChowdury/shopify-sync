@@ -10,13 +10,9 @@ const StoreSchema = new mongoose.Schema({
     store_name:{
         type: String,
     },
-    access_token: {
-        type: String,
-    },
     required:[
         'id',
         'store_name',
-        'access_token',
     ],
 });
 const UserSchema = new mongoose.Schema({
@@ -41,7 +37,8 @@ const UserSchema = new mongoose.Schema({
     },
     required: [
         'username',
-        'password'
+        'password',
+        
     ]
 
 });

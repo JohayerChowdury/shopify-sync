@@ -4,16 +4,17 @@ const port = 5000 || process.env.PORT;
  
 //installing express package
 const express = require('express');
- 
+
 //env file for security
 require('dotenv').config();
- 
+
 //installing and using method-override package to integrate PUT & DELETE requests for HTML forms
 const methodOverride = require('method-override');
- 
+
 //installing mongoose package
 const mongoose = require('mongoose');
- 
+const nodemailer = require("nodemailer");
+
 //connecting to mongoDB database using DB_URI parameter
 mongoose
   .connect(process.env.DB_URI, {
@@ -31,11 +32,12 @@ mongoose
     app.set('view engine', 'ejs');
  
     app.use(methodOverride('_method'));
- 
     
     
 
  
+
+    app.use(methodOverride('_method'));
     //homepage
     app.get('/', (req, res) => {
       res.render('index');
@@ -49,6 +51,7 @@ mongoose
   
     
  
+
     //listening on port
     app.listen(port, () => console.log(`Server started on port ${port}.`));
   });

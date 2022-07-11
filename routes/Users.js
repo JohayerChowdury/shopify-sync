@@ -2,12 +2,12 @@ const router = require("express").Router();
 const User = require("../models/Usermodel");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
+const auth = require("../middleware/authorization");
 const methodOverride = require('method-override');
 const express = require('express');
 const app = express();
-
+const nodemailer = require('nodemailer');
 //return the views
-// 
 
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
@@ -64,22 +64,58 @@ router.post("/login", async(req,res) => {
     const valid = await bcrypt.compare(req.body.password, user.password);
     if(valid){
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
-        // res.json({
-        //     token: token, 
-        //     user:{
-        //         id: user._id,
-        //         username: user.username,
+        res.json({
+            token: token, 
+            user:{
+                id: user._id,
+                username: user.username,
 
 
-        //     },
-        //     msg: "Successfully Logged in"
-        // });
-        res.redirect("/");
+            },
+            msg: "Successfully Logged in"
+        });
+        // res.redirect("/");
     }
     else{
         return res.status(400).json({msg: "Authentication error"});
     }
 });
+router.get("/forgot_password" , async(req,res) =>{
+    res.render("users/forgotPassword")
+});
+router.post("/forgot_password", async(req, res) => {
+    const user = await User.findOne({ username: req.body.username});
+    if(!user){
+        return res.status(400).json({msg: "User doesn't exist"});
+    }
+
+    bcrypt.genSalt(10, function(err, salt){
+        bcrypt.hash(req.body.password, salt, function(req, hash)  {
+            var newValues = {username: user.username,  password: hash}
+            User.updateOne(user, newValues, function(err, res) {
+                if(err) {
+                    console.log(err)
+                }
+            });
+            user.save()
+            .then((user) => { 
+                res.json(user);
+            });
+        });
+    });
+
+
+});
+router.get("/profile", auth,async (req,res) =>{
+    const user = await User.findById(req.user._id);
+    res.json({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+    });
+});
+
+
 
 router.post("/tokenIsValid", async(req,res) =>{ // this determines if the jwt token is valid or not (for authorization)
     try{
