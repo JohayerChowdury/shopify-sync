@@ -5,46 +5,46 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 
 const Login = () => {
-  const { userData, setUserData } = useContext(UserContext);
+  const {userData, setUserData } = useContext(UserContext); // gets the context from the app.js file
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState({ // allows for the data to be changed 
     username: "",
     password: "",
   });
-  const [ErrorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState(); 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // prevents form from being submitted automatically
 
     try {   
-      const newUser = {
+      const newUser = { //creates new mongodb user
         username: user.username,
         password: user.password,
       };
 
-      const loginResponse = await axios.post("http://localhost:5000/shopify_api/users/login", newUser);
-    //   console.log(loginResponse.data)
-      setUserData({ 
+      const loginResponse = await axios.post("http://localhost:5000/shopify_api/users/login", newUser); // attemps to login
+      console.log(loginResponse.data)
+      setUserData({  // sends back jwt token and saves it in session data
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       });
       localStorage.setItem("auth-token", loginResponse.data.token);
 
-      setUser({
+      setUser({ //resets the form
         username: "",
         password: "",
       });
 
-      window.location = "/";
+      // window.location = "/stores"; //redirects back home
     } catch (err) {
       err.response.data.msg
-        ? setErrorMsg(err.response.data.msg)
+        ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed
         : setErrorMsg("We have an error!");
     }
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; //allows for user to input data
     setUser((oldUser) => {
       return {
         ...oldUser,
@@ -57,7 +57,7 @@ const Login = () => {
     <div>
       <h1>Log In</h1>
       <br />
-      {ErrorMsg && <ErrorMsg msg={ErrorMsg} />}
+      {errorMsg && <ErrorMsg msg={errorMsg} />}
 
       <form onSubmit={handleSubmit}>
         <label>User Name&nbsp; </label>
@@ -82,7 +82,12 @@ const Login = () => {
           Log In
         </Button>
       </form>
+      <a href = "users/forgot_password">
+        Forgot Password?
+      </a>
     </div>
+
+
   );
 };
 

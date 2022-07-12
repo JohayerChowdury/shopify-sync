@@ -13,7 +13,7 @@ const methodOverride = require('method-override');
 
 //installing mongoose package
 const mongoose = require('mongoose');
-const nodemailer = require("nodemailer");
+var cors = require('cors');
 
 //connecting to mongoDB database using DB_URI parameter
 mongoose
@@ -26,6 +26,8 @@ mongoose
     const app = express();
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+
+    app.use(cors());
 
  
     //assiging view to engine to ejs

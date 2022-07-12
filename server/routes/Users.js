@@ -59,7 +59,7 @@ router.post("/login", async(req,res) => {
     }
     const user = await User.findOne({username: req.body.username});
     if(!user){
-        return res.status(400).json({msg: "User doesn't exist"});
+        return res.status(400).json({msg: "user doesn't exist"});
     }
     const valid = await bcrypt.compare(req.body.password, user.password);
     if(valid){
@@ -77,7 +77,7 @@ router.post("/login", async(req,res) => {
         // res.redirect("/");
     }
     else{
-        return res.status(400).json({msg: "Authentication error"});
+        return res.status(400).json({msg: "Authentication Error"});
     }
 });
 router.get("/forgot_password" , async(req,res) =>{
@@ -133,7 +133,7 @@ router.post("/tokenIsValid", async(req,res) =>{ // this determines if the jwt to
         }
         return res.json(true);
 
-    } catch{
+    } catch(err){
         res.status(500).json({msg: err.message});
     }
 });
