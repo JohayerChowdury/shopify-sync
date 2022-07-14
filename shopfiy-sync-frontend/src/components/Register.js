@@ -1,13 +1,16 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../App"; 
 import ErrorMsg from "./ErrorMsg";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 
 const Register = () => {
   const { userData, setUserData } = useContext(UserContext); // this is imported from the context in the app.js file
+  let nav = useNavigate();
 
-  const [user, setUser] = useState({ // adapts to changing datqa
+  const [user, setUser] = useState({ // adapts to changing data
+    email: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -19,6 +22,7 @@ const Register = () => {
 
     try {
       const newUser = { // inputs a new user into the mongoDb base
+        email: user.email,
         username: user.username,
         password: user.password,
       };
@@ -45,10 +49,12 @@ const Register = () => {
       localStorage.setItem("auth-token", loginResponse.data.token); // gives us an authtoken for private functions
 
       setUser({
+        email: "",
         username: "",
         password: "",
         confirmPassword: "",
       });
+      nav('/')
 
       //window.location = "/"; // redirects back home after signing up
     } catch (err) {
@@ -75,6 +81,15 @@ const Register = () => {
       {errorMsg && <ErrorMsg msg={errorMsg} />}
 
       <form onSubmit={handleSubmit}>
+        <label>Email &nbsp;</label>
+        <input
+        type = "email"
+        name = "email"
+        value = {user.email}
+        required
+        onChange = {handleChange}
+        />
+        <br />
         <label>User Name&nbsp; </label>
         <input
           type="text"

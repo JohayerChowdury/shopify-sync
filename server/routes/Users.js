@@ -24,7 +24,7 @@ router.get("/register", (req,res) => { // this finds a list of all the users alr
 });
 
 router.post("/register", async (req, res) => {
-    if(!req.body.username || !req.body.password) {
+    if(!req.body.username || !req.body.password || !req.body.email) {
         res.redirect("/register")
         return res.status(400).json({msg: "Please enter in all fields"}); 
     }
@@ -37,6 +37,7 @@ router.post("/register", async (req, res) => {
         bcrypt.hash(req.body.password, salt, function(err, hash) {
             const newUser = new User({
                 username: req.body.username,
+                email: req.body.email,
                 password: hash,
             });
             newUser
@@ -84,14 +85,14 @@ router.get("/forgot_password" , async(req,res) =>{
     res.render("users/forgotPassword")
 });
 router.post("/forgot_password", async(req, res) => {
-    const user = await User.findOne({ username: req.body.username});
+    const user = await User.findOne({ username: req.body.username, email: req.body.email});
     if(!user){
         return res.status(400).json({msg: "User doesn't exist"});
     }
 
     bcrypt.genSalt(10, function(err, salt){
         bcrypt.hash(req.body.password, salt, function(req, hash)  {
-            var newValues = {username: user.username,  password: hash}
+            var newValues = {username: user.username, email: user.email ,  password: hash}
             User.updateOne(user, newValues, function(err, res) {
                 if(err) {
                     console.log(err)

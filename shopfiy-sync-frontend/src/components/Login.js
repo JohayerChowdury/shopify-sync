@@ -2,10 +2,12 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../App";
 import ErrorMsg from "./ErrorMsg";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 const Login = () => {
   const {userData, setUserData } = useContext(UserContext); // gets the context from the app.js file
+  let nav = useNavigate();
 
   const [user, setUser] = useState({ // allows for the data to be changed 
     username: "",
@@ -34,8 +36,11 @@ const Login = () => {
         username: "",
         password: "",
       });
+      nav('/');
+      
 
-      // window.location = "/stores"; //redirects back home
+
+
     } catch (err) {
       err.response.data.msg
         ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed

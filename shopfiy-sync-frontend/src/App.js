@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Error from './components/Error';
 import ErrorMsg from './components/ErrorMsg';
+import ForgotPassword from './components/ForgotPassword';
 import Home from './components/Home';
 import Login from './components/Login';
 import NavigationBar from './components/NavigationBar';
@@ -62,7 +63,9 @@ function App() {
           <Route path="/" element={<Home />} />
          <Route path = "/login" element = {<Login />} />
          <Route path = "/register" element = {<Register />} />
+         <Route path = "/users/forgot_password" element = {<ForgotPassword />} />
           <Route path="*" element={<Error />} />
+
         </Routes>
       </div>
       </UserContext.Provider>
