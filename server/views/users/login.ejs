@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- Look into error handling and redirecting -->
+
+<h1>Login</h1>
+<!-- for html forms write the absolute route -->
+<form action="/shopify_api/users/login" method = "POST"> 
+    <div>
+        <label for = "username">Username</label>
+        <input type = "username" id = "username" name = "username" placeholder="Enter Username" required>
+    </div>
+    <div>
+        <label for = "password">Password</label>
+        <input type = "password" id = "password" name = "password" placeholder = "Enter Password" required>
+    </div>
+    <button type = "submit">Submit</button>
+</form>
+<a href = "/shopify_api/users/register">Don't have an account? Feel free to register</a>
+<a href = "/shopify_api/users/forgot_password">Forgot your password?</a>

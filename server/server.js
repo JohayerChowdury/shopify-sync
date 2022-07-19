@@ -1,6 +1,7 @@
+
 //assigning port environment variable
 const port = 5000 || process.env.PORT;
-
+ 
 //installing express package
 const express = require('express');
 
@@ -12,6 +13,7 @@ const methodOverride = require('method-override');
 
 //installing mongoose package
 const mongoose = require('mongoose');
+var cors = require('cors');
 
 //connecting to mongoDB database using DB_URI parameter
 mongoose
@@ -25,19 +27,32 @@ mongoose
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
+    app.use(cors());
+
+ 
     //assiging view to engine to ejs
     app.set('view engine', 'ejs');
+ 
+    app.use(methodOverride('_method'));
+    
+    
+
+ 
 
     app.use(methodOverride('_method'));
-
     //homepage
     app.get('/', (req, res) => {
       res.render('index');
     });
 
+
     //API routing
     const apiRouter = require('./routes/apiRouter');
     app.use('/shopify_api', apiRouter);
+    
+  
+    
+ 
 
     //listening on port
     app.listen(port, () => console.log(`Server started on port ${port}.`));
