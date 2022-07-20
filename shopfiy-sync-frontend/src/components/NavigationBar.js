@@ -79,19 +79,22 @@ const Navigation = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            {userData.user ? (
+            {userData.user ? ( //This is what pops up when the user is logged in
               <Nav className="ml-auto">
                 <LinkContainer to="/profile">
-                  <Nav.Link>Profile ({userData.user.username})</Nav.Link>
+                  <Nav.Link>Profile</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to = "/stores">
                   <Nav.Link>Stores</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to = "/database">
+                  <Nav.Link>Database</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/login">
                   <Nav.Link onClick={logOut}>Log Out</Nav.Link>
                 </LinkContainer>
               </Nav>
-            ) : (
+            ) : ( // when the user isn't logged in
               <Nav className="ml-auto">
                 <LinkContainer to="/register">
                   <Nav.Link>Register</Nav.Link>

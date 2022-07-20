@@ -4,13 +4,14 @@ import ErrorMsg from "./ErrorMsg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import './styles.css';
 
 const Login = () => {
   const {userData, setUserData } = useContext(UserContext); // gets the context from the app.js file
   let nav = useNavigate();
 
   const [user, setUser] = useState({ // allows for the data to be changed 
-    username: "",
+    email: "",
     password: "",
   });
   const [errorMsg, setErrorMsg] = useState(); 
@@ -20,7 +21,7 @@ const Login = () => {
 
     try {   
       const newUser = { //creates new mongodb user
-        username: user.username,
+        email: user.email,
         password: user.password,
       };
 
@@ -33,11 +34,11 @@ const Login = () => {
       localStorage.setItem("auth-token", loginResponse.data.token);
 
       setUser({ //resets the form
-        username: "",
+        email: "",
         password: "",
       });
       nav('/');
-      
+
 
 
 
@@ -59,41 +60,53 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className = "form-container">
+      <div className = "form-title">
       <h1>Log In</h1>
+      </div>
       <br />
       {errorMsg && <ErrorMsg msg={errorMsg} />}
 
       <form onSubmit={handleSubmit}>
-        <label>User Name&nbsp; </label>
+        
+        <div class = "input">
         <input
-          type="text"
-          id = "username"
-          name="username"
-          value={user.username}
+          type="email"
+          id = "email"
+          name="email"
+          value={user.email}
           required
           onChange={handleChange}
+          placeholder = "Enter Email"
         />
+        </div>
         <br />
-        <label>Password&nbsp; </label>
+        
+        <div class = "input">
         <input
           type="password"
           name="password"
           value={user.password}
           onChange={handleChange}
+          placeholder = "Enter Password"
         />
+        </div>
         <br />
+        
+        
         <Button variant="success" type="submit">
-          Log In
+          Log In!
         </Button>
       </form>
       <a href = "users/forgot_password">
         Forgot Password?
       </a>
     </div>
+    
+    
 
 
   );
 };
 
-export default Login;
+export default Login; 
