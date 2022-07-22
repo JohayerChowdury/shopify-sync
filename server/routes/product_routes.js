@@ -1,6 +1,6 @@
 const express = require('express');
-const app = express();
-app.use(express.json());
+// const app = express();
+// app.use(express.json());
 const router = express.Router({ mergeParams: true });
 const axios = require('axios').default;
 let StoreModel = require('../models/Store');
