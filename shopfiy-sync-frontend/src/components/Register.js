@@ -75,50 +75,60 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className = "form-container">
+      <div className = "form-title">
       <h1>Register Here</h1>
+      </div>
       <br/>
       {errorMsg && <ErrorMsg msg={errorMsg} />}
 
       <form onSubmit={handleSubmit}>
-        <label>Email &nbsp;</label>
+        <div className = "input">
         <input
         type = "email"
         name = "email"
         value = {user.email}
         required
         onChange = {handleChange}
+        placeholder = "Enter Email"
         />
+        </div>
         <br />
-        <label>User Name&nbsp; </label>
+        <div className = "input">
         <input
           type="text"
           name="username"
           value={user.username}
           required
           onChange={handleChange}
+          placeholder = "Enter Name"
         />
+        </div>
         <br />
-        <label>Password&nbsp; </label>
+        <div className = "input">
         <input
           type="password"
           name="password"
           value={user.password}
           onChange={handleChange}
+          placeholder = "Enter Password"
         />
+        </div>
         <br />
-        <label>Confirm Password&nbsp; </label>
+        <div className = "input">
         <input
           type="password"
           name="confirmPassword"
           value={user.confirmPassword}
           onChange={handleChange}
+          placeholder = "Confirm password"
         />
+        </div>
         <br />
-        <Button variant="primary" type="submit">Register User!</Button>
+        <Button variant="success" type="submit">Register User!</Button>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Register; 

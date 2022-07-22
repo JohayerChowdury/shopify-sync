@@ -13,6 +13,7 @@ import ForgotPassword from './components/ForgotPassword';
 import Home from './components/Home';
 import Login from './components/Login';
 import NavigationBar from './components/NavigationBar';
+import Profile from "./components/Profile";
 import Register from "./components/Register";
 
 export const UserContext = createContext(); //creates an session for the user
@@ -64,6 +65,7 @@ function App() {
          <Route path = "/login" element = {<Login />} />
          <Route path = "/register" element = {<Register />} />
          <Route path = "/users/forgot_password" element = {<ForgotPassword />} />
+         <Route path = "/profile" element = {<Profile />} />
           <Route path="*" element={<Error />} />
 
         </Routes>

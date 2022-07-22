@@ -47,14 +47,16 @@ const ForgotPassword = () => {
 
 
     return(
-        <div>
+        <div className = "form-container">
+            <div className = "form-title">
             <h1>
                 Forgot Password
             </h1>
+            </div>
             <br />
             {errorMsg && <ErrorMsg msg = {errorMsg} />}
             <form onSubmit = {handleSubmit} >
-                <label>Email &nbsp;</label>
+                <div className = "input">
                 <input 
                 type = "email"
                 id = "email"
@@ -62,9 +64,11 @@ const ForgotPassword = () => {
                 value = {user.email}
                 required
                 onChange = {handleChange}
+                placeholder = "Enter Email"
                 />
+                </div>
                 <br />
-                <label>User Name&nbsp; </label>
+                <div className = "input">
                 <input
                 type="text"
                 id = "username"
@@ -72,23 +76,29 @@ const ForgotPassword = () => {
                 value={user.username}
                 required
                 onChange={handleChange}
+                placeholder = "Enter Name"
                  />
+                </div>
                 <br />
-                <label>New Password&nbsp; </label>
+                <div className = "input">
                 <input
                 type="password"
                 name="newPassword"
                 value={user.newPassword}
                 onChange={handleChange}
+                placeholder = "Enter New Password"
                 />
+                </div>
                 <br />
-                <label>New Password Again&nbsp; </label>
+                <div className = "input">
                 <input
                 type="password"
                 name="newPasswordAgain"
                 value={user.newPasswordAgain}
                 onChange={handleChange}
+                placeholder = "Confirm New Password"
                 />
+                </div>
                 <br />
                 <Button variant="success" type="submit">
                  Change Password

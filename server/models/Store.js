@@ -21,6 +21,10 @@ const storeSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  owner: {
+    type: String,
+    required: "Please provide the email of the owner",
+  }
 });
 
 module.exports = mongoose.model('Store', storeSchema);

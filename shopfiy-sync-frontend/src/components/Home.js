@@ -3,37 +3,43 @@ import React from 'react';
 
 function Home() {
   return (
-    <div className="container">
-      <h1
-        style={{
-          fontSize: 45,
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-          alignSelf: 'center',
-        }}
-      >
-        Welcome to ShyftLabs' Shopify Sync Product.
+    <div className = "welcome-banner">
+    <div className = "welcome-title">
+      <h1>
+        Welcome to ShyftLabs' Shopify Sync Product
       </h1>
-      <br />
-      <br />
-      {/* <!-- Solution Section Detail --> */}
-      {/* inspired from main shyftlabs website development */}
-      <div class="container">
-        <h1 class="mb-4">Welcome to ShyftLabs Shopify Sync Application.</h1>
-        <p>
-          This is an application that allows users with Shopify stores to easily
-          sync their products in MongoDB.
-        </p>
-        <p>
-          Click the button below to view all Shopify stores for your account.
-        </p>
+    </div>
+    &nbsp;
+    &nbsp;
+    <div className = "homepage-subheader">
+      <h2>
+        How This Product Works
+      </h2>
+    </div>
+    <div className = "row">
+      <div className = "instruction-widget">
+      <div className = "instruction-header">    
+        Connect To Your Database
       </div>
-      <div class="container">
-        <a href="/shopify_api/stores" class="btn btn-success">
-          View Shopify Stores
-        </a>
+      </div>
+      &nbsp;
+      <div className = "instruction-widget">
+        <div className = "instruction-header">
+          Add Your Shopify Stores
+        </div>
+      </div>
+      &nbsp;
+      <div className = "instruction-widget">
+        <div className = "instruction-header">
+          Sync Your Products
+        </div>
       </div>
     </div>
+ 
+    </div>
+
+
+
   );
 }
 
