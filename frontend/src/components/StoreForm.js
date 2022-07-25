@@ -1,24 +1,27 @@
+//Purpose: Render a reusable Form component that has form validations.
+
 import { React, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import StoreService from '../services/StoreService';
-import { useDispatch } from 'react-redux';
-import { addStore } from '../actions/store_actions';
+import { useParams, useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+// import { addStore } from '../actions/store_actions';
 
-function StoreForm(onSave, onCancel, store) {
-  const storeId = store && store.storeId ? store.storeId : undefined;
-
+function StoreForm() {
+  //allows us to redirect to different pages
+  let navigate = useNavigate();
   const initialStoreState = {
-    name: storeId ? store.name : '',
-    url: storeId ? store.url : '',
-    access_token: storeId ? store.access_token : '',
-    storeId: storeId ? store.storeId : '',
-    address: storeId ? store.address : '',
+    name: '',
+    url: '',
+    access_token: '',
+    storeId: '',
+    address: '',
   };
 
   const [storeForm, setStoreForm] = useState(initialStoreState);
   const [storeFormErrors, setStoreFormErrors] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
-  const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
 
   //https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
   const handleInputChange = (field, value) => {
@@ -36,7 +39,6 @@ function StoreForm(onSave, onCancel, store) {
 
   const clearForm = () => {
     setStoreForm(initialStoreState);
-    setSubmitted(false);
   };
 
   const findStoreFormErrors = () => {
@@ -68,134 +70,133 @@ function StoreForm(onSave, onCancel, store) {
       // We got errors!
       setStoreFormErrors(newErrors);
     } else {
-      const { name, url, access_token, storeId, address } = storeForm;
-      dispatch(addStore(name, url, access_token, storeId, address))
-        .then((store) => {
+      //   const { name, url, access_token, storeId, address } = storeForm;
+      //   dispatch(addStore(name, url, access_token, storeId, address))
+      let store = {
+        name: storeForm.name,
+        url: storeForm.url,
+        access_token: storeForm.access_token,
+        storeId: storeForm.storeId,
+        address: storeForm.address,
+      };
+      StoreService.add(store)
+        .then((res) => {
           setStoreForm({
-            name: store.name,
-            url: store.url,
-            access_token: store.access_token,
-            storeId: store.storeId,
-            address: store.address,
+            name: res.name,
+            url: res.url,
+            access_token: res.access_token,
+            storeId: res.storeId,
+            address: res.address,
           });
-          setSubmitted(true);
-          console.log(store);
+          navigate(`/stores/${store.storeId}`);
+          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
         });
-      alert('Added store');
     }
   }
 
   return (
     <div className="container">
-      {submitted ? (
-        <div>
-          <h4>You submitted a store successfully!</h4>
-          <div className="buttons">
-            <Button variant="primary" type="submit" onClick={clearForm}>
-              Add Shopify Store
-            </Button>
-          </div>
+      <Form onReset={clearForm}>
+        {/* Form Group for Store Name, apply comments throughout other form groups */}
+        <Form.Group className="mb-3">
+          {/* Label in user interface */}
+          <Form.Label>Store Name</Form.Label>
+          {/* Attributes of form */}
+          <Form.Control
+            required
+            type="text"
+            placeholder="Store Name"
+            value={storeForm.name}
+            name="name"
+            id="name"
+            // when form is being written in, the handleInputChange function is called for the specific
+            onChange={(e) => handleInputChange('name', e.target.value)}
+            //isInvalid property of Form that checks to alert user if there are any errors present
+            isInvalid={!!storeFormErrors.name}
+          />
+          {/* alert user of specific form errors */}
+          <Form.Control.Feedback type="invalid">
+            {storeFormErrors.name}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Store URL</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="what comes before .myshopify.com"
+            value={storeForm.url}
+            name="url"
+            id="url"
+            onChange={(e) => handleInputChange('url', e.target.value)}
+            isInvalid={!!storeFormErrors.url}
+          />
+          <Form.Control.Feedback type="invalid">
+            {storeFormErrors.url}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Store Access Token</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Store access token"
+            value={storeForm.access_token}
+            name="access_token"
+            id="access_token"
+            onChange={(e) => handleInputChange('access_token', e.target.value)}
+            isInvalid={!!storeFormErrors.access_token}
+          />
+          <Form.Control.Feedback type="invalid">
+            {storeFormErrors.access_token}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>
+            {' '}
+            Store ID (used to access store in this application)
+          </Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Perhaps your store name?"
+            value={storeForm.storeId}
+            name="storeId"
+            id="storeId"
+            onChange={(e) => handleInputChange('storeId', e.target.value)}
+            isInvalid={!!storeFormErrors.storeId}
+          />
+          <Form.Control.Feedback type="invalid">
+            {storeFormErrors.storeId}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Address</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Address"
+            value={storeForm.address}
+            name="address"
+            id="address"
+            onChange={(e) => handleInputChange('address', e.target.value)}
+            isInvalid={!!storeFormErrors.address}
+          />
+          <Form.Control.Feedback type="invalid">
+            {storeFormErrors.address}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <div className="buttons">
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Add Shopify Store
+          </Button>
+          <a href="/stores" className="btn btn-danger">
+            Back to Stores{' '}
+          </a>
         </div>
-      ) : (
-        <Form onReset={clearForm}>
-          {/* Form Group for Store Name, apply comments throughout other form groups */}
-          <Form.Group className="mb-3">
-            {/* Label in user interface */}
-            <Form.Label>Store Name</Form.Label>
-            {/* Attributes of form */}
-            <Form.Control
-              required
-              type="text"
-              placeholder="Store Name"
-              name="name"
-              id="name"
-              // when form is being written in, the handleInputChange function is called for the specific
-              onChange={(e) => handleInputChange('name', e.target.value)}
-              //isInvalid property of Form that checks to alert user if there are any errors present
-              isInvalid={!!storeFormErrors.name}
-            />
-            {/* alert user of specific form errors */}
-            <Form.Control.Feedback type="invalid">
-              {storeFormErrors.name}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Store URL</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="what comes before .myshopify.com"
-              name="url"
-              id="url"
-              onChange={(e) => handleInputChange('url', e.target.value)}
-              isInvalid={!!storeFormErrors.url}
-            />
-            <Form.Control.Feedback type="invalid">
-              {storeFormErrors.url}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Store Access Token</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Store access token"
-              name="access_token"
-              id="access_token"
-              onChange={(e) =>
-                handleInputChange('access_token', e.target.value)
-              }
-              isInvalid={!!storeFormErrors.access_token}
-            />
-            <Form.Control.Feedback type="invalid">
-              {storeFormErrors.access_token}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>
-              {' '}
-              Store ID (used to access store in this application)
-            </Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Perhaps your store name?"
-              name="storeId"
-              id="storeId"
-              onChange={(e) => handleInputChange('storeId', e.target.value)}
-              isInvalid={!!storeFormErrors.storeId}
-            />
-            <Form.Control.Feedback type="invalid">
-              {storeFormErrors.storeId}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Address"
-              name="address"
-              id="address"
-              onChange={(e) => handleInputChange('address', e.target.value)}
-              isInvalid={!!storeFormErrors.address}
-            />
-            <Form.Control.Feedback type="invalid">
-              {storeFormErrors.address}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <div className="buttons">
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
-              Add Shopify Store
-            </Button>
-            <Button variant="secondary" type="reset">
-              Cancel
-            </Button>
-          </div>
-        </Form>
-      )}
+      </Form>
     </div>
   );
 }

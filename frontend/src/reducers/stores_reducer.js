@@ -1,3 +1,5 @@
+//Purpose: This reducer updates the store state of the redux_store corresponding to dispatched Redux actions.
+
 import {
   ADD_STORE,
   RETRIEVE_STORES,

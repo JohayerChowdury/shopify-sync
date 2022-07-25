@@ -1,21 +1,26 @@
 import { React, useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import StoreService from '../../services/StoreService';
+// import { retrieveStores } from '../../actions/store_actions';
 
 function Stores() {
   const [stores, setStores] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('/shopify_api/stores')
+    retrieveStores();
+  }, []);
+
+  const retrieveStores = () => {
+    StoreService.getAll()
       .then((res) => {
-        console.log(res);
         setStores(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
   const storesData = stores.map((store) => {
     return (
@@ -23,14 +28,19 @@ function Stores() {
         <div className="card-body">
           <h4 className="card-title">Name: {store.name}</h4>
           <div className="card-text mb-2">URL: {store.url}</div>
-          <Link to="/stores/{store.storeId}"></Link>
+          <a href={'/stores/' + store.storeId} className="btn btn-success">
+            See More
+          </a>
         </div>
       </div>
     );
   });
   return (
     <div className="container">
-      <h1 class="mb-4">Shopify Stores</h1>
+      <h1 className="mb-4">Shopify Stores</h1>
+      <a href={'/add-store/'} className="btn btn-info">
+        Add a Store
+      </a>{' '}
       {storesData}
     </div>
   );

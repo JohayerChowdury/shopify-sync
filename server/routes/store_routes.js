@@ -2,7 +2,6 @@
 
 const express = require('express');
 const storeRouter = express.Router({ mergeParams: true });
-let StoreModel = require('../models/Store');
 const StoreController = require('../controllers/StoreController');
 
 //FOR EJS VIEW: stores/index

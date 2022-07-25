@@ -28,8 +28,8 @@ mongoose
     console.log('MongoDB connection is successful.');
 
     const app = express();
-    app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
     app.use(cors());
 
     app.use(methodOverride('_method'));

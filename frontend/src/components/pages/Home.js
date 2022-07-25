@@ -18,8 +18,8 @@ function Home() {
       <br />
       {/* <!-- Solution Section Detail --> */}
       {/* inspired from main shyftlabs website development */}
-      <div class="container">
-        <h1 class="mb-4">Welcome to ShyftLabs Shopify Sync Application.</h1>
+      <div className="container">
+        <h1 className="mb-4">Welcome to ShyftLabs Shopify Sync Application.</h1>
         <p>
           This is an application that allows users with Shopify stores to easily
           sync their products in MongoDB.
@@ -28,8 +28,8 @@ function Home() {
           Click the button below to view all Shopify stores for your account.
         </p>
       </div>
-      <div class="container">
-        <a href="/shopify_api/stores" class="btn btn-success">
+      <div className="container">
+        <a href="/stores" className="btn btn-success">
           View Shopify Stores
         </a>
       </div>

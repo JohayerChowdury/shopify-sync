@@ -4,17 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-//redux
-//wrapping app in Provider component to make redux_store available to its child components
-import { Provider } from 'react-redux';
-import redux_store from './redux_store';
+// //redux
+// //wrapping app in Provider component to make redux_store available to its child components
+// import { Provider } from 'react-redux';
+// import redux_store from './redux_store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={redux_store}>
-      <App />
-    </Provider>
+    {/* <Provider store={redux_store}> */}
+    <App />
+    {/* </Provider> */}
   </React.StrictMode>
 );
 
