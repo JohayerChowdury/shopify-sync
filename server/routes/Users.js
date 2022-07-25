@@ -3,14 +3,9 @@ const User = require("../models/Usermodel");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const auth = require("../middleware/authorization");
-const methodOverride = require('method-override');
-const express = require('express');
-const app = express();
-const nodemailer = require('nodemailer');
-//return the views
 
-app.set('view engine', 'ejs');
-app.use(methodOverride('_method'));
+
+
 
 router.get("/", (req,res) => {
     res.render("users/index" , {});
@@ -28,7 +23,7 @@ router.post("/register", async (req, res) => {
         res.redirect("/register")
         return res.status(400).json({msg: "Please enter in all fields"}); 
     }
-    const user = await User.findOne({username: req.body.username});
+    const user = await User.findOne({email: req.body.email});
     if(user){
         return res.status(400).json({msg: "User already exists"})
     }
@@ -50,15 +45,15 @@ router.post("/register", async (req, res) => {
 //login functions
 router.get("/login", async (req, res)=> {
     res.render("users/login");
-    
+
 });
 
 router.post("/login", async(req,res) => {
     //checks validity of entry
-    if(!req.body.username || !req.body.password) {
+    if(!req.body.email || !req.body.password) {
         return res.status(400).json({msg: "Enter in any missing fields"})
     }
-    const user = await User.findOne({username: req.body.username});
+    const user = await User.findOne({email: req.body.email});
     if(!user){
         return res.status(400).json({msg: "user doesn't exist"});
     }
@@ -69,7 +64,7 @@ router.post("/login", async(req,res) => {
             token: token, 
             user:{
                 id: user._id,
-                username: user.username,
+                email: user.email,
 
 
             },
@@ -139,5 +134,3 @@ router.post("/tokenIsValid", async(req,res) =>{ // this determines if the jwt to
     }
 });
 module.exports = router;
-
-

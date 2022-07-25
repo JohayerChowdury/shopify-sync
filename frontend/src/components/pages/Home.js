@@ -3,35 +3,34 @@ import React from 'react';
 
 function Home() {
   return (
-    <div className="container">
-      <h1
-        style={{
-          fontSize: 45,
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-          alignSelf: 'center',
-        }}
-      >
-        Welcome to ShyftLabs' Shopify Sync Product.
-      </h1>
-      <br />
-      <br />
-      {/* <!-- Solution Section Detail --> */}
-      {/* inspired from main shyftlabs website development */}
-      <div className="container">
-        <h1 className="mb-4">Welcome to ShyftLabs Shopify Sync Application.</h1>
+    <div className="welcome-banner">
+      <div className="welcome-title">
+        <h1>Welcome to ShyftLabs' Shopify Sync Product</h1>
         <p>
           This is an application that allows users with Shopify stores to easily
           sync their products in MongoDB.
         </p>
-        <p>
-          Click the button below to view all Shopify stores for your account.
-        </p>
-      </div>
-      <div className="container">
-        <a href="/stores" className="btn btn-success">
-          View Shopify Stores
-        </a>
+        &nbsp;
+        <div className="homepage-subheader">
+          <h2>How This Product Works</h2>
+        </div>
+        <div className="row">
+          <div className="instruction-widget">
+            <div className="instruction-header">Connect To Your Database</div>
+          </div>
+          &nbsp;
+          <div className="instruction-widget">
+            <div className="instruction-header">
+              <a href="/stores" className="btn btn-success">
+                Add Your Shopify Stores
+              </a>
+            </div>
+          </div>
+          &nbsp;
+          <div className="instruction-widget">
+            <div className="instruction-header">Sync Your Products</div>
+          </div>
+        </div>
       </div>
     </div>
   );
