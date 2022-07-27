@@ -54,21 +54,28 @@
 // }
 
 // export default Navigation;
-import React, { useContext } from "react";
-import { UserContext } from "../App";
+import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { authAtom } from "../states/authStates";
+import {useRecoilValue} from 'recoil';
 
 const Navigation = () => {
-  const { userData, setUserData } = useContext(UserContext);
+  const auth = useRecoilValue(authAtom);
 
+  // const logOut = () => {
+  //   setUserData({
+  //     token: undefined,
+  //     user: undefined,
+  //   });
+  //   localStorage.setItem("auth-token", "");
+  // };
   const logOut = () => {
-    setUserData({
-      token: undefined,
-      user: undefined,
-    });
-    localStorage.setItem("auth-token", "");
-  };
+    localStorage.removeItem('user');
+    localStorage.setItem('auth-token', "");
+    setAuth(null);
+  }
+  
 
   return (
     <div>
@@ -79,7 +86,7 @@ const Navigation = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            {userData.user ? ( //This is what pops up when the user is logged in
+            { auth ? ( //This is what pops up when the user is logged in
               <Nav className="ml-auto">
                 <LinkContainer to="/profile">
                   <Nav.Link>Profile</Nav.Link>

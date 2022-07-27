@@ -1,13 +1,14 @@
-import React, { useState, useContext } from "react";
-import { UserContext } from "../App";
+import React, { useState } from "react";
 import ErrorMsg from "./ErrorMsg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import './styles.css';
+import { userAtom } from "../../states/userStates";
+import {authAtom} from "../../states/authStates";
+import {useRecoilState} from 'recoil';
 
 const Login = () => {
-  const {userData, setUserData } = useContext(UserContext); // gets the context from the app.js file
   let nav = useNavigate();
 
   const [user, setUser] = useState({ // allows for the data to be changed 
@@ -32,11 +33,6 @@ const Login = () => {
         user: loginResponse.data.user,
       });
       localStorage.setItem("auth-token", loginResponse.data.token);
-
-      setUser({ //resets the form
-        email: "",
-        password: "",
-      });
       nav('/');
 
 

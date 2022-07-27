@@ -1,7 +1,13 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
+import {userAtom} from '../../states/userStates';
+import{authAtom} from '../../states/authStates';
+import {useRecoilValue} from 'recoil';
 
 function Home() {
+  const auth = useRecoilValue(authAtom);
+  const user = useRecoilValue(userAtom);
+
   return (
     <div className="welcome-banner">
       <div className="welcome-title">
