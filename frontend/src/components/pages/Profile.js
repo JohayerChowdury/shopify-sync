@@ -11,16 +11,17 @@ const Profile = () => {
   const user = useRecoilValue(userAtom);
   const userActions = useUserActions();
 
+
   // useEffect(() => {
-  //   userActions.profile();
+  //   userActions.profile(auth.data.user.token);
   // }, []);
+  // console.log(userActions.profile(auth.data.user.token));
   console.log(auth);
-  console.log(user);
-  console.log(userActions.profile(auth.data.token));
   return (
-    <div>
-      <h1>Hello</h1>
-      <h1>Hello</h1>
+    <div className = "user-info-widget">
+      <div className = "user-info-detail">
+        Email : {auth.data.user.email}
+      </div>
     </div>
   );
 };

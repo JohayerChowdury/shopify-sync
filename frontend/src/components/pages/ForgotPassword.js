@@ -44,7 +44,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="register-form-container">
       <div className="form-title">
         <h1>Forgot Password</h1>
       </div>
@@ -95,7 +95,7 @@ const ForgotPassword = () => {
           />
         </div>
         <br />
-        <Button variant="success" type="submit">
+        <Button variant="info" type="submit" style = {{marginLeft: "35%"}}>
           Change Password
         </Button>
       </form>

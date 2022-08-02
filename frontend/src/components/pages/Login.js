@@ -92,7 +92,7 @@ const Login = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="login-form-container">
       <div className="form-title">
         <h1>Log In</h1>
       </div>
@@ -124,11 +124,11 @@ const Login = () => {
         </div>
         <br />
 
-        <Button variant="success" type="submit">
+        <Button variant="info" type="submit" style = {{marginLeft: "38%"}}>
           Log In!
         </Button>
       </form>
-      <a href="users/forgot_password">Forgot Password?</a>
+      <a href="/forgot-password" style = {{marginLeft: "35%"}}>Forgot Password?</a>
     </div>
   );
 };
