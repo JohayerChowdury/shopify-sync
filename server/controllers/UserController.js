@@ -12,7 +12,6 @@ const jwt = require('jsonwebtoken');
 // };
 
 exports.register = async (req, res) => {
-  try {
     if (!req.body.username || !req.body.password || !req.body.email) {
       return res.status(400).json({ msg: 'Please enter in all fields' });
     }
@@ -20,20 +19,26 @@ exports.register = async (req, res) => {
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bycrypt.hash(req.body.password, salt);
+    //const salt = await bcrypt.genSalt(10);
+    //const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    bcrypt.genSalt(10, function (err, salt) {
+      bcrypt.hash(req.body.password, salt, function(err, hash) {
+
     const newUser = new UserModel({
       username: req.body.username,
       email: req.body.email,
       full_name: req.body.full_name,
-      password: hashedPassword,
+      password: hash,
     })
-      .save(newUser)
-      .then(() => res.redirect('/'))
-      .catch((err) => res.status(400).json('Error: ' + err));
-  } catch (err) {
-    return res.status(500).send({ message: err.message || 'Error Occurred' });
-  }
+      // .save(newUser)
+      // .then(() => res.redirect('/'))
+      // .catch((err) => res.status(400).json('Error: ' + err));
+      newUser
+        .save()
+        .then((user) => res.json(user))
+        .catch((err) => res.status(400).json("Error: " + err));
+  });
+});
 };
 
 exports.login = async (req, res) => {

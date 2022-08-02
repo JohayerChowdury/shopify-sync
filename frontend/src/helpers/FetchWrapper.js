@@ -30,7 +30,7 @@ function useFetchWrapper() {
         requestOptions.data = body;
       }
       // return fetch(url, requestOptions).then(handleResponse);
-      return axios.request(requestOptions).then(handleResponse);
+      return axios.request(requestOptions).then(axios.post(`${process.env.REACT_APP_API_URL}/users/tokenIsValid`));
     };
   }
 
