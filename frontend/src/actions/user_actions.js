@@ -1,61 +1,57 @@
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { authAtom, userAtom } from '../states';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import UserService from '../services/UserService';
-import { history } from '../helpers/history';
-
-export { useUserActions };
+import useFetchWrapper from '../helpers/FetchWrapper';
 
 function useUserActions() {
-  const baseUrl = `${process.env.API_URL}/users`;
+  const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
+  const fetchWrapper = useFetchWrapper();
+
   const setAuth = useSetRecoilState(authAtom);
-  const setUsers = useSetRecoilState(userAtom);
+  const setUser = useSetRecoilState(userAtom);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return {
     login,
     logout,
-    register,
-    forgot_password,
-    getAll,
+    // forgot_password,
+    profile,
   };
 
-  async function login(email, password) {
-    const user = await UserService.post(`${baseUrl}/login`, {
-      email,
-      password,
-    });
-    //store user details and jwt token in local storage to keep user logged in between page refreshes
-    localStorage.setItem('user', JSON.stringify(user));
-    setAuth(user);
-    //get return url from location state or default to home page
-    const { from } = history.location.state || { from: { pathname: '/' } };
-    history.push(from);
+  async function login(user, route) {
+    try {
+      const overallRoute = `${baseUrl}${route}`;
+      const user_1 = await fetchWrapper.post(overallRoute, user);
+      //store user details and jwt token in local storage to keep user logged in between page refreshes
+      localStorage.setItem('user', JSON.stringify(user_1));
+      setAuth(user_1);
+      //get return url from location state or default to home page
+      const { from } = location.state || { from: { pathname: '/' } };
+      navigate(from);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function logout() {
-    // remove user from local storage, set auth state to null and redirect to login page
-    localStorage.removeItem('user');
-    setAuth(null);
-    history.push('/login');
+  async function logout() {
+    try {
+      // remove user from local storage, set auth state to null and redirect to login page
+      localStorage.removeItem('user');
+      setAuth(null);
+      navigate('/login');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  async function register(email, username, password) {
-    const user = await UserService.post(`${baseUrl}/register`, {
-      email,
-      username,
-      password,
-    });
-    //store user details and jwt token in local storage to keep user logged in between page refreshes
-    localStorage.setItem('user', JSON.stringify(user));
-    setAuth(user);
-    //get return url from location state or default to home page
-    const { from } = history.location.state || { from: { pathname: '/' } };
-    history.push(from);
-  }
+  // function forgot_password(user) {}
 
-  function forgot_password(email, username, password) {}
-
-  function getAll() {
-    return UserService.get(baseUrl).then(setUsers);
+  function profile() {
+    return fetchWrapper.get(`${baseUrl}/profile`).then(setUser);
   }
 }
+
+export { useUserActions };

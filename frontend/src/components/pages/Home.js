@@ -7,12 +7,12 @@ import { useUserActions } from '../../actions/user_actions';
 
 function Home() {
   const auth = useRecoilValue(authAtom);
-  const users = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
   const userActions = useUserActions();
 
-  useEffect(() => {
-    userActions.getAll();
-  }, []);
+  // useEffect(() => {
+  //   userActions.profile(user);
+  // }, []);
 
   return (
     <div className="welcome-banner">

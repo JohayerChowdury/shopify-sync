@@ -50,6 +50,8 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   let storeId = req.params.storeId;
   try {
+    //CHANGE !!!
+
     const store = await StoreModel.findOne({ storeId: storeId }).exec();
     if (store == null) {
       res.status(404).send({ message: 'No store found with id: ' + storeId });
@@ -93,9 +95,6 @@ exports.getOne = async (req, res) => {
 // };
 
 exports.add = (req, res) => {
-  if (!req.body.storeId) {
-    res.status(400).send({ message: 'storeId cannot be empty!' });
-  }
   if (!req.body.url) {
     res.status(400).send({ message: 'url cannot be empty!' });
   }
@@ -109,7 +108,6 @@ exports.add = (req, res) => {
     name: req.body.name,
     url: req.body.url,
     access_token: req.body.access_token,
-    storeId: req.body.storeId,
     address: req.body.address,
   });
   store
@@ -157,9 +155,6 @@ exports.add = (req, res) => {
 // };
 
 exports.update = (req, res) => {
-  if (!req.body.storeId) {
-    res.status(400).send({ message: 'storeId cannot be empty!' });
-  }
   if (!req.body.url) {
     res.status(400).send({ message: 'url cannot be empty!' });
   }
@@ -171,6 +166,7 @@ exports.update = (req, res) => {
   }
 
   const storeId = req.params.storeId;
+  //CHANGE!!!!
   StoreModel.findOneAndUpdate({ storeId: storeId }, req.body, {
     useFindAndModify: false,
   })
@@ -189,6 +185,7 @@ exports.update = (req, res) => {
 exports.delete = async (req, res) => {
   let storeId = req.params.storeId;
   try {
+    //CHANGE!!!
     await StoreModel.findOneAndDelete({ storeId: storeId });
     res.send({ message: 'Store was deleted successfully!' });
   } catch (err) {
@@ -201,6 +198,7 @@ exports.getProducts = async (req, res) => {
   try {
     // const store = await StoreModel.find({ storeId: storeId });
     // console.log('Store is: ' + store);
+    //CHANGE!!!
     const products = await ProductModel.find({ storeId: storeId })
       .sort({ title: 'asc' })
       .exec();
@@ -212,6 +210,7 @@ exports.getProducts = async (req, res) => {
 
 exports.sync = async (req, res) => {
   let storeId = req.params.storeId;
+  //CHANGE!!!
   const store = await StoreModel.findOne({ storeId: storeId }).exec();
   axios
     .get(`https://${store.url}.myshopify.com/admin/api/2022-07/products.json`, {
@@ -224,8 +223,10 @@ exports.sync = async (req, res) => {
       console.log(
         'There are ' + res.data.products.length + ' products in shopify store.'
       );
+      //CHANGE !!!
       await updateProducts(Object.values(res.data.products), storeId);
       console.log('Finished uploading to MongoDB database');
+      //CHANGE !!!
       const products = await ProductModel.find({ storeId: storeId });
       res.send(products);
     })
@@ -237,6 +238,8 @@ exports.sync = async (req, res) => {
 exports.getSpecificProduct = async (req, res) => {
   let storeId = req.params.storeId;
   try {
+    //CHANGE !!!
+
     const product = await ProductModel.findOne({
       storeId: storeId,
       product_id: req.params.productId,
@@ -254,6 +257,7 @@ async function updateProducts(products, requestStoreId) {
       filter = { product_id: product.id };
       (update = {
         $set: {
+          //CHANGE !!!
           storeId: requestStoreId,
           title: product.title,
           body_html: product.body_html,

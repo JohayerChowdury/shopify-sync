@@ -8,15 +8,16 @@ import { useUserActions } from '../../actions/user_actions';
 
 const Profile = () => {
   const auth = useRecoilValue(authAtom);
-  // const users = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
   const userActions = useUserActions();
 
   useEffect(() => {
-    userActions.getAll();
+    userActions.profile();
   }, []);
   return (
     <div>
       <h1>Hello {auth?.username}</h1>
+      <h1>Hello {user?.username}</h1>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-//Purpose: Create a service module that uses axios object to send HTTP requests
+//Purpose: Create a service module that uses axios object to send HTTP requests to backend.
 
 import axios from 'axios';
 class StoreService {

@@ -2,58 +2,93 @@ import React, { useEffect, useState } from 'react';
 import ErrorMsg from '../ErrorMsg';
 import { Button } from 'react-bootstrap';
 import './styles.css';
+import { useNavigate } from 'react-router-dom';
 
 import { authAtom } from '../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { history } from '../../helpers/history';
 import { useUserActions } from '../../actions/user_actions';
 
 const Login = () => {
+  // const location = useLocation();
+  const navigate = useNavigate();
   const auth = useRecoilValue(authAtom);
-  const userActions = useUserActions();
 
   useEffect(() => {
     //redirect to home if already logged in
     if (auth) {
-      history.push('/');
+      navigate('/');
+      // if (location.state?.from) {
+      //   navigate(location.state.from);
+      // }
     }
   }, []);
 
-  const [user, setUser] = useState({
-    // allows for the data to be changed
+  const userActions = useUserActions();
+
+  const initialInputUserState = {
     email: '',
     password: '',
-  });
-  const [errorMsg, setErrorMsg] = useState();
+  };
+
+  const [inputUser, setInputUser] = useState(initialInputUserState);
+  // const[inputUserErrors, setInputUserErrors] = useState([])
+  // const [errorMsg, setErrorMsg] = useState();
+
+  const handleInputChange = (field, value) => {
+    setInputUser({
+      ...inputUser,
+      [field]: value,
+    });
+    // if(!!inputUserErrors[field]){
+    //   setInputUserErrors({
+    //     ...inputUserErrors,
+    //     [field]:null
+    //   })
+    // }
+  };
+
+  // const findInputUserErrors = ()=>{
+  //   const{email, password} = inputUser
+  //   const newErrors={}
+
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevents form from being submitted automatically
 
     try {
-      const newUser = {
-        //creates new mongodb user
-        email: user.email,
-        password: user.password,
+      let user = {
+        email: inputUser.email,
+        password: inputUser.password,
       };
-
-      return userActions.login(newUser.email, newUser.password).catch((err) => {
-        setErrorMsg('apiError', { message: err });
-      });
+      // console.log(user);
+      userActions
+        .login(user, '/login')
+        .then((res) => {
+          console.log('Login component response: ' + res);
+          setInputUser({
+            email: res.email,
+            password: res.password,
+          });
+          navigate('/');
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          // setErrorMsg(err);
+          // err.response.data.msg
+          //   ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed
+          //   : setErrorMsg('We have an error!');
+        });
     } catch (err) {
-      err.response.data.msg
-        ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed
-        : setErrorMsg('We have an error!');
+      console.log(err);
+      // setErrorMsg(err);
+      // if (err.response.data.msg) {
+      //   setErrorMsg(err.response.data.msg); // allows for error message to be displayed
+      // } else {
+      //   setErrorMsg(err);
+      // }
     }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target; //allows for user to input data
-    setUser((oldUser) => {
-      return {
-        ...oldUser,
-        [name]: value,
-      };
-    });
   };
 
   return (
@@ -62,28 +97,28 @@ const Login = () => {
         <h1>Log In</h1>
       </div>
       <br />
-      {errorMsg && <ErrorMsg msg={errorMsg} />}
+      {/* {errorMsg && <ErrorMsg msg={errorMsg} />} */}
 
       <form onSubmit={handleSubmit}>
-        <div class="input">
+        <div className="input">
           <input
             type="email"
             id="email"
             name="email"
-            value={user.email}
+            value={inputUser.email}
             required
-            onChange={handleChange}
+            onChange={(e) => handleInputChange('email', e.target.value)}
             placeholder="Enter Email"
           />
         </div>
         <br />
 
-        <div class="input">
+        <div className="input">
           <input
             type="password"
             name="password"
-            value={user.password}
-            onChange={handleChange}
+            value={inputUser.password}
+            onChange={(e) => handleInputChange('password', e.target.value)}
             placeholder="Enter Password"
           />
         </div>

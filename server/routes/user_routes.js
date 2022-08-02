@@ -3,8 +3,6 @@ const UserController = require('../controllers/UserController');
 
 const auth = require('../middleware/authorization');
 
-// userRouter.get('/', UserController.getAll);
-
 // userRouter.get('/register', (req, res) => {
 //   // this finds a list of all the users already registered
 //   // User.find()
@@ -13,20 +11,9 @@ const auth = require('../middleware/authorization');
 //   res.render('users/register');
 // });
 
-//register route
 userRouter.post('/register', UserController.register);
 
-//login functions
-
-// userRouter.get('/login', async (req, res) => {
-//   res.render('users/login');
-// });
-
 userRouter.post('/login', UserController.login);
-
-// userRouter.get('/forgot_password', async (req, res) => {
-//   res.render('users/forgotPassword');
-// });
 
 userRouter.post('/forgot_password', UserController.forget_password);
 

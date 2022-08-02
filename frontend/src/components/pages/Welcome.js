@@ -10,6 +10,7 @@ function Welcome() {
           sync their products in MongoDB.
         </p>
       </div>
+      <b>Use the navigation bar to login/register.</b>
     </div>
   );
 }
