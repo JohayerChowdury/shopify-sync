@@ -4,22 +4,16 @@ const apiRouter = express.Router();
 // apiRouter.use('/stores', storesRoute);
 const app = express();
 
-const userRoutes = require('./Users');
-apiRouter.use("/users", userRoutes);
-
-apiRouter.get("/", (req,res) => {
-    res.render('index.ejs')
-})
-
-
-
-
-
+//users API
+const userRoutes = require('./user_routes');
+apiRouter.use('/users', userRoutes);
 
 //stores API
 const storesRoute = require('./store_routes');
 apiRouter.use('/stores', storesRoute);
 
+apiRouter.get('/', (req, res) => {
+  res.render('index.ejs');
+});
 
 module.exports = apiRouter;
-

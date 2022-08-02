@@ -1,10 +1,13 @@
 //Purpose: Render a reusable Form component that has form validations.
+//inspired by:
+//  https://www.bezkoder.com/react-node-express-mongodb-mern-stack/#Project_Structure-2
+//  https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
 
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import StoreService from '../services/StoreService';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { addStore } from '../actions/store_actions';
 

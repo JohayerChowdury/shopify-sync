@@ -24,30 +24,6 @@ router.get('/:productId', StoreController.getSpecificProduct);
 //   res.render('products/show', { store: store, product: product });
 // });
 
-//GET all documents from Shopify API into MongoDB database
-// router.post('/', async (req, res) => {
-//   const store = await StoreModel.findOne({ storeId: req.storeId }).exec();
-//   axios
-//     .get(`https://${store.url}.myshopify.com/admin/api/2022-07/products.json`, {
-//       // GET 'list of products'
-//       headers: {
-//         'X-Shopify-Access-Token': `${store.access_token}`, // required to access our instance
-//       },
-//     })
-//     .then(async (res) => {
-//       console.log(
-//         'There are ' + res.data.products.length + ' products in shopify store.'
-//       );
-//       await updateProducts(Object.values(res.data.products), req.storeId);
-//       console.log('Finished uploading to MongoDB database');
-//       const products = await ProductModel.find({ storeId: req.storeId });
-//       res.redirect('products/index', { store: store, products: products });
-//     })
-//     .catch((err) => {
-//       res.send(err);
-//     });
-// });
-
 router.post('/', StoreController.sync);
 
 // async function updateProducts(products, requestStoreId) {
