@@ -32,7 +32,7 @@ const Login = () => {
 
   const [inputUser, setInputUser] = useState(initialInputUserState);
   // const[inputUserErrors, setInputUserErrors] = useState([])
-  // const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
   const handleInputChange = (field, value) => {
     setInputUser({
@@ -56,16 +56,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevents form from being submitted automatically
 
-    try {
+
       let user = {
         email: inputUser.email,
         password: inputUser.password,
       };
       // console.log(user);
       userActions
-        .login(user, '/login')
-        .then((res) => {
-          console.log('Login component response: ' + res);
+        .login(user, '/login').then((res) => {
           setInputUser({
             email: res.email,
             password: res.password,
@@ -73,22 +71,12 @@ const Login = () => {
           navigate('/');
           console.log(res.data);
         })
-        .catch((err) => {
-          console.log(err);
-          // setErrorMsg(err);
-          // err.response.data.msg
-          //   ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed
-          //   : setErrorMsg('We have an error!');
+        .catch(error => {
+          setErrorMsg('Authentication Error');
         });
-    } catch (err) {
-      console.log(err);
-      // setErrorMsg(err);
-      // if (err.response.data.msg) {
-      //   setErrorMsg(err.response.data.msg); // allows for error message to be displayed
-      // } else {
-      //   setErrorMsg(err);
-      // }
-    }
+      
+
+    
   };
 
   return (
@@ -97,7 +85,7 @@ const Login = () => {
         <h1>Log In</h1>
       </div>
       <br />
-      {/* {errorMsg && <ErrorMsg msg={errorMsg} />} */}
+      {errorMsg && <ErrorMsg msg={errorMsg} />}
 
       <form onSubmit={handleSubmit}>
         <div className="input">

@@ -57,11 +57,15 @@ exports.login = async (req, res) => {
       res.json({
         token: token,
         user: {
-          id: user._id,
+          _id: user._id,
           email: user.email,
+          username: user.username,
+          full_name: user.full_name,
         },
         msg: 'Successfully Logged in',
       });
+    } else{
+      return res.status(400).send({message: err.message || 'Error Occurred'});
     }
   } catch (err) {
     return res.status(500).send({ message: err.message || 'Error Occurred' });

@@ -81,7 +81,11 @@ const Register = () => {
         });
         navigate('/');
         console.log(res.data);
+      })
+      .catch(error => {
+        setErrorMsg('User Already Exists', {message: error});
       });
+
     }catch(err) {
       err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
         ? setErrorMsg(err.response.data.msg)

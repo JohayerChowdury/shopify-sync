@@ -16,6 +16,7 @@ import NavigationBar from './components/NavigationBar';
 import Profile from './components/pages/Profile';
 import Register from './components/pages/Register';
 import ForgotPassword from './components/pages/ForgotPassword';
+import ChangePassword from './components/pages/ChangePassword';
 
 import Stores from './components/pages/Stores';
 import StoreDetails from './components/pages/StoreDetails';
@@ -80,6 +81,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route 
+          path = "/change-password"
+          element = {
+            <PrivateRoute>
+              <ChangePassword />
+            </PrivateRoute>
+          }
+          />
         <Route
           path="/add-store"
           element={
