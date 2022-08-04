@@ -5,23 +5,68 @@ import { userAtom } from '../../states/userStates';
 import { authAtom } from '../../states/authStates';
 import { useRecoilValue } from 'recoil';
 import { useUserActions } from '../../actions/user_actions';
+import { Button } from 'react-bootstrap';
 
 const Profile = () => {
-  const auth = useRecoilValue(authAtom);
-  const user = useRecoilValue(userAtom);
-  const userActions = useUserActions();
+  
+
 
   // useEffect(() => {
   //   userActions.profile();
   // }, []);
-  console.log(auth);
-  console.log(user);
-  console.log(userActions.profile(auth.data.token));
+  const auth = useRecoilValue(authAtom);
+  const user = useRecoilValue(userAtom);
+  const userActions = useUserActions();
+  // console.log(auth.data);
+  // console.log(auth.data.user);
+  // console.log(userActions.profile(auth.data.user.token));
+  // if(auth.data.user != undefined){
   return (
-    <div>
-      <h1>Hello</h1>
-      <h1>Hello</h1>
-    </div>
+      <div className = "user-info-widget">
+        <div className = "profile-page-title">
+          Profile
+        </div>
+        <div className = "user-info-detail">
+          UserID: {auth.data.user._id}
+        </div>
+        <div className = "user-info-detail">
+          Email : {auth.data.user.email}
+        </div>
+        <div className = "user-info-detail">
+          Username: {auth.data.user.username}
+        </div>
+        <div className = "user-info-detail">
+          Full Name: {auth.data.user.full_name}
+        </div>
+        <Button href= "/change-password" style = {{border: "none", outline: 0, display: "inline-block", padding: "8px", color: "white", backgroundColor: "#000", textAlign:"center", cursor: "pointer", width: "100%", fontSize: "18px"}}>
+          Change Password
+        </Button>
+      </div>
+    
   );
-};
+}
+// else {
+  // return(
+  // <div className = "user-info-widget">
+  //       <div className = "profile-page-title">
+  //         Profile
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         UserID: {auth.data._id}
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         Email : {auth.data.email}
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         Username: {auth.data.username}
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         Full Name: {auth.data.full_name}
+  //       </div>
+  //       <Button href= "/change-password" style = {{border: "none", outline: 0, display: "inline-block", padding: "8px", color: "white", backgroundColor: "#000", textAlign:"center", cursor: "pointer", width: "100%", fontSize: "18px"}}>
+  //         Change Password
+  //       </Button>
+  //     </div>
+  // );
+
 export default Profile;

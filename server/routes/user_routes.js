@@ -17,7 +17,7 @@ userRouter.post('/login', UserController.login);
 
 userRouter.post('/forgot_password', UserController.forget_password);
 
-userRouter.get('/profile', auth, UserController.getOne);
+userRouter.get('/profile',  UserController.getOne);
 
 userRouter.post('/tokenIsValid', UserController.tokenIsValid);
 
