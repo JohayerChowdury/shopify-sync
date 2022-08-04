@@ -17,7 +17,10 @@ const Profile = () => {
   const auth = useRecoilValue(authAtom);
   const user = useRecoilValue(userAtom);
   const userActions = useUserActions();
+  // console.log(auth.data);
+  // console.log(auth.data.user);
   // console.log(userActions.profile(auth.data.user.token));
+  // if(auth.data.user != undefined){
   return (
       <div className = "user-info-widget">
         <div className = "profile-page-title">
@@ -41,5 +44,29 @@ const Profile = () => {
       </div>
     
   );
-};
+}
+// else {
+  // return(
+  // <div className = "user-info-widget">
+  //       <div className = "profile-page-title">
+  //         Profile
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         UserID: {auth.data._id}
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         Email : {auth.data.email}
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         Username: {auth.data.username}
+  //       </div>
+  //       <div className = "user-info-detail">
+  //         Full Name: {auth.data.full_name}
+  //       </div>
+  //       <Button href= "/change-password" style = {{border: "none", outline: 0, display: "inline-block", padding: "8px", color: "white", backgroundColor: "#000", textAlign:"center", cursor: "pointer", width: "100%", fontSize: "18px"}}>
+  //         Change Password
+  //       </Button>
+  //     </div>
+  // );
+
 export default Profile;
