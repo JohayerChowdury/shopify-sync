@@ -35,7 +35,18 @@ exports.register = async (req, res) => {
       // .catch((err) => res.status(400).json('Error: ' + err));
       newUser
         .save()
-        .then((user) => res.json(user))
+        .then((user) => res.json({
+          token: jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET),
+          user: {
+          _id: newUser._id,
+          email: newUser.email,
+          username: newUser.username,
+          full_name: newUser.full_name,
+
+          }
+        }
+
+        ))
         .catch((err) => res.status(400).json("Error: " + err));
   });
 });
