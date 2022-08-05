@@ -4,54 +4,53 @@ let UserModel = require('../models/User');
 // let StoreModel = require('../models/Store');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const AWS = require('aws-sdk');
+const ses = new AWS.SES({
+  senderEmail: "test@shyftlabs.io",
+  region: "ca-central-1",
+  accessKeyId: "AKIA3B6GPOCT4YNNP3OB",
+  secretAccessKey: "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",
+})
 
 exports.register = async (req, res) => {
-  // frontend takes care of following error handling
-  //   if (!req.body.username || !req.body.password || !req.body.email) {
-  //     return res.status(400).json({ msg: 'Please enter in all fields' });
-  //   }
-  //   const user = await UserModel.findOne({ email: req.body.email });
-  //   if (user) {
-  //     return res.status(400).json({ msg: 'User already exists' });
-  //   }
+  // if (!req.body.username || !req.body.password || !req.body.email) {
+  //   return res.status(400).json({ msg: 'Please enter in all fields' });
+  // }
+  // const user = await UserModel.findOne({ email: req.body.email });
+  // if (user) {
+  //   return res.status(400).json({ msg: 'User already exists' });
+  // }
+  //const salt = await bcrypt.genSalt(10);
+  //const hashedPassword = await bcrypt.hash(req.body.password, salt);
   bcrypt.genSalt(10, function (err, salt) {
-    bcrypt.hash(req.body.password, salt, function (err, hash) {
-      const newUser = new UserModel({
-        username: req.body.username,
-        email: req.body.email,
-        full_name: req.body.full_name,
-        password: hash,
-      });
-      newUser
-        .save()
-<<<<<<< HEAD
-        .then((user) =>
-          res.status(200).send({
-            user: {
-              _id: user._id,
-              email: user.email,
-            },
-            message: 'User was registered succesfully!',
-          })
-        )
-        .catch((err) => res.status(400).json('Error: ' + err));
-    });
-=======
-        .then((user) => res.json({
-          token: jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET),
-          user: {
-          _id: newUser._id,
-          email: newUser.email,
-          username: newUser.username,
-          full_name: newUser.full_name,
+    bcrypt.hash(req.body.password, salt, function(err, hash) {
 
-          }
+  const newUser = new UserModel({
+    username: req.body.username,
+    email: req.body.email,
+    full_name: req.body.full_name,
+    password: hash,
+  })
+    // .save(newUser)
+    // .then(() => res.redirect('/'))
+    // .catch((err) => res.status(400).json('Error: ' + err));
+    newUser
+      .save()
+      .then((user) => res.json({
+        token: jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET),
+        user: {
+        _id: newUser._id,
+        email: newUser.email,
+        username: newUser.username,
+        full_name: newUser.full_name,
+
         }
+      }
 
-        ))
-        .catch((err) => res.status(400).json("Error: " + err));
->>>>>>> 261194c7aaff039bc3bb1d6689ee1383144025c4
-  });
+      ))
+      .catch((err) => res.status(400).json("Error: " + err));
+});
+});
 };
 
 exports.login = async (req, res) => {
@@ -117,6 +116,41 @@ exports.forget_password = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).send({ message: err.message || 'Error Occurred' });
+  }
+};
+exports.verify_user = async (req, res) => {
+  try{
+    let user = await UserModel.findOne({
+      email: req.body.email
+    });
+    if(!user) {
+      return res.status(400).json({msg: "User Doesn't exist"})
+    }
+
+    var params = {
+      Source: "test@shyftlabs.io",
+      Destination: {
+        ToAddresses: [req.body.email]
+      },
+      Message: {
+        Body: {
+          Html: {
+            Charset: "UTF-8",
+            Data: "IT IS WORKING"
+          }
+        },
+        Subject: {
+          Charset: "UTF-8",
+          Data: "Test"
+        }
+      }
+    };
+    ses.sendEmail(params).promise().then((res) => {
+      console.log(res);
+    });
+
+  } catch(err) {
+    console.log(err);
   }
 };
 

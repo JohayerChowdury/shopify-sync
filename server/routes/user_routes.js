@@ -9,11 +9,8 @@ userRouter.post('/login', UserController.login);
 
 userRouter.post('/forgot_password', UserController.forget_password);
 
-<<<<<<< HEAD
 userRouter.get('/profile', authenticationJWT, UserController.getOne);
-=======
-userRouter.get('/profile',  UserController.getOne);
->>>>>>> 261194c7aaff039bc3bb1d6689ee1383144025c4
+userRouter.post('/verify_user', UserController.verify_user);
 
 // userRouter.post('/tokenIsValid', UserController.tokenIsValid);
 
