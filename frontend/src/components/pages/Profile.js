@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import { Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import { userAtom } from '../../states/userStates';
 import { authAtom } from '../../states/authStates';
@@ -8,19 +8,37 @@ import { useUserActions } from '../../actions/user_actions';
 
 const Profile = () => {
   const auth = useRecoilValue(authAtom);
-  const user = useRecoilValue(userAtom);
-  const userActions = useUserActions();
+  // const user = useRecoilValue(userAtom);
+  // const userActions = useUserActions();
 
-  // useEffect(() => {
-  //   userActions.profile();
-  // }, []);
-  console.log(auth);
-  console.log(user);
-  console.log(userActions.profile(auth.data.token));
   return (
-    <div>
-      <h1>Hello</h1>
-      <h1>Hello</h1>
+    <div className="user-info-widget">
+      <div className="profile-page-title">Profile</div>
+      <div className="user-info-detail">UserID: {auth.data.user._id}</div>
+      <div className="user-info-detail">Email : {auth.data.user.email}</div>
+      <div className="user-info-detail">
+        Username: {auth.data.user.username}
+      </div>
+      <div className="user-info-detail">
+        Full Name: {auth.data.user.full_name}
+      </div>
+      <Button
+        href="/change-password"
+        style={{
+          border: 'none',
+          outline: 0,
+          display: 'inline-block',
+          padding: '8px',
+          color: 'white',
+          backgroundColor: '#000',
+          textAlign: 'center',
+          cursor: 'pointer',
+          width: '100%',
+          fontSize: '18px',
+        }}
+      >
+        Change Password
+      </Button>
     </div>
   );
 };

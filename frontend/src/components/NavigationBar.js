@@ -26,9 +26,9 @@ const Navigation = () => {
                 <LinkContainer to="/stores">
                   <Nav.Link>Stores</Nav.Link>
                 </LinkContainer>
-                <LinkContainer to="/database">
+                {/* <LinkContainer to="/database">
                   <Nav.Link>Database</Nav.Link>
-                </LinkContainer>
+                </LinkContainer> */}
                 <LinkContainer to="/login">
                   <Nav.Link onClick={userActions.logout}>Log Out</Nav.Link>
                 </LinkContainer>

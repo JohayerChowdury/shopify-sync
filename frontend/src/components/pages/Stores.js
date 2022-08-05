@@ -11,15 +11,19 @@ function Stores() {
     retrieveStores();
   }, []);
 
-  const retrieveStores = () => {
-    StoreService.getAll()
-      .then((res) => {
-        setStores(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const retrieveStores = async () => {
+    try {
+      StoreService.getAll()
+        .then((res) => {
+          setStores(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const storesData = stores.map((store) => {

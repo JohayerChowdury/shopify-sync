@@ -22,9 +22,16 @@ const storeSchema = new mongoose.Schema({
     type: String,
   },
   owner: {
-    type: String,
-    required: "Please provide the email of the owner",
-  }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: 'Please provide the email of the owner',
+  },
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+  ],
 });
 
 module.exports = mongoose.model('Store', storeSchema);

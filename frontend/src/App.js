@@ -24,38 +24,6 @@ import Products from './components/pages/Products';
 import ProductDetails from './components/pages/ProductDetails';
 
 function App() {
-  // useEffect(() => {
-  //   const isLoggedIn = async () => {
-  //     // this determines if the user is logged in or not
-  //     let token = localStorage.getItem('auth-token'); // gets the authorization token from the local storage
-  //     if (token == null) {
-  //       // if it doesn't exist, it sets it to null
-  //       localStorage.setItem('auth-token', '');
-  //       token = '';
-  //     }
-
-  //     const tokenResponse = await axios.post(
-  //       'htpp://localhost:5000/shopify_api/users/tokenIsValid',
-  //       null,
-  //       { headers: { 'auth-token': token } }
-  //     ); // this method is put in the users.js under the backend and validates the token
-
-  //     console.log(tokenResponse.data);
-  //     if (tokenResponse.data) {
-  //       // if it is valid, then we can see things like the profile which is a protected function
-  //       const userResponse = await axios.get('/shopify_api/users/profile', {
-  //         headers: { 'auth-token': token },
-  //       });
-  //       setUserData({
-  //         // once it is valid, this sets the token to the jwt
-  //         token: token,
-  //         user: userResponse.data,
-  //       });
-  //     }
-  //   };
-  //   isLoggedIn();
-  // }, []);
-
   return (
     <BrowserRouter>
       <NavigationBar />

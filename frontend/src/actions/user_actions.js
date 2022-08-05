@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { authAtom, userAtom } from '../states';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,8 @@ function useUserActions() {
 
   const setAuth = useSetRecoilState(authAtom);
   const setUser = useSetRecoilState(userAtom);
+
+  const auth = useRecoilValue(authAtom);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,6 +30,7 @@ function useUserActions() {
       //store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem('user', JSON.stringify(user_1));
       setAuth(user_1);
+      setUser(user_1);
       //get return url from location state or default to home page
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from);
@@ -50,7 +53,8 @@ function useUserActions() {
   // function forgot_password(user) {}
 
   function profile() {
-    return fetchWrapper.get(`${baseUrl}/profile`).then(setUser);
+    const user_1 = fetchWrapper.get(`${baseUrl}/profile`);
+    setUser(user_1);
   }
 }
 

@@ -39,19 +39,7 @@ const Login = () => {
       ...inputUser,
       [field]: value,
     });
-    // if(!!inputUserErrors[field]){
-    //   setInputUserErrors({
-    //     ...inputUserErrors,
-    //     [field]:null
-    //   })
-    // }
   };
-
-  // const findInputUserErrors = ()=>{
-  //   const{email, password} = inputUser
-  //   const newErrors={}
-
-  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevents form from being submitted automatically
@@ -61,11 +49,9 @@ const Login = () => {
         email: inputUser.email,
         password: inputUser.password,
       };
-      // console.log(user);
       userActions
         .login(user, '/login')
         .then((res) => {
-          console.log('Login component response: ' + res);
           setInputUser({
             email: res.email,
             password: res.password,

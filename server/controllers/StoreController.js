@@ -1,5 +1,6 @@
 //Purpose: Create a controller that calls Mongoose functions and can be exported.
 
+let UserModel = require('../models/User');
 let StoreModel = require('../models/Store');
 let ProductModel = require('../models/Product');
 const axios = require('axios');
@@ -40,7 +41,10 @@ const axios = require('axios');
 
 exports.getAll = async (req, res) => {
   try {
-    const stores = await StoreModel.find().sort({ name: 'asc' }).exec();
+    const stores = await StoreModel.find()
+      .populate('ownerId')
+      .sort({ name: 'asc' })
+      .exec();
     res.send(stores);
   } catch (err) {
     res.status(500).send({ message: err.message || 'Error Occurred' });
@@ -50,9 +54,7 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   let storeId = req.params.storeId;
   try {
-    //CHANGE !!!
-
-    const store = await StoreModel.findOne({ storeId: storeId }).exec();
+    const store = await StoreModel.findById(storeId).populate('ownerId').exec();
     if (store == null) {
       res.status(404).send({ message: 'No store found with id: ' + storeId });
     } else {
@@ -95,6 +97,7 @@ exports.getOne = async (req, res) => {
 // };
 
 exports.add = (req, res) => {
+  // const user = await UserModel.findOne({ownerId: })
   if (!req.body.url) {
     res.status(400).send({ message: 'url cannot be empty!' });
   }
@@ -111,7 +114,7 @@ exports.add = (req, res) => {
     address: req.body.address,
   });
   store
-    .save(store)
+    .save()
     .then((data) => {
       res.send(data);
     })
@@ -167,7 +170,7 @@ exports.update = (req, res) => {
 
   const storeId = req.params.storeId;
   //CHANGE!!!!
-  StoreModel.findOneAndUpdate({ storeId: storeId }, req.body, {
+  StoreModel.findByIdAndUpdate(storeId, req.body, {
     useFindAndModify: false,
   })
     .then((data) => {
@@ -186,7 +189,7 @@ exports.delete = async (req, res) => {
   let storeId = req.params.storeId;
   try {
     //CHANGE!!!
-    await StoreModel.findOneAndDelete({ storeId: storeId });
+    await StoreModel.findByIdAndDelete(storeId);
     res.send({ message: 'Store was deleted successfully!' });
   } catch (err) {
     res.status(500).send({ message: err.message || 'Error Occurred' });
@@ -198,8 +201,9 @@ exports.getProducts = async (req, res) => {
   try {
     // const store = await StoreModel.find({ storeId: storeId });
     // console.log('Store is: ' + store);
+
     //CHANGE!!!
-    const products = await ProductModel.find({ storeId: storeId })
+    const products = await ProductModel.findOne(storeId)
       .sort({ title: 'asc' })
       .exec();
     res.send(products);
@@ -211,7 +215,7 @@ exports.getProducts = async (req, res) => {
 exports.sync = async (req, res) => {
   let storeId = req.params.storeId;
   //CHANGE!!!
-  const store = await StoreModel.findOne({ storeId: storeId }).exec();
+  const store = await StoreModel.findById(storeId).exec();
   axios
     .get(`https://${store.url}.myshopify.com/admin/api/2022-07/products.json`, {
       // GET 'list of products'
@@ -238,9 +242,8 @@ exports.sync = async (req, res) => {
 exports.getSpecificProduct = async (req, res) => {
   let storeId = req.params.storeId;
   try {
-    //CHANGE !!!
-
     const product = await ProductModel.findOne({
+      //CHANGE !!!
       storeId: storeId,
       product_id: req.params.productId,
     }).exec();
