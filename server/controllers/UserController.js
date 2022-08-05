@@ -24,6 +24,7 @@ exports.register = async (req, res) => {
       });
       newUser
         .save()
+<<<<<<< HEAD
         .then((user) =>
           res.status(200).send({
             user: {
@@ -35,6 +36,21 @@ exports.register = async (req, res) => {
         )
         .catch((err) => res.status(400).json('Error: ' + err));
     });
+=======
+        .then((user) => res.json({
+          token: jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET),
+          user: {
+          _id: newUser._id,
+          email: newUser.email,
+          username: newUser.username,
+          full_name: newUser.full_name,
+
+          }
+        }
+
+        ))
+        .catch((err) => res.status(400).json("Error: " + err));
+>>>>>>> 261194c7aaff039bc3bb1d6689ee1383144025c4
   });
 };
 
@@ -60,9 +76,13 @@ exports.login = async (req, res) => {
         user: {
           _id: user._id,
           email: user.email,
+          username: user.username,
+          full_name: user.full_name,
         },
         message: 'Successfully Logged in',
       });
+    } else{
+      return res.status(400).send({message: err.message || 'Error Occurred'});
     }
   } catch (err) {
     return res.status(500).send({ message: err.message || 'Error Occurred' });

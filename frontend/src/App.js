@@ -49,6 +49,14 @@ function App() {
           }
         />
         <Route
+          path="/change-password"
+          element={
+            <PrivateRoute>
+              <ChangePassword />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/add-store"
           element={
             <PrivateRoute>

@@ -70,6 +70,7 @@ const Register = () => {
         setErrorMsg('Please enter in the missing field(s)');
         return;
       }
+      try{
       console.log(user);
       userActions.login(user, '/register').then((res) => {
         setInputUser({
@@ -80,17 +81,27 @@ const Register = () => {
         });
         navigate('/');
         console.log(res.data);
+      })
+      .catch(error => {
+        setErrorMsg('User Already Exists', {message: error});
       });
+
+    }catch(err) {
+      err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
+        ? setErrorMsg(err.response.data.msg)
+        : setErrorMsg('We have an error!');
+      
+    }
     } catch (err) {
       console.log(err);
-      // err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
-      //   ? setErrorMsg(err.response.data.msg)
-      //   : setErrorMsg('We have an error!');
+      err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
+        ? setErrorMsg(err.response.data.msg)
+        : setErrorMsg('We have an error!');
     }
   };
 
   return (
-    <div className="form-container">
+    <div className="register-form-container">
       <div className="form-title">
         <h1>Register Here</h1>
       </div>
@@ -153,7 +164,7 @@ const Register = () => {
           />
         </div>
         <br />
-        <Button variant="success" type="submit">
+        <Button variant="info" type="submit" style = {{marginLeft: "35%", padding: 10}}>
           Register User!
         </Button>
       </form>
