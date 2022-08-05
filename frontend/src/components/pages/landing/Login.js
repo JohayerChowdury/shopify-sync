@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ErrorMsg from '../ErrorMsg';
+import ErrorMsg from '../../UI/ErrorMsg';
 import { Button } from 'react-bootstrap';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 
-import { authAtom } from '../../states/authStates';
+import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../../actions/user_actions';
+import { useUserActions } from '../../../actions/user_actions';
 
 const Login = () => {
   // const location = useLocation();
@@ -17,9 +17,6 @@ const Login = () => {
     //redirect to home if already logged in
     if (auth) {
       navigate('/');
-      // if (location.state?.from) {
-      //   navigate(location.state.from);
-      // }
     }
   }, []);
 
@@ -51,14 +48,15 @@ const Login = () => {
       };
       userActions
         .login(user, '/login')
-        .then((res) => {
-          setInputUser({
-            email: res.email,
-            password: res.password,
-          });
-          navigate('/');
-          console.log(res.data);
-        })
+        // .then(
+        //   (res) => {
+        //   // setInputUser({
+        //   //   email: res.email,
+        //   //   password: res.password,
+        //   // });
+        //   navigate('/');
+        //   console.log(res.data);
+        // })
         .catch((err) => {
           console.log(err);
           // setErrorMsg(err);

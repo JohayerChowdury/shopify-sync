@@ -1,10 +1,13 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import StoreService from '../../services/StoreService';
-// import { retrieveStores } from '../../actions/store_actions';
+import { useStoreActions, useUserActions } from '../../../actions';
 
 function Stores() {
+  const userActions = useUserActions();
+  const currentUser = userActions.profile();
+
+  const storeActions = useStoreActions();
   const [stores, setStores] = useState([]);
 
   useEffect(() => {
@@ -13,10 +16,10 @@ function Stores() {
 
   const retrieveStores = async () => {
     try {
-      StoreService.getAll()
+      storeActions
+        .getAll()
         .then((res) => {
           setStores(res.data);
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -32,7 +35,7 @@ function Stores() {
         <div className="card-body">
           <h4 className="card-title">Name: {store.name}</h4>
           <div className="card-text mb-2">URL: {store.url}</div>
-          <a href={'/stores/' + store.storeId} className="btn btn-success">
+          <a href={'/stores/' + store._id} className="btn btn-success">
             See More
           </a>
         </div>

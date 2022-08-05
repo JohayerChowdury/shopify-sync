@@ -43,6 +43,7 @@ mongoose
         'Access-Control-Allow-Headers',
         'x-access-token, Origin, Content-Type, Accept'
       );
+      next();
     });
 
     // //assiging view to engine to ejs

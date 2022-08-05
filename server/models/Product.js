@@ -174,8 +174,9 @@ const ImageSchema = new mongoose.Schema({
 
 //initializing Product model
 const productSchema = new mongoose.Schema({
-  storeId: {
-    type: String,
+  store: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Store',
   },
   product_id: {
     type: Number,
@@ -231,7 +232,8 @@ const productSchema = new mongoose.Schema({
     type: ImageSchema,
   },
   required: [
-    'id',
+    'store',
+    'product_id',
     'title',
     'body_html',
     'vendor',

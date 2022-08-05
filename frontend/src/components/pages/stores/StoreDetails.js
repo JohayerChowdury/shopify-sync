@@ -1,9 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import StoreService from '../../services/StoreService';
+import { useStoreActions, useUserActions } from '../../../actions';
 
 function StoreDetails() {
+  const userActions = useUserActions();
+  const storeActions = useStoreActions();
   //allows us to find storeId in parameters
   const { storeId } = useParams();
   //allows us to redirect to different pages
@@ -13,7 +15,6 @@ function StoreDetails() {
     name: '',
     url: '',
     access_token: '',
-    storeId: '',
     address: '',
   };
   //creating store array to reference store
@@ -24,7 +25,8 @@ function StoreDetails() {
   const [storeFormErrors, setStoreFormErrors] = useState([]);
 
   function getStore(storeId) {
-    StoreService.get(storeId)
+    storeActions
+      .getOne(storeId)
       .then((res) => {
         setStore(res.data);
         console.log(res.data);
@@ -55,7 +57,7 @@ function StoreDetails() {
   };
 
   const findStoreFormErrors = () => {
-    const { name, url, access_token, storeId, address } = store;
+    const { name, url, access_token, address } = store;
     const newErrors = {};
     // name errors
     if (!name || name === '') newErrors.name = 'cannot be blank!';
@@ -65,9 +67,6 @@ function StoreDetails() {
     // access_token errors
     if (!access_token || access_token === '')
       newErrors.access_token = 'cannot be blank!';
-    // storeId errors
-    if (!storeId || storeId === '') newErrors.storeId = 'cannot be blank!';
-    else if (storeId.length > 30) newErrors.storeId = 'storeId is too long!';
 
     return newErrors;
   };
@@ -83,7 +82,8 @@ function StoreDetails() {
       // We got errors!
       setStoreFormErrors(newErrors);
     } else {
-      StoreService.update(store.storeId, store)
+      storeActions
+        .update(storeId, store)
         .then((res) => {
           console.log(res.data);
           setMessage('Store was updated successfully!');
@@ -98,7 +98,8 @@ function StoreDetails() {
   function deleteStore(e) {
     //prevents reloads after clicking submit
     e.preventDefault();
-    StoreService.delete(store.storeId)
+    storeActions
+      .remove(storeId)
       .then((res) => {
         console.log(res.data);
         navigate('/stores');
@@ -167,25 +168,6 @@ function StoreDetails() {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>
-            {' '}
-            Store ID (used to access store in this application)
-          </Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Perhaps your store name?"
-            value={store.storeId}
-            name="storeId"
-            id="storeId"
-            onChange={(e) => handleInputChange('storeId', e.target.value)}
-            isInvalid={!!storeFormErrors.storeId}
-          />
-          <Form.Control.Feedback type="invalid">
-            {storeFormErrors.storeId}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
           <Form.Label>Address</Form.Label>
           <Form.Control
             type="text"
@@ -212,7 +194,7 @@ function StoreDetails() {
             Back to Stores
           </a>
           <a
-            href={'/stores/' + store.storeId + '/products'}
+            href={'/stores/' + storeId + '/products'}
             className="btn btn-warning"
           >
             View Store's Products{' '}

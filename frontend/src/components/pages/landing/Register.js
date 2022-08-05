@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import ErrorMsg from '../ErrorMsg';
+import ErrorMsg from '../../UI/ErrorMsg';
 import { Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { authAtom } from '../../states/authStates';
-import { useUserActions } from '../../actions/user_actions';
+import { authAtom } from '../../../states/authStates';
+import { useUserActions } from '../../../actions/user_actions';
 import { useRecoilValue } from 'recoil';
 
 const Register = () => {

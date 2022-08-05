@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ErrorMsg from '../ErrorMsg';
+import ErrorMsg from '../../UI/ErrorMsg';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 

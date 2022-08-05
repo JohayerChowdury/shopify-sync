@@ -1,61 +1,111 @@
-// //Purpose: Creator for actions related to stores. Imported StoreService to make async HTTP requests with trigger dispatch on the result
+//Purpose: Creator for actions related to stores. Imported StoreService to make async HTTP requests with trigger dispatch on the result
 
-// import {
-//   ADD_STORE,
-//   RETRIEVE_STORES,
-//   UPDATE_STORE,
-//   DELETE_STORE,
-// } from './types';
-// import StoreService from '../services/StoreService';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { authAtom, userAtom } from '../states';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-// export const addStore =
-//   (
-//     nameFromInput,
-//     urlFromInput,
-//     access_tokenFromInput,
-//     storeIdFromInput,
-//     addressFromInput
-//   ) =>
-//   async (dispatch) => {
-//     try {
-//       let store = {
-//         name: nameFromInput,
-//         url: urlFromInput,
-//         access_token: access_tokenFromInput,
-//         storeId: storeIdFromInput,
-//         address: addressFromInput,
-//       };
-//       const res = await StoreService.add({ store: store });
-//       dispatch({ type: ADD_STORE, payload: res.data });
-//       return Promise.resolve(res.data);
-//     } catch (err) {
-//       return Promise.reject(err);
-//     }
-//   };
+import useFetchWrapper from '../helpers/FetchWrapper';
 
-// export const retrieveStores = () => async (dispatch) => {
-//   try {
-//     const res = await StoreService.getAll();
-//     dispatch({ type: RETRIEVE_STORES, payload: res.data });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-// export const updateStore = (store) => async (dispatch) => {
-//   try {
-//     const res = await StoreService.update(store);
-//     dispatch({ type: UPDATE_STORE, payload: res.data });
-//     return Promise.resolve(res.data);
-//   } catch (err) {
-//     return Promise.reject(err);
-//   }
-// };
+function useStoreActions() {
+  const baseUrl = `${process.env.REACT_APP_API_URL}/stores`;
+  const fetchWrapper = useFetchWrapper();
 
-// export const deleteStore = (store) => async (dispatch) => {
-//   try {
-//     await StoreService.delete(store);
-//     dispatch({ type: DELETE_STORE, payload: store });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+  const setUser = useSetRecoilState(userAtom);
+  const auth = useRecoilValue(authAtom);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  return {
+    getAll,
+    getOne,
+    add,
+    update,
+    remove,
+    getProducts,
+    sync,
+    getOneProduct,
+  };
+
+  async function getAll() {
+    try {
+      const stores = await fetchWrapper.get(baseUrl);
+      return stores;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getOne(storeId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}`;
+      console.log(overallRoute);
+      const store = await fetchWrapper.get(overallRoute);
+      return store;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function add(store) {
+    try {
+      const new_store = await fetchWrapper.post(baseUrl, store);
+      console.log('Store actions add store: ' + new_store);
+      navigate('/stores');
+      //   navigate(`/stores/${new_store}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function update(storeId, store) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}`;
+      const update_store = await fetchWrapper.put(overallRoute, store);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function remove(storeId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}`;
+      await fetchWrapper.delete(overallRoute);
+      navigate('/stores');
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getProducts(storeId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}/products`;
+      const products = await fetchWrapper.get(overallRoute);
+      return products;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function sync(storeId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}/products`;
+      await fetchWrapper.post(overallRoute);
+      navigate(`/stores/${storeId}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getOneProduct(storeId, productId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}/products/${productId}`;
+      const product = fetchWrapper.get(overallRoute);
+      return product;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+export { useStoreActions };

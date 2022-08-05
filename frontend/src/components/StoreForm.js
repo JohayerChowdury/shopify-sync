@@ -6,19 +6,20 @@
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import StoreService from '../services/StoreService';
-import { useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { addStore } from '../actions/store_actions';
+
+import { useUserActions, useStoreActions } from '../actions';
 
 function StoreForm() {
+  const userActions = useUserActions();
+  const currentUser = userActions.profile();
+
+  const storeActions = useStoreActions();
+
   //allows us to redirect to different pages
-  let navigate = useNavigate();
   const initialStoreState = {
     name: '',
     url: '',
     access_token: '',
-    storeId: '',
     address: '',
   };
 
@@ -45,7 +46,7 @@ function StoreForm() {
   };
 
   const findStoreFormErrors = () => {
-    const { name, url, access_token, storeId, address } = storeForm;
+    const { name, url, access_token } = storeForm;
     const newErrors = {};
     // name errors
     if (!name || name === '') newErrors.name = 'cannot be blank!';
@@ -55,9 +56,6 @@ function StoreForm() {
     // access_token errors
     if (!access_token || access_token === '')
       newErrors.access_token = 'cannot be blank!';
-    // storeId errors
-    if (!storeId || storeId === '') newErrors.storeId = 'cannot be blank!';
-    else if (storeId.length > 30) newErrors.storeId = 'storeId is too long!';
 
     return newErrors;
   };
@@ -73,26 +71,22 @@ function StoreForm() {
       // We got errors!
       setStoreFormErrors(newErrors);
     } else {
-      //   const { name, url, access_token, storeId, address } = storeForm;
-      //   dispatch(addStore(name, url, access_token, storeId, address))
       let store = {
         name: storeForm.name,
         url: storeForm.url,
         access_token: storeForm.access_token,
-        storeId: storeForm.storeId,
         address: storeForm.address,
+        owner: currentUser.data.user._id,
       };
-      StoreService.add(store)
+      storeActions
+        .add(store)
         .then((res) => {
           setStoreForm({
             name: res.name,
             url: res.url,
             access_token: res.access_token,
-            storeId: res.storeId,
             address: res.address,
           });
-          navigate(`/stores/${store.storeId}`);
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -155,25 +149,6 @@ function StoreForm() {
           />
           <Form.Control.Feedback type="invalid">
             {storeFormErrors.access_token}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>
-            {' '}
-            Store ID (used to access store in this application)
-          </Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Perhaps your store name?"
-            value={storeForm.storeId}
-            name="storeId"
-            id="storeId"
-            onChange={(e) => handleInputChange('storeId', e.target.value)}
-            isInvalid={!!storeFormErrors.storeId}
-          />
-          <Form.Control.Feedback type="invalid">
-            {storeFormErrors.storeId}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3">

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { authAtom } from '../states/authStates';
+import { authAtom } from '../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../actions/user_actions';
+import { useUserActions } from '../../actions/user_actions';
 
 const Navigation = () => {
   const auth = useRecoilValue(authAtom);

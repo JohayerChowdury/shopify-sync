@@ -5,23 +5,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
-import ErrorMsg from './components/ErrorMsg';
+import NavigationBar from './components/UI/NavigationBar';
+import ErrorMsg from './components/UI/ErrorMsg';
+import { PrivateRoute } from './components/UI/PrivateRoute';
 
-import { PrivateRoute } from './components/PrivateRoute';
-import Welcome from './components/pages/Welcome';
-// import ForgotPassword from './components/pages/ForgotPassword';
-import Home from './components/pages/Home';
-import Login from './components/pages/Login';
-import NavigationBar from './components/NavigationBar';
-import Profile from './components/pages/Profile';
-import Register from './components/pages/Register';
-import ForgotPassword from './components/pages/ForgotPassword';
+import Welcome from './components/pages/landing/Welcome';
+import Login from './components/pages/landing/Login';
+import Register from './components/pages/landing/Register';
 
-import Stores from './components/pages/Stores';
-import StoreDetails from './components/pages/StoreDetails';
-import AddStore from './components/pages/AddStore';
-import Products from './components/pages/Products';
-import ProductDetails from './components/pages/ProductDetails';
+import Home from './components/pages/user/Home';
+import Profile from './components/pages/user/Profile';
+import ForgotPassword from './components/pages/user/ForgotPassword';
+
+import Stores from './components/pages/stores/Stores';
+import StoreDetails from './components/pages/stores/StoreDetails';
+import AddStore from './components/pages/stores/AddStore';
+import Products from './components/pages/stores/products/Products';
+import ProductDetails from './components/pages/stores/products/ProductDetails';
 
 function App() {
   return (

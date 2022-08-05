@@ -1,9 +1,8 @@
 //Purpose: Create a service module that uses fetch API to send HTTP requests to backend.
 
 import axios from 'axios';
-import { authAtom } from '../states/authStates';
+import { authAtom } from '../states';
 import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 
 function useFetchWrapper() {
   const [auth] = useRecoilState(authAtom);
@@ -33,13 +32,12 @@ function useFetchWrapper() {
   }
 
   //helper functions
-
   function authHeader(url) {
-    const token = auth?.token;
+    const token = auth?.data?.token;
     const isLoggedIn = !!token;
     const isApiUrl = url.startsWith(process.env.REACT_APP_API_URL);
     if (isLoggedIn && isApiUrl) {
-      return { 'X-Access-Token': `${token}`, Accept: 'application/json' };
+      return { 'x-access-Token': `${token}`, Accept: 'application/json' };
     } else {
       return {};
     }

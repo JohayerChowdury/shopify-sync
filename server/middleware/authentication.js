@@ -5,8 +5,10 @@ const jwt = require('jsonwebtoken');
 module.exports = async (req, res, next) => {
   // this determines if the jwt token is valid or not (for authorization)
   try {
-    const authHeader = req.headers['x-access-token'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const token =
+      req.headers['x-access-token'] ||
+      req.headers.authorization ||
+      req.body.token;
     if (token == null) {
       //if no token
       return res.status(403).send('No token found!');
@@ -16,7 +18,6 @@ module.exports = async (req, res, next) => {
       //if this doesn't return with the object containing user ID
       return res.status(401).send('Unauthorized!');
     }
-    console.log(verified);
     req.userId = verified._id;
     next();
   } catch (err) {

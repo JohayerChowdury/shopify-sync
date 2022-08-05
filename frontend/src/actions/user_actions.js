@@ -53,8 +53,7 @@ function useUserActions() {
   // function forgot_password(user) {}
 
   function profile() {
-    const user_1 = fetchWrapper.get(`${baseUrl}/profile`);
-    setUser(user_1);
+    return JSON.parse(localStorage.getItem('user'));
   }
 }
 

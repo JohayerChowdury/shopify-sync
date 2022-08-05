@@ -1,7 +1,7 @@
 import { Route, Navigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { authAtom } from '../states/authStates';
+import { authAtom } from '../../states/authStates';
 
 export { PrivateRoute };
 

@@ -42,7 +42,7 @@ const axios = require('axios');
 exports.getAll = async (req, res) => {
   try {
     const stores = await StoreModel.find()
-      .populate('ownerId')
+      .populate('owner')
       .sort({ name: 'asc' })
       .exec();
     res.send(stores);
@@ -54,7 +54,7 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   let storeId = req.params.storeId;
   try {
-    const store = await StoreModel.findById(storeId).populate('ownerId').exec();
+    const store = await StoreModel.findById(storeId).populate('owner').exec();
     if (store == null) {
       res.status(404).send({ message: 'No store found with id: ' + storeId });
     } else {
@@ -112,6 +112,7 @@ exports.add = (req, res) => {
     url: req.body.url,
     access_token: req.body.access_token,
     address: req.body.address,
+    owner: req.body.owner,
   });
   store
     .save()
@@ -169,7 +170,6 @@ exports.update = (req, res) => {
   }
 
   const storeId = req.params.storeId;
-  //CHANGE!!!!
   StoreModel.findByIdAndUpdate(storeId, req.body, {
     useFindAndModify: false,
   })
@@ -188,7 +188,6 @@ exports.update = (req, res) => {
 exports.delete = async (req, res) => {
   let storeId = req.params.storeId;
   try {
-    //CHANGE!!!
     await StoreModel.findByIdAndDelete(storeId);
     res.send({ message: 'Store was deleted successfully!' });
   } catch (err) {
@@ -199,11 +198,8 @@ exports.delete = async (req, res) => {
 exports.getProducts = async (req, res) => {
   let storeId = req.params.storeId;
   try {
-    // const store = await StoreModel.find({ storeId: storeId });
-    // console.log('Store is: ' + store);
-
-    //CHANGE!!!
-    const products = await ProductModel.findOne(storeId)
+    const products = await ProductModel.find({ store: storeId })
+      .populate('store')
       .sort({ title: 'asc' })
       .exec();
     res.send(products);
@@ -215,7 +211,7 @@ exports.getProducts = async (req, res) => {
 exports.sync = async (req, res) => {
   let storeId = req.params.storeId;
   //CHANGE!!!
-  const store = await StoreModel.findById(storeId).exec();
+  const store = await StoreModel.findById(storeId).populate('products').exec();
   axios
     .get(`https://${store.url}.myshopify.com/admin/api/2022-07/products.json`, {
       // GET 'list of products'
@@ -231,7 +227,7 @@ exports.sync = async (req, res) => {
       await updateProducts(Object.values(res.data.products), storeId);
       console.log('Finished uploading to MongoDB database');
       //CHANGE !!!
-      const products = await ProductModel.find({ storeId: storeId });
+      const products = await ProductModel.find({ store: storeId });
       res.send(products);
     })
     .catch((err) => {
@@ -239,12 +235,10 @@ exports.sync = async (req, res) => {
     });
 };
 
-exports.getSpecificProduct = async (req, res) => {
-  let storeId = req.params.storeId;
+exports.getOneProduct = async (req, res) => {
   try {
     const product = await ProductModel.findOne({
-      //CHANGE !!!
-      storeId: storeId,
+      store: req.params.storeId,
       product_id: req.params.productId,
     }).exec();
     res.send(product);
@@ -261,7 +255,7 @@ async function updateProducts(products, requestStoreId) {
       (update = {
         $set: {
           //CHANGE !!!
-          storeId: requestStoreId,
+          store: requestStoreId,
           title: product.title,
           body_html: product.body_html,
           vendor: product.vendor,
