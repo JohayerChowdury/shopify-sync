@@ -11,6 +11,8 @@ const ses = new AWS.SES({
   accessKeyId: "AKIA3B6GPOCT4YNNP3OB",
   secretAccessKey: "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",
 })
+const {v4: uuidv1} = require('uuid');
+var validate = require('uuid-validate');
 
 exports.register = async (req, res) => {
   // if (!req.body.username || !req.body.password || !req.body.email) {
@@ -37,7 +39,7 @@ exports.register = async (req, res) => {
     newUser
       .save()
       .then((user) => res.json({
-        token: jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET),
+        // token: jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET),
         user: {
         _id: newUser._id,
         email: newUser.email,
@@ -90,6 +92,10 @@ exports.login = async (req, res) => {
 
 // can update in the future for user verification (anyone can access a user's forget password)
 exports.forget_password = async (req, res) => {
+
+  if(!validate(req.body.link)){
+    return res.status(400).json({msg: "Invalid Link, Please Try Again"})
+  }
   try {
     const user = await UserModel.findOne({
       username: req.body.username,
@@ -126,6 +132,8 @@ exports.verify_user = async (req, res) => {
     if(!user) {
       return res.status(400).json({msg: "User Doesn't exist"})
     }
+    let code = uuidv1();
+
 
     var params = {
       Source: "test@shyftlabs.io",
@@ -136,12 +144,12 @@ exports.verify_user = async (req, res) => {
         Body: {
           Html: {
             Charset: "UTF-8",
-            Data: "IT IS WORKING"
+            Data: 'Hello, This is the link to reset your password: http://localhost:3000/forgot-password/' + code,
           }
         },
         Subject: {
           Charset: "UTF-8",
-          Data: "Test"
+          Data: "Password Reset Link"
         }
       }
     };

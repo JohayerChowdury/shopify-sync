@@ -28,12 +28,15 @@ function useUserActions() {
       const overallRoute = `${baseUrl}${route}`;
       const user_1 = await fetchWrapper.post(overallRoute, user);
       //store user details and jwt token in local storage to keep user logged in between page refreshes
+      if(route == '/login'){
       localStorage.setItem('user', JSON.stringify(user_1));
       setAuth(user_1);
       setUser(user_1);
       //get return url from location state or default to home page
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from);
+      }
+
     } catch (err) {
       console.log(err);
     }
@@ -53,13 +56,8 @@ function useUserActions() {
   // function forgot_password(user) {}
 
   function profile() {
-<<<<<<< HEAD
-    return JSON.parse(localStorage.getItem('user'));
-=======
-    const user_1 =  fetchWrapper.get(`${baseUrl}/profile`);
-    setUser(user_1);
+   return  (JSON.parse(localStorage.getItem("user")));
 
->>>>>>> 261194c7aaff039bc3bb1d6689ee1383144025c4
   }
 }
 

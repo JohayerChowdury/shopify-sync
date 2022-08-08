@@ -72,17 +72,20 @@ const Register = () => {
       }
       try{
       console.log(user);
-      userActions.login(user, '/register').then((res) => {
-        setInputUser({
-          username: res.username,
-          full_name: res.full_name,
-          password: res.password,
-          email: res.email,
-        });
-        navigate('/');
-        console.log(res.data);
-      })
+      userActions.login(user, '/register').then
+      (
+        (res) => {
+        // setInputUser({
+        //   username: res.username,
+        //   full_name: res.full_name,
+        //   password: res.password,
+        //   email: res.email,
+        // });
+        navigate('/login');
+        // console.log(res.data);
+        })
       .catch(error => {
+        console.log(error);
         setErrorMsg('User Already Exists', {message: error});
       });
 
