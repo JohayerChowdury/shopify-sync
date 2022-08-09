@@ -1,13 +1,11 @@
 //Purpose: Create a service module that uses fetch API to send HTTP requests to backend.
 
 import axios from 'axios';
-import { authAtom } from '../states/authStates';
+import { authAtom } from '../states';
 import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 
 function useFetchWrapper() {
-  const [auth, setAuth] = useRecoilState(authAtom);
-  const navigate = useNavigate();
+  const [auth] = useRecoilState(authAtom);
 
   return {
     get: request('GET'),
@@ -26,39 +24,23 @@ function useFetchWrapper() {
 
       if (body) {
         requestOptions.headers['Content-Type'] = 'application/json';
-        // requestOptions.data = { body };
         requestOptions.data = body;
       }
-      // return fetch(url, requestOptions).then(handleResponse);
-      return axios.request(requestOptions).then(axios.post(`${process.env.REACT_APP_API_URL}/users/tokenIsValid`));
+      console.log(requestOptions);
+      return axios.request(requestOptions);
     };
   }
 
   //helper functions
-
   function authHeader(url) {
-    const token = auth?.token;
+    const token = auth?.data?.token;
     const isLoggedIn = !!token;
     const isApiUrl = url.startsWith(process.env.REACT_APP_API_URL);
     if (isLoggedIn && isApiUrl) {
-      return { Authorization: `Bearer ${token}` };
+      return { 'x-access-Token': `${token}`, Accept: 'application/json' };
     } else {
       return {};
     }
-  }
-
-  function handleResponse(res) {
-    console.log(res);
-    if (!res.ok) {
-      if ([401, 403].includes(res.status) && auth?.token) {
-        localStorage.removeItem('user');
-        setAuth(null);
-        navigate('/login');
-      }
-
-      return Promise.reject(res.statusText);
-    }
-    // return data;
   }
 }
 export default useFetchWrapper;

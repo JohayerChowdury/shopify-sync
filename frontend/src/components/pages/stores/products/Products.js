@@ -1,18 +1,20 @@
 import { React, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import StoreService from '../../services/StoreService';
-
+import { useStoreActions, useUserActions } from '../../../../actions';
 function Products() {
+  const userActions = useUserActions();
+  const storeActions = useStoreActions();
+
   //allows us to find storeId in parameters
   const { storeId } = useParams();
   const [products, setProducts] = useState([]);
   const [sync, setSync] = useState(false);
 
   function retrieveStoreProducts(storeId) {
-    StoreService.getProducts(storeId)
+    storeActions
+      .getProducts(storeId)
       .then((res) => {
         setProducts(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -20,7 +22,8 @@ function Products() {
   }
 
   function syncProducts(storeId) {
-    StoreService.sync(storeId)
+    storeActions
+      .sync(storeId)
       .then((res) => {
         console.log(res.data.products);
       })

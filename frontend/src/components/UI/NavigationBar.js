@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { authAtom } from '../states/authStates';
+import { authAtom } from '../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../actions/user_actions';
+import { useUserActions } from '../../actions/user_actions';
 
 const Navigation = () => {
   const auth = useRecoilValue(authAtom);
@@ -26,9 +26,9 @@ const Navigation = () => {
                 <LinkContainer to="/stores">
                   <Nav.Link>Stores</Nav.Link>
                 </LinkContainer>
-                <LinkContainer to="/database">
+                {/* <LinkContainer to="/database">
                   <Nav.Link>Database</Nav.Link>
-                </LinkContainer>
+                </LinkContainer> */}
                 <LinkContainer to="/login">
                   <Nav.Link onClick={userActions.logout}>Log Out</Nav.Link>
                 </LinkContainer>

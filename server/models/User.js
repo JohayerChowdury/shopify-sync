@@ -14,9 +14,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
-  // token: {
-  //     type: String,
-  // },
+  stores: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store',
+    },
+  ],
   required: ['email', 'password'],
 });
 module.exports = mongoose.model('User', UserSchema);

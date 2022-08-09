@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ErrorMsg from '../ErrorMsg';
+import ErrorMsg from '../../UI/ErrorMsg';
 import { Button } from 'react-bootstrap';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 
-import { authAtom } from '../../states/authStates';
+import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../../actions/user_actions';
+import { useUserActions } from '../../../actions/user_actions';
 
 const Login = () => {
   // const location = useLocation();
@@ -17,9 +17,6 @@ const Login = () => {
     //redirect to home if already logged in
     if (auth) {
       navigate('/');
-      // if (location.state?.from) {
-      //   navigate(location.state.from);
-      // }
     }
   }, []);
 
@@ -39,19 +36,7 @@ const Login = () => {
       ...inputUser,
       [field]: value,
     });
-    // if(!!inputUserErrors[field]){
-    //   setInputUserErrors({
-    //     ...inputUserErrors,
-    //     [field]:null
-    //   })
-    // }
   };
-
-  // const findInputUserErrors = ()=>{
-  //   const{email, password} = inputUser
-  //   const newErrors={}
-
-  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevents form from being submitted automatically
@@ -61,8 +46,25 @@ const Login = () => {
         email: inputUser.email,
         password: inputUser.password,
       };
-      // console.log(user);
       userActions
+<<<<<<< HEAD:frontend/src/components/pages/landing/Login.js
+        .login(user, '/login')
+        // .then(
+        //   (res) => {
+        //   // setInputUser({
+        //   //   email: res.email,
+        //   //   password: res.password,
+        //   // });
+        //   navigate('/');
+        //   console.log(res.data);
+        // })
+        .catch((err) => {
+          console.log(err);
+          // setErrorMsg(err);
+          // err.response.data.msg
+          //   ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed
+          //   : setErrorMsg('We have an error!');
+=======
         .login(user, '/login').then((res) => {
           setInputUser({
             email: res.email,
@@ -73,6 +75,7 @@ const Login = () => {
         })
         .catch(error => {
           setErrorMsg('Authentication Error');
+>>>>>>> 261194c7aaff039bc3bb1d6689ee1383144025c4:frontend/src/components/pages/Login.js
         });
       
 

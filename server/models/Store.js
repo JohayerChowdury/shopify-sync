@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const storeSchema = new mongoose.Schema({
-  storeId: {
-    type: String,
-    required: 'Please an enter an ID for this store to access in this app.',
-    index: { unique: true },
-  },
   url: {
     type: String,
     required: 'Please provide the URL for accessing this store.',
@@ -17,14 +12,22 @@ const storeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: 'Please enter a name for the store.',
+    index: { unique: true },
   },
   address: {
     type: String,
   },
   owner: {
-    type: String,
-    required: "Please provide the email of the owner",
-  }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: 'Please provide the email of the owner',
+  },
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+  ],
 });
 
 module.exports = mongoose.model('Store', storeSchema);
