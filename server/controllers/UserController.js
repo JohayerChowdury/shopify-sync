@@ -13,6 +13,14 @@ const ses = new AWS.SES({
 })
 const {v4: uuidv1} = require('uuid');
 var validate = require('uuid-validate');
+const redis = require('redis');
+const client = redis.createClient();
+
+client.on('connect', function() {
+  console.log('Connected!');
+});
+client.connect();
+
 
 exports.register = async (req, res) => {
   // if (!req.body.username || !req.body.password || !req.body.email) {
@@ -92,10 +100,19 @@ exports.login = async (req, res) => {
 
 // can update in the future for user verification (anyone can access a user's forget password)
 exports.forget_password = async (req, res) => {
-
-  if(!validate(req.body.link)){
-    return res.status(400).json({msg: "Invalid Link, Please Try Again"})
+  // var check;
+  // if(check != req.body.link){
+  //   return res.status(400).json({msg: "Invalid Link Please Try Again"});
+  // }
+  var check = await client.get('uuid')
+  console.log(check);
+  if(check != req.body.link) {
+    return res.status(400).json({msg: "Invalid Link Please Try Again"});
   }
+  // var check = validate(req.body.link);
+  // if(!check){
+  //   return res.status(400).json({msg: "Invalid Link"}); 
+  // }
   try {
     const user = await UserModel.findOne({
       username: req.body.username,
@@ -133,6 +150,10 @@ exports.verify_user = async (req, res) => {
       return res.status(400).json({msg: "User Doesn't exist"})
     }
     let code = uuidv1();
+    await client.set('uuid', code, function(err,reply) {
+      console.log(reply)
+    });
+    console.log(await client.get('uuid'));
 
 
     var params = {
