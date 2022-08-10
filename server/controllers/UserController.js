@@ -165,7 +165,12 @@ exports.verify_user = async (req, res) => {
         Body: {
           Html: {
             Charset: "UTF-8",
-            Data: 'Hello, This is the link to reset your password: http://localhost:3000/forgot-password/' + code,
+            Data: `<p><b>Hello,</b></p> 
+            <p>Here is the link to reset your password: http://localhost:3000/forgot-password/${code}</p> </br>
+            <p>Sincerely,</p>
+            <p>ShyftLabs Service Team</p>`
+
+
           }
         },
         Subject: {

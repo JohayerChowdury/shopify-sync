@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 import NavigationBar from './components/UI/NavigationBar';
 import ErrorMsg from './components/UI/ErrorMsg';
+import SuccessMsg from './components/UI/SuccessMsg';
 import { PrivateRoute } from './components/UI/PrivateRoute';
 
 import Welcome from './components/pages/landing/Welcome';

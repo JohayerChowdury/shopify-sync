@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
+import SuccessMsg from '../../UI/SuccessMsg';
 import { Button } from 'react-bootstrap';
 import '../landing/styles.css';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +26,7 @@ const VerifyUser = () => {
     };
     const [inputUser, setInputUser] = useState(initialInputUserState);
     const [errorMsg, setErrorMsg] = useState();
+    const [successMsg, setSuccessMsg] = useState();
 
     const handleInputChange = (field,value) => {
         setInputUser({
@@ -33,19 +35,19 @@ const VerifyUser = () => {
         });
     };
     const handleSubmit = async (e) => {
-        try{
-            e.preventDefault();
-            let user = {
-                email: inputUser.email,
-            };
-            const verifyUser = await axios.post('http://localhost:5000/shopify_api/users/verify_user', 
-            user);
-            setErrorMsg({message: "Check your email"});
-        } catch(err) {
-            err.response.data.msg
-                ? setErrorMsg(err.response.data.msg)
-                : setErrorMsg("Please enter a valid email")
-        }
+        e.preventDefault();
+        let user = {
+            email: inputUser.email,
+        };
+        const verifyUser = await axios
+        .post('http://localhost:5000/shopify_api/users/verify_user', 
+        user)
+        .then(
+            setSuccessMsg("Please Check Your Email")
+        )
+        .catch(error => {
+            setErrorMsg("Try a valid email ");
+        });
     };
     return(
         <div className = "login-form-container">
@@ -54,6 +56,7 @@ const VerifyUser = () => {
             </div>
             <br />
             {errorMsg && <ErrorMsg msg = {errorMsg} /> }
+            {successMsg && <SuccessMsg msg = {successMsg} />}
             <form onSubmit = {handleSubmit}>
                 <div className = "input">
                     <input
