@@ -10,6 +10,8 @@ const ForgotPassword = () => {
     newPassword: '',
     newPasswordAgain: '',
   });
+  const link = window.location.href;
+  var parsedLink = link.split('/')
   const [errorMsg, setErrorMsg] = useState();
 
   const handleSubmit = async (e) => {
@@ -20,6 +22,7 @@ const ForgotPassword = () => {
         email: user.email,
         username: user.username,
         password: user.newPassword,
+        link: parsedLink[4],
       };
       const updatesUser = await axios.post(
         'http://localhost:5000/shopify_api/users/forgot_password',

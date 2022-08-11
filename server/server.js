@@ -4,6 +4,10 @@ const port = 5000 || process.env.PORT;
 //installing express package
 const express = require('express');
 
+
+
+
+
 //env file for security
 require('dotenv').config();
 
@@ -15,6 +19,7 @@ const mongoose = require('mongoose');
 
 //installing cors package to enable CORS
 var cors = require('cors');
+
 
 //connecting to mongoDB database using DB_URI parameter
 mongoose
@@ -53,6 +58,7 @@ mongoose
     app.get('/', (req, res) => {
       // res.render('index');
     });
+    
 
     //API routing
     const apiRouter = require('./routes/apiRouter');

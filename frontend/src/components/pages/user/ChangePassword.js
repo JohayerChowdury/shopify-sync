@@ -1,9 +1,9 @@
 import React, { useState} from 'react';
-import ErrorMsg from '../ErrorMsg';
+import ErrorMsg from '../../UI/ErrorMsg';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import {useRecoilValue} from 'recoil';
-import { authAtom } from '../../states';
+import { authAtom } from '../../../states';
 
 const ChangePassword = () => {
 

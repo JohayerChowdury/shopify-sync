@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "antd": "^4.21.5",
-    "react-bootstrap": "^2.4.0"
+    "aws-sdk": "^2.1189.0",
+    "express-session": "^1.17.3",
+    "react-bootstrap": "^2.4.0",
+    "redis": "^4.2.0",
+    "uuid": "^8.3.2"
   }
 }

@@ -47,24 +47,6 @@ const Login = () => {
         password: inputUser.password,
       };
       userActions
-<<<<<<< HEAD:frontend/src/components/pages/landing/Login.js
-        .login(user, '/login')
-        // .then(
-        //   (res) => {
-        //   // setInputUser({
-        //   //   email: res.email,
-        //   //   password: res.password,
-        //   // });
-        //   navigate('/');
-        //   console.log(res.data);
-        // })
-        .catch((err) => {
-          console.log(err);
-          // setErrorMsg(err);
-          // err.response.data.msg
-          //   ? setErrorMsg(err.response.data.msg) // allows for error message to be displayed
-          //   : setErrorMsg('We have an error!');
-=======
         .login(user, '/login').then((res) => {
           setInputUser({
             email: res.email,
@@ -75,7 +57,6 @@ const Login = () => {
         })
         .catch(error => {
           setErrorMsg('Authentication Error');
->>>>>>> 261194c7aaff039bc3bb1d6689ee1383144025c4:frontend/src/components/pages/Login.js
         });
       
 
@@ -119,7 +100,7 @@ const Login = () => {
           Log In!
         </Button>
       </form>
-      <a href="/forgot-password" style = {{marginLeft: "35%"}}>Forgot Password?</a>
+      <a href="/verify-user" style = {{marginLeft: "35%"}}>Forgot Password?</a>
     </div>
   );
 };
