@@ -10,9 +10,6 @@ function Home() {
   const user = useRecoilValue(userAtom);
   const userActions = useUserActions();
 
-  // useEffect(() => {
-  //   userActions.profile(user);
-  // }, []);
 
   return (
     <div className="welcome-banner">
@@ -27,9 +24,6 @@ function Home() {
           <h2>How This Product Works</h2>
         </div>
         <div className="row">
-          {/* <div className="instruction-widget">
-            <div className="instruction-header">Connect To Your Database</div>
-          </div> */}
           &nbsp;
           <div className="instruction-widget">
             <div className="instruction-header">
@@ -39,9 +33,6 @@ function Home() {
             </div>
           </div>
           &nbsp;
-          {/* <div className="instruction-widget">
-            <div className="instruction-header">Sync Your Products</div>
-          </div> */}
         </div>
       </div>
     </div>

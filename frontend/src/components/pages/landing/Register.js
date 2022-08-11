@@ -37,12 +37,7 @@ const Register = () => {
       ...inputUser,
       [field]: value,
     });
-    // if(!!inputUserErrors[field]){
-    //   setInputUserErrors({
-    //     ...inputUserErrors,
-    //     [field]:null
-    //   })
-    // }
+    
   };
 
   const handleSubmit = async (e) => {
@@ -75,14 +70,9 @@ const Register = () => {
       userActions.login(user, '/register').then
       (
         (res) => {
-        // setInputUser({
-        //   username: res.username,
-        //   full_name: res.full_name,
-        //   password: res.password,
-        //   email: res.email,
-        // });
+        
         navigate('/login');
-        // console.log(res.data);
+        
         })
       .catch(error => {
         console.log(error);

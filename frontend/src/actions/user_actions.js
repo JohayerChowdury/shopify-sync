@@ -19,7 +19,6 @@ function useUserActions() {
   return {
     login,
     logout,
-    // forgot_password,
     profile,
   };
 
@@ -53,7 +52,6 @@ function useUserActions() {
     }
   }
 
-  // function forgot_password(user) {}
 
   function profile() {
    return  (JSON.parse(localStorage.getItem("user")));

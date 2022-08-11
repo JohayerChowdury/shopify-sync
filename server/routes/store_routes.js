@@ -44,16 +44,7 @@ storeRouter.use(
 
 storeRouter
   .route('/:storeId')
-  //FOR EJS VIEW: stores/show
-  // .get(async (req, res, next) => {
-  //   let storeId = req.params.storeId;
-  //   const store = await StoreModel.findOne({ storeId: storeId }).exec();
-  //   // console.log('Found store: ' + store);
-  //   if (store == null) {
-  //     res.redirect('/');
-  //   }
-  //   res.render('stores/show', { store: store });
-  // })
+  
   .get(authenticationJWT, StoreController.getOne)
   .put(authenticationJWT, StoreController.update)
   .delete(authenticationJWT, StoreController.delete);

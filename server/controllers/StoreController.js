@@ -65,36 +65,7 @@ exports.getOne = async (req, res) => {
   }
 };
 
-// exports.add = async (req, res) => {
-//   let store = req.store;
-//   if (!req.body.storeId) {
-//     res.status(400).send({ message: 'storeId cannot be empty!' });
-//   } else {
-//     store.storeId = req.body.storeId;
-//   }
-//   if (!req.body.url) {
-//     res.status(400).send({ message: 'url cannot be empty!' });
-//   } else {
-//     store.url = req.body.url;
-//   }
-//   if (!req.body.access_token) {
-//     res.status(400).send({ message: 'access token cannot be empty!' });
-//   } else {
-//     store.access_token = req.body.access_token;
-//   }
-//   if (!req.body.name) {
-//     res.status(400).send({ message: 'name cannot be empty!' });
-//   } else {
-//     store.name = req.body.name;
-//   }
-//   store.address = req.body.address;
-//   try {
-//     store = await store.save();
-//     res.send(store);
-//   } catch (err) {
-//     res.status(500).send({ message: err.message || 'Error Occurred' });
-//   }
-// };
+
 
 exports.add = (req, res) => {
   // const user = await UserModel.findOne({ownerId: })
@@ -124,39 +95,7 @@ exports.add = (req, res) => {
     });
 };
 
-// exports.update = async (req, res) => {
-//   req.store = await StoreModel.findOne({
-//     storeId: req.params.storeId,
-//   }).exec();
-//   let store = req.store;
-//   if (!req.body.storeId) {
-//     res.status(400).send({ message: 'storeId cannot be empty!' });
-//   } else {
-//     store.storeId = req.body.storeId;
-//   }
-//   if (!req.body.url) {
-//     res.status(400).send({ message: 'url cannot be empty!' });
-//   } else {
-//     store.url = req.body.url;
-//   }
-//   if (!req.body.access_token) {
-//     res.status(400).send({ message: 'access token cannot be empty!' });
-//   } else {
-//     store.access_token = req.body.access_token;
-//   }
-//   if (!req.body.name) {
-//     res.status(400).send({ message: 'name cannot be empty!' });
-//   } else {
-//     store.name = req.body.name;
-//   }
-//   store.address = req.body.address;
-//   try {
-//     store = await store.save();
-//     res.send(store);
-//   } catch (err) {
-//     res.status(500).send({ message: err.message || 'Error Occurred' });
-//   }
-// };
+
 
 exports.update = (req, res) => {
   if (!req.body.url) {

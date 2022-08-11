@@ -100,19 +100,13 @@ exports.login = async (req, res) => {
 
 // can update in the future for user verification (anyone can access a user's forget password)
 exports.forget_password = async (req, res) => {
-  // var check;
-  // if(check != req.body.link){
-  //   return res.status(400).json({msg: "Invalid Link Please Try Again"});
-  // }
+
   var check = await client.get('uuid')
   console.log(check);
   if(check != req.body.link) {
     return res.status(400).json({msg: "Invalid Link Please Try Again"});
   }
-  // var check = validate(req.body.link);
-  // if(!check){
-  //   return res.status(400).json({msg: "Invalid Link"}); 
-  // }
+  
   try {
     const user = await UserModel.findOne({
       username: req.body.username,

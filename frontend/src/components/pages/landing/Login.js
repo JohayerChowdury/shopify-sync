@@ -9,7 +9,6 @@ import { useRecoilValue } from 'recoil';
 import { useUserActions } from '../../../actions/user_actions';
 
 const Login = () => {
-  // const location = useLocation();
   const navigate = useNavigate();
   const auth = useRecoilValue(authAtom);
 
@@ -28,7 +27,6 @@ const Login = () => {
   };
 
   const [inputUser, setInputUser] = useState(initialInputUserState);
-  // const[inputUserErrors, setInputUserErrors] = useState([])
   const [errorMsg, setErrorMsg] = useState();
 
   const handleInputChange = (field, value) => {

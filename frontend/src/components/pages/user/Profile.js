@@ -8,8 +8,6 @@ import { useUserActions } from '../../../actions/user_actions';
 
 const Profile = () => {
   const auth = useRecoilValue(authAtom);
-  // const user = useRecoilValue(userAtom);
-  // const userActions = useUserActions();
 
   return (
     <div className="user-info-widget">

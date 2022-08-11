@@ -52,7 +52,6 @@ function useStoreActions() {
       const new_store = await fetchWrapper.post(baseUrl, store);
       console.log('Store actions add store: ' + new_store);
       navigate('/stores');
-      //   navigate(`/stores/${new_store}`);
     } catch (err) {
       console.log(err);
     }
