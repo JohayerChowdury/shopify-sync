@@ -31,7 +31,7 @@ const ChangePassword = () => {
         password: user.newPassword,
       };
       const updatesUser = await axios.post(
-        'http://localhost:5000/shopify_api/users/forgot_password',
+        'http://localhost:5000/shopify_api/users/change_password',
         newUser
       );
       window.location = '/login';
@@ -69,18 +69,6 @@ const ChangePassword = () => {
             required
             onChange={handleChange}
             placeholder="Enter Email"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={user.username}
-            required
-            onChange={handleChange}
-            placeholder="Enter User Name"
           />
         </div>
         <br />

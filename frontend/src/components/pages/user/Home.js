@@ -14,7 +14,7 @@ function Home() {
   return (
     <div className="welcome-banner">
       <div className="welcome-title">
-        <h1>Welcome {auth?.full_name}</h1>
+        <h1>Welcome, {auth.data.user.full_name}</h1>
         <p>
           This is an application that allows users with Shopify stores to easily
           sync their products in MongoDB.
@@ -27,7 +27,7 @@ function Home() {
           &nbsp;
           <div className="instruction-widget">
             <div className="instruction-header">
-              <a href="/stores" className="btn btn-success">
+              <a href="/stores" type = "info">
                 See Your Shopify Stores
               </a>
             </div>

@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap';
 const ForgotPassword = () => {
   const [user, setUser] = useState({
     email: '',
-    username: '',
     newPassword: '',
     newPasswordAgain: '',
   });
@@ -20,7 +19,6 @@ const ForgotPassword = () => {
     try {
       const newUser = {
         email: user.email,
-        username: user.username,
         password: user.newPassword,
         link: parsedLink[4],
       };
@@ -63,18 +61,6 @@ const ForgotPassword = () => {
             required
             onChange={handleChange}
             placeholder="Enter Email"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={user.username}
-            required
-            onChange={handleChange}
-            placeholder="Enter Name"
           />
         </div>
         <br />
