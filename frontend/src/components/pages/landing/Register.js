@@ -75,28 +75,26 @@ const Register = () => {
         
         })
       .catch(error => {
-        console.log(error);
-        setErrorMsg('User Already Exists', {message: error});
+        setErrorMsg('User already exists', {message: error});
       });
 
     }catch(err) {
       err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
         ? setErrorMsg(err.response.data.msg)
-        : setErrorMsg('We have an error!');
+        : setErrorMsg('We have an error');
       
     }
     } catch (err) {
-      console.log(err);
       err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
         ? setErrorMsg(err.response.data.msg)
-        : setErrorMsg('We have an error!');
+        : setErrorMsg('We have an error');
     }
   };
 
   return (
     <div className="register-form-container">
       <div className="form-title">
-        <h1>Register Here</h1>
+        <h1>Register here</h1>
       </div>
       <br />
       {errorMsg && <ErrorMsg msg={errorMsg} />}
@@ -109,7 +107,7 @@ const Register = () => {
             value={inputUser.email}
             required
             onChange={(e) => handleInputChange('email', e.target.value)}
-            placeholder="Enter Email"
+            placeholder="Enter email"
           />
         </div>
         <br />
@@ -141,7 +139,7 @@ const Register = () => {
             name="password"
             value={inputUser.password}
             onChange={(e) => handleInputChange('password', e.target.value)}
-            placeholder="Enter Password"
+            placeholder="Enter password"
           />
         </div>
         <br />
@@ -158,7 +156,7 @@ const Register = () => {
         </div>
         <br />
         <Button variant="info" type="submit" style = {{marginLeft: "35%", padding: 10}}>
-          Register User!
+          Register user
         </Button>
       </form>
     </div>

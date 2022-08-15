@@ -36,10 +36,10 @@ const Profile = () => {
           Username: {auth.data.user.username}
         </div>
         <div className = "user-info-detail">
-          Full Name: {auth.data.user.full_name}
+          Full name: {auth.data.user.full_name}
         </div>
         <Button href= "/change-password" style = {{border: "none", outline: 0, display: "inline-block", padding: "8px", color: "white", backgroundColor: "#000", textAlign:"center", cursor: "pointer", width: "100%", fontSize: "18px"}}>
-          Change Password
+          Change password
         </Button>
       </div>
     

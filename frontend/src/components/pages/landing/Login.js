@@ -51,10 +51,9 @@ const Login = () => {
             password: res.password,
           });
           navigate('/');
-          console.log(res.data);
         })
         .catch(error => {
-          setErrorMsg('Authentication Error');
+          setErrorMsg('Email or password is incorrect, please enter valid credentials.');
         });
       
 
@@ -64,7 +63,7 @@ const Login = () => {
   return (
     <div className="login-form-container">
       <div className="form-title">
-        <h1>Log In</h1>
+        <h1>Login</h1>
       </div>
       <br />
       {errorMsg && <ErrorMsg msg={errorMsg} />}
@@ -78,7 +77,7 @@ const Login = () => {
             value={inputUser.email}
             required
             onChange={(e) => handleInputChange('email', e.target.value)}
-            placeholder="Enter Email"
+            placeholder="Enter email"
           />
         </div>
         <br />
@@ -89,16 +88,16 @@ const Login = () => {
             name="password"
             value={inputUser.password}
             onChange={(e) => handleInputChange('password', e.target.value)}
-            placeholder="Enter Password"
+            placeholder="Enter password"
           />
         </div>
         <br />
 
         <Button variant="info" type="submit" style = {{marginLeft: "38%"}}>
-          Log In!
+          Login
         </Button>
       </form>
-      <a href="/verify-user" style = {{marginLeft: "35%"}}>Forgot Password?</a>
+      <a href="/verify-user" style = {{marginLeft: "35%"}}>Forgot password?</a>
     </div>
   );
 };

@@ -16,19 +16,19 @@ function Home() {
       <div className="welcome-title">
         <h1>Welcome, {auth.data.user.full_name}</h1>
         <p>
-          This is an application that allows users with Shopify stores to easily
+          This is an application that allows users with Shopify Stores to easily
           sync their products in MongoDB.
         </p>
         &nbsp;
         <div className="homepage-subheader">
-          <h2>How This Product Works</h2>
+          <h2>How this service works</h2>
         </div>
         <div className="row">
           &nbsp;
           <div className="instruction-widget">
             <div className="instruction-header">
               <a href="/stores" type = "info">
-                See Your Shopify Stores
+                See your Shopify Stores
               </a>
             </div>
           </div>
