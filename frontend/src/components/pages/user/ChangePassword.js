@@ -31,7 +31,7 @@ const ChangePassword = () => {
         password: user.newPassword,
       };
       const updatesUser = await axios.post(
-        'http://localhost:5000/shopify_api/users/forgot_password',
+        'http://localhost:5000/shopify_api/users/change_password',
         newUser
       );
       window.location = '/login';
@@ -55,7 +55,7 @@ const ChangePassword = () => {
   return (
     <div className="register-form-container">
       <div className="form-title">
-        <h1>Change Password</h1>
+        <h1>Change password</h1>
       </div>
       <br />
       {errorMsg && <ErrorMsg msg={errorMsg} />}
@@ -68,19 +68,7 @@ const ChangePassword = () => {
             value={user.email}
             required
             onChange={handleChange}
-            placeholder="Enter Email"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={user.username}
-            required
-            onChange={handleChange}
-            placeholder="Enter User Name"
+            placeholder="Enter email"
           />
         </div>
         <br />
@@ -90,7 +78,7 @@ const ChangePassword = () => {
             name="newPassword"
             value={user.newPassword}
             onChange={handleChange}
-            placeholder="Enter New Password"
+            placeholder="Enter new password"
           />
         </div>
         <br />
@@ -100,12 +88,12 @@ const ChangePassword = () => {
             name="newPasswordAgain"
             value={user.newPasswordAgain}
             onChange={handleChange}
-            placeholder="Confirm New Password"
+            placeholder="Confirm new password"
           />
         </div>
         <br />
         <Button variant="info" type="submit" style = {{marginLeft: "35%" , padding: 10}}>
-          Change Password
+          Change password
         </Button>
       </form>
     </div>

@@ -11,6 +11,7 @@ userRouter.post('/forgot_password', UserController.forget_password);
 
 userRouter.get('/profile', authenticationJWT, UserController.getOne);
 userRouter.post('/verify_user', UserController.verify_user);
+userRouter.post('/change_password', UserController.change_password);
 
 // userRouter.post('/tokenIsValid', UserController.tokenIsValid);
 

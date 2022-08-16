@@ -25,7 +25,6 @@ function StoreForm() {
 
   const [storeForm, setStoreForm] = useState(initialStoreState);
   const [storeFormErrors, setStoreFormErrors] = useState([]);
-  //   const dispatch = useDispatch();
 
   //https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
   const handleInputChange = (field, value) => {

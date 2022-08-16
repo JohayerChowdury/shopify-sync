@@ -43,7 +43,7 @@ const VerifyUser = () => {
         .post('http://localhost:5000/shopify_api/users/verify_user', 
         user)
         .then(
-            setSuccessMsg("Please Check Your Email")
+            setSuccessMsg("Please check your email for a verification link")
         )
         .catch(error => {
             setErrorMsg("Try a valid email ");
@@ -66,7 +66,7 @@ const VerifyUser = () => {
                     value = {inputUser.email}
                     required
                     onChange = {(e) => handleInputChange('email', e.target.value)}
-                    placeholder = "Enter Email"
+                    placeholder = "Enter email"
                     />
                     <Button variant = "info" type = "submit" style = {{marginLeft: "38%"}}>
                        Submit 

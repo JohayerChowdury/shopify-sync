@@ -30,7 +30,7 @@ const Navigation = () => {
                   <Nav.Link>Database</Nav.Link>
                 </LinkContainer> */}
                 <LinkContainer to="/login">
-                  <Nav.Link onClick={userActions.logout}>Log Out</Nav.Link>
+                  <Nav.Link onClick={userActions.logout}>Logout</Nav.Link>
                 </LinkContainer>
               </Nav>
             ) : (
@@ -40,7 +40,7 @@ const Navigation = () => {
                   <Nav.Link>Register</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/login">
-                  <Nav.Link>Log In</Nav.Link>
+                  <Nav.Link>Login</Nav.Link>
                 </LinkContainer>
               </Nav>
             )}

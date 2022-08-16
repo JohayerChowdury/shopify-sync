@@ -97,34 +97,55 @@ exports.login = async (req, res) => {
     return res.status(500).send({ message: err.message || 'Error Occurred' });
   }
 };
-
-// can update in the future for user verification (anyone can access a user's forget password)
-exports.forget_password = async (req, res) => {
-  // var check;
-  // if(check != req.body.link){
-  //   return res.status(400).json({msg: "Invalid Link Please Try Again"});
-  // }
-  var check = await client.get('uuid')
-  console.log(check);
-  if(check != req.body.link) {
-    return res.status(400).json({msg: "Invalid Link Please Try Again"});
-  }
-  // var check = validate(req.body.link);
-  // if(!check){
-  //   return res.status(400).json({msg: "Invalid Link"}); 
-  // }
+exports.change_password = async (req,res) => {
   try {
     const user = await UserModel.findOne({
-      username: req.body.username,
-      email: req.body.email,
+      email: req.body.email
     });
     if (!user) {
-      return res.status(400).json({ msg: "User doesn't exist" });
+      return res.status(400).json({ msg: "User Doesn't Exist, if this is an issue contact test@shyftlabs.io" });
     }
     const salt = await bcrypt.genSalt(10);
     await bcrypt.hash(req.body.password, salt, function (req, hash) {
       var newValues = {
-        username: user.username,
+        email: user.email,
+        password: hash,
+      };
+      UserModel.updateOne(user, newValues, function (err, res) {
+        if (err) {
+          console.log(err);
+        }
+      });
+      user.save().then((user) => {
+        res.status(200).send(user);
+      });
+    });
+  } catch (err) {
+    return res.status(500).send({ message: err.message || 'Error Occurred' });
+  }
+
+
+};
+
+// can update in the future for user verification (anyone can access a user's forget password)
+exports.forget_password = async (req, res) => {
+
+  var check = await client.get('uuid')
+  console.log(check);
+  if(check != req.body.link) {
+    return res.status(400).json({msg: "The link you used is invalid, please try again"});
+  }
+  
+  try {
+    const user = await UserModel.findOne({
+      email: req.body.email
+    });
+    if (!user) {
+      return res.status(400).json({ msg: "User doesnt exist, if this is a mistake, please contact test@shyftlabs.io" });
+    }
+    const salt = await bcrypt.genSalt(10);
+    await bcrypt.hash(req.body.password, salt, function (req, hash) {
+      var newValues = {
         email: user.email,
         password: hash,
       };

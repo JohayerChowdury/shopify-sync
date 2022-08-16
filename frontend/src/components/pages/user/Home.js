@@ -10,38 +10,29 @@ function Home() {
   const user = useRecoilValue(userAtom);
   const userActions = useUserActions();
 
-  // useEffect(() => {
-  //   userActions.profile(user);
-  // }, []);
 
   return (
     <div className="welcome-banner">
       <div className="welcome-title">
-        <h1>Welcome {auth?.full_name}</h1>
+        <h1>Welcome, {auth.data.user.full_name}</h1>
         <p>
-          This is an application that allows users with Shopify stores to easily
+          This is an application that allows users with Shopify Stores to easily
           sync their products in MongoDB.
         </p>
         &nbsp;
         <div className="homepage-subheader">
-          <h2>How This Product Works</h2>
+          <h2>How this service works</h2>
         </div>
         <div className="row">
-          {/* <div className="instruction-widget">
-            <div className="instruction-header">Connect To Your Database</div>
-          </div> */}
           &nbsp;
           <div className="instruction-widget">
             <div className="instruction-header">
-              <a href="/stores" className="btn btn-success">
-                See Your Shopify Stores
+              <a href="/stores" type = "info">
+                See your Shopify Stores
               </a>
             </div>
           </div>
           &nbsp;
-          {/* <div className="instruction-widget">
-            <div className="instruction-header">Sync Your Products</div>
-          </div> */}
         </div>
       </div>
     </div>

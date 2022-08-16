@@ -51,12 +51,9 @@ mongoose
       next();
     });
 
-    // //assiging view to engine to ejs
-    // app.set('view engine', 'ejs');
 
     //homepage
     app.get('/', (req, res) => {
-      // res.render('index');
     });
     
 
