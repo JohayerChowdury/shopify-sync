@@ -50,4 +50,4 @@ jobs:
           SSH_KEY: ${{ secrets.EC2_KEY }}
           SSH_HOST: ${{ secrets.EC2_HOST }}
       - name: server
-        run: ssh test 'sudo cp /home/ubuntu/app.tar.gz /var/www/app && cd /var/www/app && sudo tar zxf app.tar.gz && sudo rm -rf app.tar.gz'
+        run: ssh test 'sudo cp -r /home/ubuntu/build/* /var/www/app'
