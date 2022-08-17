@@ -27,9 +27,9 @@ exports.register = async (req, res) => {
   //   return res.status(400).json({ msg: 'Please enter in all fields' });
   // }
   // const user = await UserModel.findOne({ email: req.body.email });
-  // if (user) {
-  //   return res.status(400).json({ msg: 'User already exists' });
-  // }
+  if (user) {
+    return res.status(400).json({ msg: 'User already exists' });
+  }
   //const salt = await bcrypt.genSalt(10);
   //const hashedPassword = await bcrypt.hash(req.body.password, salt);
   bcrypt.genSalt(10, function (err, salt) {
@@ -187,7 +187,7 @@ exports.verify_user = async (req, res) => {
           Html: {
             Charset: "UTF-8",
             Data: `<p><b>Hello,</b></p> 
-            <p>Here is the link to reset your password: http://localhost:3000/forgot-password/${code}</p> </br>
+            <p>Here is the link to reset your password: ${process.ENV.EMAIL_WEB_URI}${code}</p> </br>
             <p>Sincerely,</p>
             <p>ShyftLabs Service Team</p>`
 

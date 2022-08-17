@@ -43,52 +43,44 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); //prevents from being submitted until these actions have been run
 
-    try {
-      let user = {
-        // inputs a new user into the mongoDb base
-        email: inputUser.email,
-        username: inputUser.username,
-        password: inputUser.password,
-        full_name: inputUser.full_name,
-      };
+        let user = {
+          // inputs a new user into the mongoDb base
+          email: inputUser.email,
+          username: inputUser.username,
+          password: inputUser.password,
+          full_name: inputUser.full_name,
+        };
 
-      if (inputUser.password !== inputUser.confirmPassword) {
-        // if the confirmed password is not the same as the initial
-        setErrorMsg('Enter the same password twice!');
-        return;
-      }
-      if (
-        inputUser.password.length == 0 ||
-        inputUser.username.length == 0 ||
-        inputUser.confirmPassword.length == 0
-      ) {
-        setErrorMsg('Please enter in the missing field(s)');
-        return;
-      }
-      try{
-      console.log(user);
-      userActions.login(user, '/register').then
-      (
-        (res) => {
-        
-        navigate('/login');
-        
+        if (inputUser.password !== inputUser.confirmPassword) {
+          // if the confirmed password is not the same as the initial
+          setErrorMsg('Enter the same password twice!');
+          return;
+        }
+        if (
+          inputUser.password.length == 0 ||
+          inputUser.username.length == 0 ||
+          inputUser.confirmPassword.length == 0
+        ) {
+          setErrorMsg('Please enter in the missing field(s)');
+          return;
+        };
+        console.log(user);
+        userActions
+        .login(user, '/register').then((res) => {
+          setInputUser({
+            email: res.email,
+            password: res.password,
+          }); 
+          navigate('/login');
+
         })
-      .catch(error => {
-        setErrorMsg('User already exists', {message: error});
-      });
+        .catch(error => {
+          console.log("hi");
+          setErrorMsg('User already exists');
+        });
 
-    }catch(err) {
-      err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
-        ? setErrorMsg(err.response.data.msg)
-        : setErrorMsg('We have an error');
-      
-    }
-    } catch (err) {
-      err.response.data.msg // catches an error with its respective message, if no message than just says we have an error
-        ? setErrorMsg(err.response.data.msg)
-        : setErrorMsg('We have an error');
-    }
+    
+    
   };
 
   return (
