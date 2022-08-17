@@ -14,13 +14,16 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v1
-    - run: npm install
-    - run: tar zcf api.tar.gz server/*
+    - run: |
+        cd server 
+        npm install
+        tar zcf api.tar.gz *
+    #- run: tar zcf api.tar.gz server/*
     - name: executing remote ssh commands using ssh key
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY }}
-        SOURCE: "api.tar.gz"
+        SOURCE: "server/api.tar.gz"
         REMOTE_HOST: ${{ secrets.EC2_HOST }}
         REMOTE_USER: ${{ secrets.EC2_USER }}
         TARGET: ${{ secrets.EC2_TARGET }}
