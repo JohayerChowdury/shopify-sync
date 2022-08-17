@@ -7,6 +7,8 @@ Server .env file holds following parameters:
 
 - JWT_SECRET
 
+- EMAIL_WEB_URI
+
 Front .env file holds following parameters:
 
 - REACT_APP_API_URL
