@@ -16,6 +16,7 @@ jobs:
       uses: actions/checkout@v1
     - run: |
         cd frontend
+        npm install
         npm run build
     #- run: npm run build
     #- run: tar zcf app.tar.gz frontend/* 
