@@ -17,7 +17,7 @@ jobs:
     - run: |
         cd frontend
         npm install
-        CI=true npm run build
+        CI=false npm run build
     #- run: npm run build
     #- run: tar zcf app.tar.gz frontend/* 
     - name: executing remote ssh commands using ssh key
