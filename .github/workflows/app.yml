@@ -1,0 +1,50 @@
+name: app
+on: 
+  workflow_dispatch:
+  push:
+    paths-ignore:
+    - '.github/**' # Ignore changes towards the .github directory
+    branches:
+    - master # Only trigger on the master branch
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v1
+    - run: npm install
+    - run: npm run build
+    - run: tar zcf app.tar.gz frontend/* 
+    - name: executing remote ssh commands using ssh key
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY }}
+        SOURCE: "app.tar.gz"
+        REMOTE_HOST: ${{ secrets.EC2_HOST }}
+        REMOTE_USER: ${{ secrets.EC2_USER }}
+        TARGET: ${{ secrets.EC2_TARGET }}
+  deploy:
+    needs: build
+    name: "Deploy to server"
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/test.key
+          chmod 600 ~/.ssh/test.key
+          cat >>~/.ssh/config <<END
+          Host test
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/test.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.EC2_USER }}
+          SSH_KEY: ${{ secrets.EC2_KEY }}
+          SSH_HOST: ${{ secrets.EC2_HOST }}
+      - name: server
+        run: ssh test 'sudo cp /home/ubuntu/app.tar.gz /var/www/app && cd /var/www/app && sudo tar zxf app.tar.gz && sudo rm -rf app.tar.gz'

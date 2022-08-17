@@ -1,0 +1,49 @@
+name: api
+on: 
+  workflow_dispatch:
+  push:
+    paths-ignore:
+    - '.github/**' # Ignore changes towards the .github directory
+    branches:
+    - master # Only trigger on the master branch
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v1
+    - run: npm install
+    - run: tar zcf api.tar.gz server/*
+    - name: executing remote ssh commands using ssh key
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY }}
+        SOURCE: "api.tar.gz"
+        REMOTE_HOST: ${{ secrets.EC2_HOST }}
+        REMOTE_USER: ${{ secrets.EC2_USER }}
+        TARGET: ${{ secrets.EC2_TARGET }}
+  deploy:
+    needs: build
+    name: "Deploy to server"
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/test.key
+          chmod 600 ~/.ssh/test.key
+          cat >>~/.ssh/config <<END
+          Host test
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/test.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.EC2_USER }}
+          SSH_KEY: ${{ secrets.EC2_KEY }}
+          SSH_HOST: ${{ secrets.EC2_HOST }}
+      - name: server
+        run: ssh test 'sudo cp /home/ubuntu/api.tar.gz /var/www/api && cd /var/www/api && sudo tar zxf api.tar.gz && sudo rm -rf api.tar.gz'
