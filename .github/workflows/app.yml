@@ -14,14 +14,17 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v1
-    - run: npm install
-    - run: npm run build
-    - run: tar zcf app.tar.gz frontend/* 
+    - run: |
+        cd frontend
+        npm install
+        npm run build
+    #- run: npm run build
+    #- run: tar zcf app.tar.gz frontend/* 
     - name: executing remote ssh commands using ssh key
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY }}
-        SOURCE: "app.tar.gz"
+        SOURCE: "frontend/build"
         REMOTE_HOST: ${{ secrets.EC2_HOST }}
         REMOTE_USER: ${{ secrets.EC2_USER }}
         TARGET: ${{ secrets.EC2_TARGET }}
