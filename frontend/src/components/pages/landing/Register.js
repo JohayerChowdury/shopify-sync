@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
-import { Button } from 'react-bootstrap';
+import { Button , Form, Col, Row} from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { authAtom } from '../../../states/authStates';
@@ -84,73 +84,47 @@ const Register = () => {
   };
 
   return (
-    <div className="register-form-container">
-      <div className="form-title">
-        <h1>Register here</h1>
+    <div className = "register-form-container">
+      <div className = "form-title">
+        Register
       </div>
-      <br />
-      {errorMsg && <ErrorMsg msg={errorMsg} />}
-
-      <form onSubmit={handleSubmit}>
-        <div className="input">
-          <input
-            type="email"
-            name="email"
-            value={inputUser.email}
-            required
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            placeholder="Enter email"
-          />
-        </div>
+      <Form onSubmit = {handleSubmit}>
+        <Row className='mb-3'>
+        <Form.Group as={Col} controlId="formGridEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control  placeholder="Enter email" />
+        </Form.Group>
+          <Form.Group as={Col} controlId="formGridFullname">
+            <Form.Label>Full Name</Form.Label>
+            <Form.Control  name = "full_name" placeholder="John Doe" />
+          </Form.Group>
+        </Row>
+        <Form.Group className="mb-3" controlId="formGridUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control name = "username" placeholder="JohnShyft" />
+        </Form.Group>
+        <Row className='mb-3'>
+        <Form.Group as={Col} controlId="formGridPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control name = "password"  placeholder="password" />
+        </Form.Group>
+          <Form.Group as={Col} controlId="formGridConfirmPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control  name = "confirm_password" placeholder="password" />
+          </Form.Group>
+        </Row>
         <br />
-        <div className="input">
-          <input
-            type="text"
-            name="username"
-            value={inputUser.username}
-            required
-            onChange={(e) => handleInputChange('username', e.target.value)}
-            placeholder="Enter username"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="text"
-            name="full_name"
-            value={inputUser.full_name}
-            required
-            onChange={(e) => handleInputChange('full_name', e.target.value)}
-            placeholder="Enter full name"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="password"
-            name="password"
-            value={inputUser.password}
-            onChange={(e) => handleInputChange('password', e.target.value)}
-            placeholder="Enter password"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="password"
-            name="confirmPassword"
-            value={inputUser.confirmPassword}
-            onChange={(e) =>
-              handleInputChange('confirmPassword', e.target.value)
-            }
-            placeholder="Confirm password"
-          />
-        </div>
-        <br />
-        <Button variant="info" type="submit" style = {{marginLeft: "35%", padding: 10}}>
-          Register user
+        {errorMsg && <ErrorMsg msg={errorMsg} />}
+        <Button variant = "primary" type = "submit" style = {{margin: -20 -50 , position: "relative", top: "50%", left: "50%"}}>
+          Register
         </Button>
-      </form>
+        <br />
+        <br />
+        <Button variant = "primary" href = "/login" style={{marginLeft: "25%"}}>
+          Have an account? Login
+        </Button>
+
+      </Form>
     </div>
   );
 };

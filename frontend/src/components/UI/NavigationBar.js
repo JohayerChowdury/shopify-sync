@@ -36,12 +36,6 @@ const Navigation = () => {
             ) : (
               // when the user isn't logged in
               <Nav className="ml-auto">
-                <LinkContainer to="/register">
-                  <Nav.Link>Register</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/login">
-                  <Nav.Link>Login</Nav.Link>
-                </LinkContainer>
               </Nav>
             )}
           </Navbar.Collapse>
