@@ -92,25 +92,25 @@ const Register = () => {
         <Row className='mb-3'>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control name = "email" placeholder="Enter email" />
+          <Form.Control name = "email" placeholder="Enter email" required onChange={(e) => handleInputChange('email', e.target.value)}/>
         </Form.Group>
           <Form.Group as={Col} controlId="formGridFullname">
             <Form.Label>Full Name</Form.Label>
-            <Form.Control  name = "full_name" placeholder="John Doe" />
+            <Form.Control  name = "full_name"  placeholder="John Doe" required onChange={(e) => handleInputChange('full_name', e.target.value)} />
           </Form.Group>
         </Row>
         <Form.Group className="mb-3" controlId="formGridUsername">
         <Form.Label>Username</Form.Label>
-        <Form.Control name = "username" placeholder="JohnShyft" />
+        <Form.Control name = "username"  placeholder="JohnShyft" required onChange={(e) => handleInputChange('username', e.target.value)}/>
         </Form.Group>
         <Row className='mb-3'>
         <Form.Group as={Col} controlId="formGridPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control name = "password"  placeholder="password" />
+          <Form.Control name = "password"  placeholder="password" required onChange={(e) => handleInputChange('password', e.target.value)} />
         </Form.Group>
           <Form.Group as={Col} controlId="formGridConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control  name = "confirm_password" placeholder="password" />
+            <Form.Control  name = "confirmPassword"  placeholder="password" required onChange={(e) => handleInputChange('confirmPassword', e.target.value)} />
           </Form.Group>
         </Row>
         <br />

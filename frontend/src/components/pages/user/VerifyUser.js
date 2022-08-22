@@ -59,7 +59,7 @@ const VerifyUser = () => {
                 <Row className = "mb-3">
                 <Form.Group as = {Col} controlId = "formGridEmail">
                     <Form.Label style = {{marginLeft: "10%"}}>Email</Form.Label>
-                    <Form.Control name = "email" placeholder = "Enter email" required style = {{marginLeft: "10%" ,width: "80%"}}/>
+                    <Form.Control name = "email" placeholder = "Enter email" required style = {{marginLeft: "10%" ,width: "80%"}} onChange={(e) => handleInputChange('email', e.target.value)}/>
                 </Form.Group>
                 </Row>
                 <br />

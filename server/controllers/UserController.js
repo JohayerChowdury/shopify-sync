@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
   // if (!req.body.username || !req.body.password || !req.body.email) {
   //   return res.status(400).json({ msg: 'Please enter in all fields' });
   // }
-  // const user = await UserModel.findOne({ email: req.body.email });
+  const user = await UserModel.findOne({ email: req.body.email });
   if (user) {
     return res.status(400).json({ msg: 'User already exists' });
   }
@@ -94,7 +94,7 @@ exports.login = async (req, res) => {
       return res.status(400).send({message: err.message || 'Error Occurred'});
     }
   } catch (err) {
-    return res.status(500).send({ message: err.message || 'Error Occurred' });
+    return res.status(400).send({ message: err.message || 'Error Occurred' });
   }
 };
 exports.change_password = async (req,res) => {
@@ -187,7 +187,7 @@ exports.verify_user = async (req, res) => {
           Html: {
             Charset: "UTF-8",
             Data: `<p><b>Hello,</b></p> 
-            <p>Here is the link to reset your password: ${process.ENV.EMAIL_WEB_URI}${code}</p> </br>
+            <p>Here is the link to reset your password: ${process.env.EMAIL_WEB_URI}${code}</p> </br>
             <p>Sincerely,</p>
             <p>ShyftLabs Service Team</p>`
 

@@ -44,22 +44,21 @@ input[type='password'] {
 }
 .welcome-title {
   text-align: center;
-  font-family: 'georgia', serif;
+  font-family: 'georgia', sans-serif;
   color: #ffffff;
 }
 .welcome-banner {
   padding: 16px;
-  background-color: #56ccf2;
+  background-color: #000;
   justify-content: center;
-  background-image: url('https://images.unsplash.com/photo-1590859808308-3d2d9c515b1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZGF0YWJhc2V8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60');
+  /* background-image: url('https://images.unsplash.com/photo-1590859808308-3d2d9c515b1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZGF0YWJhc2V8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60'); */
   height: 100px;
 }
 
 .homepage-subheader {
   text-align: center;
-  font-family: 'open sane', 'serif';
+  font-family: 'open sane', 'sans-serif';
   color: #33454f;
-  text-shadow: 2px 2px 5px #56ccf2;
 }
 .instruction-widget {
   background-color: azure;

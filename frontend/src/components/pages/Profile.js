@@ -22,26 +22,55 @@ const Profile = () => {
   // console.log(userActions.profile(auth.data.user.token));
   // if(auth.data.user != undefined){
   return (
-      <div className = "user-info-widget">
-        <div className = "profile-page-title">
-          Profile
-        </div>
-        <div className = "user-info-detail">
-          UserID: {auth.data.user._id}
-        </div>
-        <div className = "user-info-detail">
-          Email : {auth.data.user.email}
-        </div>
-        <div className = "user-info-detail">
-          Username: {auth.data.user.username}
-        </div>
-        <div className = "user-info-detail">
-          Full name: {auth.data.user.full_name}
-        </div>
-        <Button href= "/change-password" style = {{border: "none", outline: 0, display: "inline-block", padding: "8px", color: "white", backgroundColor: "#000", textAlign:"center", cursor: "pointer", width: "100%", fontSize: "18px"}}>
-          Change password
-        </Button>
-      </div>
+    <>
+    <div className = "profile-page-title">
+      Profile
+    </div>
+    <br />
+    &nbsp;
+    <Col className="col-6">
+      <Card className="flex-fill">
+        <Card.Title>
+          User ID
+        </Card.Title>
+        <Card.Subtitle>
+          {auth.data.user._id}
+        </Card.Subtitle>
+      </Card>
+      <br />
+      <Card className="flex-fill">
+        <Card.Title>
+          Email
+        </Card.Title>
+        <Card.Subtitle>
+          {auth.data.user.email}
+        </Card.Subtitle>
+      </Card>
+      <br />
+    </Col><Col className="col-6">
+        <Card className="flex-fill">
+          <Card.Title>
+            Username
+          </Card.Title>
+          <Card.Subtitle>
+            {auth.data.user.username}
+          </Card.Subtitle>
+        </Card>
+        <br />
+        <Card className="flex-fill">
+          <Card.Title>
+            Full Name
+          </Card.Title>
+          <Card.Subtitle>
+            {auth.data.user.full_name}
+          </Card.Subtitle>
+        </Card>
+        <br />
+          <Button href = "/change-password" >
+            Change Password
+          </Button>
+
+      </Col></>
     
   );
 }

@@ -69,13 +69,13 @@ const Login = () => {
         <Row className = "mb-3">
           <Form.Group as = {Col} controlId = "formGridEmail">
             {/* <Form.Label>Email</Form.Label> */}
-            <Form.Control type = "email" name = "email" placeholder = "Enter email"/>
+            <Form.Control type = "email"  name = "email" placeholder = "Enter email" onChange={(e) => handleInputChange('email', e.target.value)}/>
           </Form.Group>
         </ Row>
         <Row className = "mb-3">
-          <Form.Group as = {Col} controlId = "formGridEmail">
+          <Form.Group as = {Col} controlId = "formGridPassword">
             {/* <Form.Label>Password</Form.Label> */}
-            <Form.Control type = "password" name = "password" placeholder = "Enter password"></Form.Control>
+            <Form.Control type = "password"  name = "password" placeholder = "Enter password" onChange={(e) => handleInputChange('password', e.target.value)}></Form.Control>
           </Form.Group>
         </Row>
         <Row className='mb-3'>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Card, ListGroup } from 'react-bootstrap';
+import { Button, Card, Col } from 'react-bootstrap';
 
 import { userAtom } from '../../../states/userStates';
 import { authAtom } from '../../../states/authStates';
@@ -11,20 +11,55 @@ const Profile = () => {
   const auth = useRecoilValue(authAtom);
 
   return (
-    <div>
-      <Card style = {{width: '18'}}>
-        <Card.Title>Profile</Card.Title>
-        <ListGroup variant = "flush">
-          <ListGroup.Item>User ID: {auth.data.user._id}</ListGroup.Item>
-          <ListGroup.Item>Username: {auth.data.user.username}</ListGroup.Item>
-          <ListGroup.Item>Email: {auth.data.user.email}</ListGroup.Item>
-          <ListGroup.Item>Full Name: {auth.data.user.full_name}</ListGroup.Item>
-        </ListGroup>
-        <Card.Link href = "/change-password">
-          Change Password
-        </Card.Link>
-      </Card>
+    <>
+    <div className = "profile-page-title">
+      Profile
     </div>
+    <br />
+    &nbsp;
+    <Col className="col-6">
+      <Card className="flex-fill">
+        <Card.Title>
+          User ID
+        </Card.Title>
+        <Card.Subtitle>
+          {auth.data.user._id}
+        </Card.Subtitle>
+      </Card>
+      <br />
+      <Card className="flex-fill">
+        <Card.Title>
+          Email
+        </Card.Title>
+        <Card.Subtitle>
+          {auth.data.user.email}
+        </Card.Subtitle>
+      </Card>
+      <br />
+    </Col><Col className="col-6">
+        <Card className="flex-fill">
+          <Card.Title>
+            Username
+          </Card.Title>
+          <Card.Subtitle>
+            {auth.data.user.username}
+          </Card.Subtitle>
+        </Card>
+        <br />
+        <Card className="flex-fill">
+          <Card.Title>
+            Full Name
+          </Card.Title>
+          <Card.Subtitle>
+            {auth.data.user.full_name}
+          </Card.Subtitle>
+        </Card>
+        <br />
+          <Button href = "/change-password" >
+            Change Password
+          </Button>
+
+      </Col></>
   );
 };
 export default Profile;
