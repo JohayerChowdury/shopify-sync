@@ -92,7 +92,7 @@ const Register = () => {
         <Row className='mb-3'>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control  placeholder="Enter email" />
+          <Form.Control name = "email" placeholder="Enter email" />
         </Form.Group>
           <Form.Group as={Col} controlId="formGridFullname">
             <Form.Label>Full Name</Form.Label>
@@ -115,16 +115,22 @@ const Register = () => {
         </Row>
         <br />
         {errorMsg && <ErrorMsg msg={errorMsg} />}
-        <Button variant = "primary" type = "submit" style = {{margin: -20 -50 , position: "relative", top: "50%", left: "50%"}}>
+
+        <Row className = "mb-3">
+        
+        <Button variant = "primary" type = "submit">
           Register
         </Button>
-        <br />
-        <br />
-        <Button variant = "primary" href = "/login" style={{marginLeft: "25%"}}>
+        </Row>
+        <a href = "/login">
           Have an account? Login
-        </Button>
+        </a>
+        <br />
+        <br />
+        
 
       </Form>
+      
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
 import SuccessMsg from '../../UI/SuccessMsg';
-import { Button } from 'react-bootstrap';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import '../landing/styles.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -55,24 +55,18 @@ const VerifyUser = () => {
                 <h1>Verify User</h1>
             </div>
             <br />
-            {errorMsg && <ErrorMsg msg = {errorMsg} /> }
-            {successMsg && <SuccessMsg msg = {successMsg} />}
-            <form onSubmit = {handleSubmit}>
-                <div className = "input">
-                    <input
-                    type = "email"
-                    id = "email"
-                    name = "email"
-                    value = {inputUser.email}
-                    required
-                    onChange = {(e) => handleInputChange('email', e.target.value)}
-                    placeholder = "Enter email"
-                    />
-                    <Button variant = "info" type = "submit" style = {{marginLeft: "38%"}}>
-                       Submit 
-                    </Button>
-                </div>
-            </form>
+            <Form onSubmit = {handleSubmit}>
+                <Row className = "mb-3">
+                <Form.Group as = {Col} controlId = "formGridEmail">
+                    <Form.Label style = {{marginLeft: "10%"}}>Email</Form.Label>
+                    <Form.Control name = "email" placeholder = "Enter email" required style = {{marginLeft: "10%" ,width: "80%"}}/>
+                </Form.Group>
+                </Row>
+                <br />
+                <Button type = "submit" variant = "primary" style = {{marginLeft: "10%" ,width: "80%"}} >
+                    Submit
+                </Button>
+            </Form>
         </div>
         
 

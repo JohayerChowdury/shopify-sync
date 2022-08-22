@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col, Form } from 'react-bootstrap';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,43 +61,41 @@ const Login = () => {
   };
 
   return (
-    <div className="login-form-container">
-      <div className="form-title">
-        <h1>Login</h1>
+    <div className = "login-form-container">
+      <div className = "form-title">
+        Login
       </div>
+      <Form onSubmit = {handleSubmit}>
+        <Row className = "mb-3">
+          <Form.Group as = {Col} controlId = "formGridEmail">
+            {/* <Form.Label>Email</Form.Label> */}
+            <Form.Control type = "email" name = "email" placeholder = "Enter email"/>
+          </Form.Group>
+        </ Row>
+        <Row className = "mb-3">
+          <Form.Group as = {Col} controlId = "formGridEmail">
+            {/* <Form.Label>Password</Form.Label> */}
+            <Form.Control type = "password" name = "password" placeholder = "Enter password"></Form.Control>
+          </Form.Group>
+        </Row>
+        <Row className='mb-3'>
+          {errorMsg && <ErrorMsg msg = {errorMsg} /> }
+        </Row>
+        <Row className = "mb-3">
+          <Button variant = "primary" type = "submit" style = {{marginLeft: "12%" , width: "25%"}}>
+            Login
+          </Button>
+        </Row>
+        <Row className = "mb-3">
+          <a href = "/register" style = {{marginLeft: "10%"}}>
+            Sign up
+          </a>
+          <a href = "/verify-user" style = {{marginLeft: "10%"}}>
+            Forgot Password?
+          </a>
+        </Row>
+      </Form>
       <br />
-      {errorMsg && <ErrorMsg msg={errorMsg} />}
-
-      <form onSubmit={handleSubmit}>
-        <div className="input">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={inputUser.email}
-            required
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            placeholder="Enter email"
-          />
-        </div>
-        <br />
-
-        <div className="input">
-          <input
-            type="password"
-            name="password"
-            value={inputUser.password}
-            onChange={(e) => handleInputChange('password', e.target.value)}
-            placeholder="Enter password"
-          />
-        </div>
-        <br />
-
-        <Button variant="info" type="submit" style = {{marginLeft: "38%"}}>
-          Login
-        </Button>
-      </form>
-      <a href="/verify-user" style = {{marginLeft: "35%"}}>Forgot password?</a>
     </div>
   );
 };
