@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStoreActions, useUserActions } from '../../../actions';
 
@@ -87,6 +87,7 @@ function StoreDetails() {
         .then((res) => {
           console.log(res.data);
           setMessage('Store was updated successfully!');
+          console.log(message);
         })
         .catch((err) => {
           console.log(err);
@@ -102,8 +103,9 @@ function StoreDetails() {
       .remove(storeId)
       .then((res) => {
         console.log(res.data);
-        navigate('/stores');
         setMessage('Store was deleted successfully!');
+        console.log(message);
+        navigate('/stores');
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +113,8 @@ function StoreDetails() {
   }
 
   return (
-    <div className="container">
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+      {message ? <Alert>{message}</Alert> : ''}
       <Form>
         {/* Form Group for Store Name, apply comments throughout other form groups */}
         <Form.Group className="mb-3">
@@ -182,26 +185,37 @@ function StoreDetails() {
             {storeFormErrors.address}
           </Form.Control.Feedback>
         </Form.Group>
-        <div className="buttons">
-          <Button variant="danger" type="button" onClick={deleteStore}>
-            Delete
-          </Button>
-          <Button variant="info" type="button" onClick={updateStore}>
-            Update
-          </Button>
-          <p>{message}</p>
-          <a href="/stores" className="btn btn-success">
-            Back to Stores
-          </a>
-          <a
-            href={'/stores/' + storeId + '/products'}
-            className="btn btn-warning"
-          >
-            View Store's Products{' '}
-          </a>
-        </div>
+        <Row>
+          <Col>
+            <a
+              href={'/stores/' + storeId + '/products'}
+              className="btn btn-warning"
+            >
+              View Store's Products{' '}
+            </a>
+          </Col>
+          <Col>
+            <Button variant="info" type="button" onClick={updateStore}>
+              Update
+            </Button>
+          </Col>
+        </Row>
+        <Row className="mb-3"></Row>
+
+        <Row>
+          <Col>
+            <a href="/stores" className="btn btn-success">
+              Back to Stores
+            </a>
+          </Col>
+          <Col>
+            <Button variant="danger" type="button" onClick={deleteStore}>
+              Delete
+            </Button>
+          </Col>
+        </Row>
       </Form>
-    </div>
+    </Container>
   );
 }
 export default StoreDetails;

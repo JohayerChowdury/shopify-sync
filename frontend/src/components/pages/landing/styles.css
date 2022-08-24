@@ -1,32 +1,4 @@
-
-.login-form-container {
-  position: relative;
-  height: 400px;
-  width: 500px;
-  margin: auto;
-  box-shadow: 0px 0px 3px #000;
-  margin-top: 10%;
-  border-radius: 2px;
-}
-.register-form-container {
-  position: relative;
-  height: 600px;
-  width: 500px;
-  margin: auto;
-  box-shadow: 0px 0px 3px #000;
-  margin-top: 10%;
-  border-radius: 2px;
-  padding: 20px;
-  
-}
-.form-title {
-  text-align: center;
-  font-family: 'Times New Roman', sans-serif;
-  padding: 1rem 0;
-  font-size: 3rem;
-  border-radius: 8px;
-}
-input[type='email'],
+/* input[type='email'],
 input[type='text'],
 input[type='password'] {
   width: 75%;
@@ -38,13 +10,13 @@ input[type='password'] {
   box-sizing: border-box;
   color: #000;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-::placeholder{
-  color: #4c4c4d
-}
+} */
+/* ::placeholder {
+  color: #4c4c4d;
+} */
 .welcome-title {
   text-align: center;
-  font-family: 'georgia', sans-serif;
+  /* font-family: 'georgia', sans-serif; */
   color: #ffffff;
 }
 .welcome-banner {
@@ -53,51 +25,4 @@ input[type='password'] {
   justify-content: center;
   /* background-image: url('https://images.unsplash.com/photo-1590859808308-3d2d9c515b1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZGF0YWJhc2V8ZW58MHx8MHx8&auto=format&fit=crop&w=600&q=60'); */
   height: 100px;
-}
-
-.homepage-subheader {
-  text-align: center;
-  font-family: 'open sane', 'sans-serif';
-  color: #33454f;
-}
-.instruction-widget {
-  background-color: azure;
-  width: 250px;
-  height: 100px;
-  max-width: 500px;
-  min-width: 100px;
-  max-height: 600px;
-  margin: 75px;
-  border: 2px solid #56ccf2;
-}
-.instruction-header {
-  color: #33454f;
-  font-family: 'Georgia', 'serif';
-  justify-content: center;
-  transform: translate(0, 125%);
-  display: flex;
-  font-size: 18px;
-}
-
-.user-info-widget{
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-}
-.user-info-detail{
-  color: black;
-  font-size: 19px;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-.profile-page-title{
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  width: 100%;
-  font-size: 18px;
 }

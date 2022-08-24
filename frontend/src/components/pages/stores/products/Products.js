@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStoreActions, useUserActions } from '../../../../actions';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+
 function Products() {
   const userActions = useUserActions();
   const storeActions = useStoreActions();
@@ -66,20 +68,27 @@ function Products() {
     );
   });
   return (
-    <div className="container">
-      <h1 className="mb-4">Products</h1>
-      <a href={'/stores/' + storeId} className="btn btn-success">
-        Back to Store
-      </a>
-      <button
-        type="submit"
-        className="btn btn-warning"
-        onClick={() => setSync(true)}
-      >
-        Sync Store Products from Shopify
-      </button>
+    <Container className="col-xs-8 col-lg-6">
+      <h1 className="mt-4 mb-4">Products</h1>
+      <Row className="row-cols-2">
+        <Col>
+          <Button className="btn btn-success" href={'/stores/' + storeId}>
+            Back to Store
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            type="submit"
+            className="btn btn-warning"
+            onClick={() => setSync(true)}
+            // onClick={() => syncProducts}
+          >
+            Sync Store Products from Shopify
+          </Button>
+        </Col>
+      </Row>
       {productsData}
-    </div>
+    </Container>
   );
 }
 

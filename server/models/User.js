@@ -22,4 +22,10 @@ const UserSchema = new mongoose.Schema({
   ],
   required: ['email', 'password'],
 });
+
+UserSchema.pre('remove', function (next) {
+  // Remove all the assignment docs that reference the removed person.
+  this.model('Store').remove({ owner: this._id });
+  next();
+});
 module.exports = mongoose.model('User', UserSchema);

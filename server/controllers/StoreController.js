@@ -41,7 +41,7 @@ const axios = require('axios');
 
 exports.getAll = async (req, res) => {
   try {
-    const stores = await StoreModel.find()
+    const stores = await StoreModel.find({ owner: req.userId })
       .populate('owner')
       .sort({ name: 'asc' })
       .exec();
@@ -65,8 +65,6 @@ exports.getOne = async (req, res) => {
   }
 };
 
-
-
 exports.add = (req, res) => {
   // const user = await UserModel.findOne({ownerId: })
   if (!req.body.url) {
@@ -83,7 +81,7 @@ exports.add = (req, res) => {
     url: req.body.url,
     access_token: req.body.access_token,
     address: req.body.address,
-    owner: req.body.owner,
+    owner: req.userId,
   });
   store
     .save()
@@ -94,8 +92,6 @@ exports.add = (req, res) => {
       res.status(500).send({ message: err.message || 'Error Occurred' });
     });
 };
-
-
 
 exports.update = (req, res) => {
   if (!req.body.url) {
@@ -124,10 +120,15 @@ exports.update = (req, res) => {
     });
 };
 
-exports.delete = async (req, res) => {
+exports.delete = async (req, res, callback) => {
   let storeId = req.params.storeId;
   try {
-    await StoreModel.findByIdAndDelete(storeId);
+    await StoreModel.findByIdAndDelete(storeId, function (err, doc) {
+      if (err) {
+        console.log(err);
+      }
+      doc.remove(callback);
+    });
     res.send({ message: 'Store was deleted successfully!' });
   } catch (err) {
     res.status(500).send({ message: err.message || 'Error Occurred' });

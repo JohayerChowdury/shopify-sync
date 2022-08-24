@@ -1,65 +1,45 @@
-import React, { useEffect } from 'react';
-import { Button, Card, Col } from 'react-bootstrap';
+import React from 'react';
+import { Container, Button, Card, Col, Row } from 'react-bootstrap';
 
-import { userAtom } from '../../../states/userStates';
+// import { userAtom } from '../../../states/userStates';
 import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../../../actions/user_actions';
-
+// import { useUserActions } from '../../../actions/user_actions';
 
 const Profile = () => {
   const auth = useRecoilValue(authAtom);
 
   return (
-    <>
-    <div className = "profile-page-title">
-      Profile
-    </div>
-    <br />
-    &nbsp;
-    <Col className="col-6">
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+      <h1 className="mb-4 text-center">Profile</h1>
       <Card className="flex-fill">
-        <Card.Title>
-          User ID
-        </Card.Title>
-        <Card.Subtitle>
-          {auth.data.user._id}
+        <Card.Title>User ID</Card.Title>
+        <Card.Subtitle className="mt-1">{auth.data.user._id}</Card.Subtitle>
+      </Card>
+      <br />
+      <Card className="flex-fill">
+        <Card.Title>Email</Card.Title>
+        <Card.Subtitle className="mt-1">{auth.data.user.email}</Card.Subtitle>
+      </Card>
+      <br />
+      <Card className="flex-fill">
+        <Card.Title>Username</Card.Title>
+        <Card.Subtitle className="mt-1">
+          {auth.data.user.username}
         </Card.Subtitle>
       </Card>
       <br />
       <Card className="flex-fill">
-        <Card.Title>
-          Email
-        </Card.Title>
-        <Card.Subtitle>
-          {auth.data.user.email}
+        <Card.Title>Full Name</Card.Title>
+        <Card.Subtitle className="mt-1">
+          {auth.data.user.full_name}
         </Card.Subtitle>
       </Card>
       <br />
-    </Col><Col className="col-6">
-        <Card className="flex-fill">
-          <Card.Title>
-            Username
-          </Card.Title>
-          <Card.Subtitle>
-            {auth.data.user.username}
-          </Card.Subtitle>
-        </Card>
-        <br />
-        <Card className="flex-fill">
-          <Card.Title>
-            Full Name
-          </Card.Title>
-          <Card.Subtitle>
-            {auth.data.user.full_name}
-          </Card.Subtitle>
-        </Card>
-        <br />
-          <Button href = "/change-password" >
-            Change Password
-          </Button>
-
-      </Col></>
+      <Row className="justify-content-center">
+        <Button href="/change-password">Change Password</Button>
+      </Row>
+    </Container>
   );
 };
 export default Profile;

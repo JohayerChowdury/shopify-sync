@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
-import { Button , Form, Col, Row} from 'react-bootstrap';
+import SuccessMsg from '../../UI/SuccessMsg';
+
+import { Container, Button, Form, Col, Row } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { authAtom } from '../../../states/authStates';
@@ -31,107 +33,142 @@ const Register = () => {
   const userActions = useUserActions();
   const [inputUser, setInputUser] = useState(initialInputUserState);
   const [errorMsg, setErrorMsg] = useState();
+  const [successMsg, setSuccessMsg] = useState();
 
   const handleInputChange = (field, value) => {
     setInputUser({
       ...inputUser,
       [field]: value,
     });
-    
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); //prevents from being submitted until these actions have been run
 
-        let user = {
-          // inputs a new user into the mongoDb base
-          email: inputUser.email,
-          username: inputUser.username,
-          password: inputUser.password,
-          full_name: inputUser.full_name,
-        };
+    let user = {
+      // inputs a new user into the mongoDb base
+      email: inputUser.email,
+      username: inputUser.username,
+      password: inputUser.password,
+      full_name: inputUser.full_name,
+    };
 
-        if (inputUser.password !== inputUser.confirmPassword) {
-          // if the confirmed password is not the same as the initial
-          setErrorMsg('Enter the same password twice!');
-          return;
-        }
-        if (
-          inputUser.password.length == 0 ||
-          inputUser.username.length == 0 ||
-          inputUser.confirmPassword.length == 0
-        ) {
-          setErrorMsg('Please enter in the missing field(s)');
-          return;
-        };
-        console.log(user);
-        userActions
-        .login(user, '/register').then((res) => {
-          setInputUser({
-            email: res.email,
-            password: res.password,
-          }); 
-          navigate('/login');
-
-        })
-        .catch(error => {
-          console.log("hi");
-          setErrorMsg('User already exists');
-        });
-
-    
-    
+    if (inputUser.password !== inputUser.confirmPassword) {
+      // if the confirmed password is not the same as the initial
+      setErrorMsg('Enter the same password twice!');
+      return;
+    }
+    if (
+      inputUser.username.length === 0 ||
+      inputUser.email.length === 0 ||
+      inputUser.full_name.length === 0 ||
+      inputUser.password.length === 0 ||
+      inputUser.confirmPassword.length === 0
+    ) {
+      setErrorMsg('Please enter in the missing field(s)');
+      return;
+    }
+    userActions
+      .login(user, '/register')
+      .then((res) => {
+        // setInputUser({
+        //   email: res.email,
+        //   username: res.username,
+        //   password: res.password,
+        //   full_name: res.full_name,
+        // });
+        setSuccessMsg(
+          'User successfully registered! Please head to login page.'
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.msg);
+        setErrorMsg(error.msg || 'User already exists');
+      });
   };
 
   return (
-    <div className = "register-form-container">
-      <div className = "form-title">
-        Register
-      </div>
-      <Form onSubmit = {handleSubmit}>
-        <Row className='mb-3'>
-        <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control name = "email" placeholder="Enter email" required onChange={(e) => handleInputChange('email', e.target.value)}/>
-        </Form.Group>
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+      <Form onSubmit={handleSubmit} className="justify-content-center">
+        <Row className="mb-3 text-center">
+          <h2>Sign Up</h2>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="email"
+              placeholder="Enter email"
+              required
+              onChange={(e) => handleInputChange('email', e.target.value)}
+            />
+          </Form.Group>
           <Form.Group as={Col} controlId="formGridFullname">
             <Form.Label>Full Name</Form.Label>
-            <Form.Control  name = "full_name"  placeholder="John Doe" required onChange={(e) => handleInputChange('full_name', e.target.value)} />
+            <Form.Control
+              name="full_name"
+              placeholder="John Doe"
+              required
+              onChange={(e) => handleInputChange('full_name', e.target.value)}
+            />
           </Form.Group>
         </Row>
         <Form.Group className="mb-3" controlId="formGridUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control name = "username"  placeholder="JohnShyft" required onChange={(e) => handleInputChange('username', e.target.value)}/>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            name="username"
+            placeholder="JohnShyft"
+            required
+            onChange={(e) => handleInputChange('username', e.target.value)}
+          />
         </Form.Group>
-        <Row className='mb-3'>
-        <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control name = "password"  placeholder="password" required onChange={(e) => handleInputChange('password', e.target.value)} />
-        </Form.Group>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="password"
+              required
+              onChange={(e) => handleInputChange('password', e.target.value)}
+            />
+          </Form.Group>
           <Form.Group as={Col} controlId="formGridConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control  name = "confirmPassword"  placeholder="password" required onChange={(e) => handleInputChange('confirmPassword', e.target.value)} />
+            <Form.Control
+              type="password"
+              placeholder="Confirm password"
+              required
+              onChange={(e) =>
+                handleInputChange('confirmPassword', e.target.value)
+              }
+            />
           </Form.Group>
         </Row>
-        <br />
-        {errorMsg && <ErrorMsg msg={errorMsg} />}
-
-        <Row className = "mb-3">
-        
-        <Button variant = "primary" type = "submit">
-          Register
-        </Button>
+        <Row className="mb-3 justify-content-center text-center">
+          {errorMsg && <ErrorMsg msg={errorMsg} />}
         </Row>
-        <a href = "/login">
-          Have an account? Login
-        </a>
-        <br />
-        <br />
-        
-
+        <Row className="mb-3 justify-content-center text-center">
+          {successMsg && <SuccessMsg msg={successMsg} />}
+        </Row>
+        <Row className="mb-3 justify-content-center text-center">
+          <Button variant="success" type="submit" style={{ width: '75%' }}>
+            Register
+          </Button>
+        </Row>
+        <Row className="mb-3"></Row>
+        <Row className="mb-3 justify-content-center">
+          <Button
+            href="/login"
+            variant="primary"
+            type="button"
+            style={{ width: '75%' }}
+          >
+            Have an Account? Login
+          </Button>
+        </Row>
       </Form>
-      
-    </div>
+    </Container>
   );
 };
 

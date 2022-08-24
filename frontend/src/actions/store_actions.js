@@ -50,7 +50,6 @@ function useStoreActions() {
   async function add(store) {
     try {
       const new_store = await fetchWrapper.post(baseUrl, store);
-      console.log('Store actions add store: ' + new_store);
       navigate('/stores');
     } catch (err) {
       console.log(err);
@@ -90,7 +89,7 @@ function useStoreActions() {
     try {
       const overallRoute = `${baseUrl}/${storeId}/products`;
       await fetchWrapper.post(overallRoute);
-      navigate(`/stores/${storeId}`);
+      navigate(`/stores/${storeId}/products`);
     } catch (err) {
       console.log(err);
     }

@@ -5,7 +5,7 @@
 
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 import { useUserActions, useStoreActions } from '../actions';
 
@@ -94,8 +94,11 @@ function StoreForm() {
   }
 
   return (
-    <div className="container">
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
       <Form onReset={clearForm}>
+        <Row className="mb-3 text-center">
+          <h2>Provide Shopify Store Details</h2>
+        </Row>
         {/* Form Group for Store Name, apply comments throughout other form groups */}
         <Form.Group className="mb-3">
           {/* Label in user interface */}
@@ -165,16 +168,20 @@ function StoreForm() {
             {storeFormErrors.address}
           </Form.Control.Feedback>
         </Form.Group>
-        <div className="buttons">
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
-            Add Shopify Store
-          </Button>
-          <a href="/stores" className="btn btn-danger">
-            Back to Stores{' '}
-          </a>
-        </div>
+        <Row>
+          <Col className="md-2">
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              Add Shopify Store
+            </Button>
+          </Col>
+          <Col className="md-2">
+            <a href="/stores" className="btn btn-danger">
+              Back to All Stores
+            </a>
+          </Col>
+        </Row>
       </Form>
-    </div>
+    </Container>
   );
 }
 
