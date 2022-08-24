@@ -50,4 +50,4 @@ jobs:
           SSH_KEY: ${{ secrets.EC2_KEY }}
           SSH_HOST: ${{ secrets.EC2_HOST }}
       - name: server
-        run: ssh test 'sudo cp -r /home/ubuntu/build/* /var/www/app'
+        run: ssh test 'sudo cp -r /home/ubuntu/build/* /var/www/app && sudo systemctl restart nginx.service'

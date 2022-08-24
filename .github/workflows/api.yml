@@ -49,4 +49,4 @@ jobs:
           SSH_KEY: ${{ secrets.EC2_KEY }}
           SSH_HOST: ${{ secrets.EC2_HOST }}
       - name: server
-        run: ssh test 'sudo cp /home/ubuntu/api.tar.gz /var/www/api && cd /var/www/api && sudo tar zxf api.tar.gz && sudo rm -rf api.tar.gz'
+        run: ssh test 'sudo cp /home/ubuntu/api.tar.gz /var/www/api && cd /var/www/api && sudo tar zxf api.tar.gz && sudo rm -rf api.tar.gz && sudo pm2 restart 0'
