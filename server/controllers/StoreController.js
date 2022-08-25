@@ -51,6 +51,18 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getAllCount = async (req, res) => {
+  try {
+    const numStores = await StoreModel.countDocuments({
+      owner: req.userId,
+    }).exec();
+    res.send(`${numStores}`);
+    // res.send({ numStores: numStores });
+  } catch (err) {
+    res.status(500).send({ message: err.message || 'Error Occurred' });
+  }
+};
+
 exports.getOne = async (req, res) => {
   let storeId = req.params.storeId;
   try {
@@ -76,6 +88,7 @@ exports.add = (req, res) => {
   if (!req.body.name) {
     res.status(400).send({ message: 'name cannot be empty!' });
   }
+  // console.log('Owner in store controller add method is: ' + req.userId);
   const store = new StoreModel({
     name: req.body.name,
     url: req.body.url,
@@ -147,6 +160,21 @@ exports.getProducts = async (req, res) => {
     res.status(500).send({ message: err.message || 'Error Occurred' });
   }
 };
+
+// exports.getProductsCount = async (req, res) => {
+//   try {
+//     const numProducts = await ProductModel.countDocuments({
+//       store: req.params.storeId,
+//     })
+//       .populate('store')
+//       .exec();
+//     console.log(`${numProducts}`);
+//     res.send(`${numProducts}`);
+//     // res.send({ numStores: numStores });
+//   } catch (err) {
+//     res.status(500).send({ message: err.message || 'Error Occurred' });
+//   }
+// };
 
 exports.sync = async (req, res) => {
   let storeId = req.params.storeId;

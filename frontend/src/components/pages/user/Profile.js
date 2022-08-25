@@ -33,11 +33,11 @@ const Profile = () => {
 
   return (
     <>
-      <div className="welcome-banner">
+      {/* <div className="welcome-banner">
         <div className="welcome-title">
-          <h1>Welcome, {auth.data.user.full_name}</h1>
+          <h1>Welcome, </h1>
         </div>
-      </div>
+      </div> */}
       <Container>
         <Row className="justify-content-center">
           <Col className="mt-5 shadow p-3 mb-3 rounded justify-content-start text-left">
@@ -50,6 +50,10 @@ const Profile = () => {
             </p>
             <p>
               <b>Username:</b> {auth.data.user.username}
+            </p>
+            <p>
+              <b>Full Name: </b>
+              {auth.data.user.full_name}
             </p>
             <Row className="justify-content-center">
               <Button href="/change-password" style={{ width: '75%' }}>

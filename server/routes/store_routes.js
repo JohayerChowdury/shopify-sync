@@ -13,6 +13,7 @@ const { authenticationJWT } = require('../middleware');
 // });
 
 storeRouter.get('/', authenticationJWT, StoreController.getAll);
+storeRouter.get('/count', authenticationJWT, StoreController.getAllCount);
 
 storeRouter.post('/', authenticationJWT, StoreController.add);
 
@@ -44,7 +45,7 @@ storeRouter.use(
 
 storeRouter
   .route('/:storeId')
-  
+
   .get(authenticationJWT, StoreController.getOne)
   .put(authenticationJWT, StoreController.update)
   .delete(authenticationJWT, StoreController.delete);

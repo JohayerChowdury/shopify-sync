@@ -13,13 +13,13 @@ function Home() {
 
   return (
     <>
-      <div className="welcome-banner">
-        <div className="welcome-title">
+      <div className="welcome-banner mb-3">
+        <div className="welcome-title mb-3">
           <h1>Welcome, {auth.data.user.full_name}</h1>
         </div>
       </div>
       <Container>
-        <Row className="mt-3 mb-3 justify-content-center text-center">
+        <Row className="mt-10 p-4 mb-6 justify-content-center text-center">
           <Col className="col-3">
             <Card>
               <Card.Title>Connects to MongoDB automatically</Card.Title>

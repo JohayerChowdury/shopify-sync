@@ -108,7 +108,7 @@ const Register = () => {
             <Form.Label>Full Name</Form.Label>
             <Form.Control
               name="full_name"
-              placeholder="John Doe"
+              placeholder="Enter a full name"
               required
               onChange={(e) => handleInputChange('full_name', e.target.value)}
             />
@@ -118,7 +118,7 @@ const Register = () => {
           <Form.Label>Username</Form.Label>
           <Form.Control
             name="username"
-            placeholder="JohnShyft"
+            placeholder="Enter a username"
             required
             onChange={(e) => handleInputChange('username', e.target.value)}
           />
@@ -159,7 +159,7 @@ const Register = () => {
         {/* <Row className="mb-3"></Row> */}
         <Row className="mb-3 justify-content-center">
           <Col>
-            <Nav className="justify-content-start">
+            <Nav className="justify-content-center">
               <Nav.Link href="/login">Have an Account? Login</Nav.Link>
             </Nav>
           </Col>

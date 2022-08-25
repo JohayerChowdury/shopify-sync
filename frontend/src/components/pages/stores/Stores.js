@@ -53,7 +53,7 @@ function Stores(props) {
   return (
     <Container>
       <h1 className="mt-4 mb-4">Shopify Stores</h1>
-      <a href={'/add-store/'} className="btn btn-success">
+      <a href={'/add-store/'} className="btn btn-primary">
         Add a Store
       </a>
       {storesData}

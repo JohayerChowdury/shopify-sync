@@ -1,16 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStoreActions, useUserActions } from '../../../../actions';
-import {
-  Container,
-  Card,
-  Row,
-  Col,
-  Form,
-  Button,
-  Alert,
-  Image,
-} from 'react-bootstrap';
+import { Container, Card, Row, Col, Nav } from 'react-bootstrap';
 
 function ProductDetails() {
   const userActions = useUserActions();
@@ -68,12 +59,13 @@ function ProductDetails() {
           })}
         </picture>
       )}
-      <Button
-        href={'/stores/' + storeId + '/products'}
-        className="btn btn-warning mt-5 justify-content-center text-center"
-      >
-        Back to Store's Products
-      </Button>
+      <Col>
+        <Nav className="justify-content-start">
+          <Nav.Link href={'/stores/' + storeId + '/products'}>
+            Back to Stores's Products
+          </Nav.Link>
+        </Nav>
+      </Col>
     </Container>
   );
 }

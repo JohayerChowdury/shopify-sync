@@ -96,7 +96,7 @@ const Login = (props) => {
           {successMsg && <SuccessMsg msg={successMsg} />}
         </Row>
         <Row className="mb-3 justify-content-center">
-          <Button variant="primary" type="submit" style={{ width: '75%' }}>
+          <Button variant="primary" type="submit" style={{ width: '95%' }}>
             Login
           </Button>
         </Row>

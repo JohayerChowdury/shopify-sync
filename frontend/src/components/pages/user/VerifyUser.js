@@ -63,14 +63,14 @@ const VerifyUser = () => {
           </Form.Group>
         </Row>
         <Row className="mb-3 justify-content-center">
-          <Button type="submit" variant="success" style={{ width: '75%' }}>
+          <Button type="submit" variant="primary" style={{ width: '75%' }}>
             Submit Account Email for Verification
           </Button>
         </Row>
         <Row className="mb-3 justify-content-center">
           <Button
             href="/login"
-            variant="primary"
+            variant="secondary"
             type="button"
             style={{ width: '75%' }}
           >

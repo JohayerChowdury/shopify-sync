@@ -213,7 +213,7 @@ function StoreDetails() {
         <Row className="justify-content-center">
           <Col className="col-auto">
             <Button
-              variant="primary"
+              variant="secondary"
               type="button"
               href={'/stores/' + storeId + '/products'}
             >
@@ -221,19 +221,19 @@ function StoreDetails() {
             </Button>
           </Col>
           <Col className="col-auto">
-            <Button variant="info" type="button" onClick={updateStore}>
-              Save Changes
-            </Button>
-          </Col>
-          <Col className="col-auto">
             <Button variant="danger" type="button" onClick={deleteStore}>
               Delete
             </Button>
           </Col>
+          <Col className="col-auto">
+            <Button variant="primary" type="button" onClick={updateStore}>
+              Save Changes
+            </Button>
+          </Col>
         </Row>
-        <Row className="mt-3 justify-content-end">
+        <Row className="mt-3 justify-content-start">
           <Col>
-            <Nav className="justify-content-end">
+            <Nav className="justify-content-start">
               <Nav.Link href="/stores">Back to Stores</Nav.Link>
             </Nav>
           </Col>
