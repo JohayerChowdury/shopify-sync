@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
 import SuccessMsg from '../../UI/SuccessMsg';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
+import { Container, Form, Button, Row, Col, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
@@ -99,21 +100,40 @@ const Login = (props) => {
             Login
           </Button>
         </Row>
-        <Row className="mb-3">
-          <Col className="auto text-center">
-            <a href="/verify-user">Forgot Password?</a>
+        {/* <Row className="mb-3">
+          <Col className="auto text-right">
+            <a href="/register" className="text-left">
+              Sign Up
+            </a>
           </Col>
-        </Row>
-        <Row className="mb-3"></Row>
-        <Row className="mb-3 justify-content-center">
-          <Button
-            href="/register"
-            type="button"
-            variant="success"
-            style={{ width: '75%' }}
-          >
-            Sign Up
-          </Button>
+          <Col className="auto text-right">
+            <a href="/verify-user" className="text-right">
+              Forgot Password?
+            </a>
+          </Col>
+        </Row> */}
+        {/* <Row className="mb-3">
+          <Col className="col-auto justify-content-start">
+            <LinkContainer to="/register" className="text-left">
+              <Nav.Link>Sign Up</Nav.Link>
+            </LinkContainer>
+          </Col>
+          <Col className="col-auto justify-content-end">
+            <LinkContainer to="/verify-user" className="text-right">
+              <Nav.Link>Forgot Password?</Nav.Link>
+            </LinkContainer>
+          </Col> */}
+        <Row className="mb-3">
+          <Col>
+            <Nav className="justify-content-start">
+              <Nav.Link href="/register">Sign Up</Nav.Link>
+            </Nav>
+          </Col>
+          <Col>
+            <Nav className="justify-content-end">
+              <Nav.Link href="/verify-user">Forgot Password?</Nav.Link>
+            </Nav>
+          </Col>
         </Row>
       </Form>
     </Container>

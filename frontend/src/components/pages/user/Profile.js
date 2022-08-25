@@ -1,45 +1,78 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Button, Card, Col, Row } from 'react-bootstrap';
 
 // import { userAtom } from '../../../states/userStates';
 import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
-// import { useUserActions } from '../../../actions/user_actions';
+import { useStoreActions } from '../../../actions';
 
 const Profile = () => {
   const auth = useRecoilValue(authAtom);
+  const storeActions = useStoreActions();
+  const [numStores, setNumStores] = useState();
+
+  useEffect(() => {
+    retrieveNumStores();
+  }, []);
+
+  const retrieveNumStores = async () => {
+    try {
+      storeActions
+        .getAllCount()
+        .then((res) => {
+          setNumStores(res.data);
+          console.log('numStores in profile: ' + res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
-    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
-      <h1 className="mb-4 text-center">Profile</h1>
-      <Card className="flex-fill">
-        <Card.Title>User ID</Card.Title>
-        <Card.Subtitle className="mt-1">{auth.data.user._id}</Card.Subtitle>
-      </Card>
-      <br />
-      <Card className="flex-fill">
-        <Card.Title>Email</Card.Title>
-        <Card.Subtitle className="mt-1">{auth.data.user.email}</Card.Subtitle>
-      </Card>
-      <br />
-      <Card className="flex-fill">
-        <Card.Title>Username</Card.Title>
-        <Card.Subtitle className="mt-1">
-          {auth.data.user.username}
-        </Card.Subtitle>
-      </Card>
-      <br />
-      <Card className="flex-fill">
-        <Card.Title>Full Name</Card.Title>
-        <Card.Subtitle className="mt-1">
-          {auth.data.user.full_name}
-        </Card.Subtitle>
-      </Card>
-      <br />
-      <Row className="justify-content-center">
-        <Button href="/change-password">Change Password</Button>
-      </Row>
-    </Container>
+    <>
+      <div className="welcome-banner">
+        <div className="welcome-title">
+          <h1>Welcome, {auth.data.user.full_name}</h1>
+        </div>
+      </div>
+      <Container>
+        <Row className="justify-content-center">
+          <Col className="mt-5 shadow p-3 mb-3 rounded justify-content-start text-left">
+            <h3 className="text-center mb-3">User Information</h3>
+            <p>
+              <b>User Id:</b> {auth.data.user._id}
+            </p>
+            <p>
+              <b>Email:</b> {auth.data.user.email}
+            </p>
+            <p>
+              <b>Username:</b> {auth.data.user.username}
+            </p>
+            <Row className="justify-content-center">
+              <Button href="/change-password" style={{ width: '75%' }}>
+                Change Password
+              </Button>
+            </Row>
+          </Col>
+          <Col className="col-2"></Col>
+          <Col className="mt-5 shadow p-3 mb-3 rounded">
+            <h3 className="text-center mb-3">Store Information</h3>
+            <p>
+              <b># of Shopify Stores In Application: </b>
+              {numStores}
+            </p>
+            <Row className="justify-content-center align-items-flex-end">
+              <Button href="/stores" style={{ width: '75%' }}>
+                Access Your Stores
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 export default Profile;

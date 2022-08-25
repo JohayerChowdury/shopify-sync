@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
 import SuccessMsg from '../../UI/SuccessMsg';
 
-import { Container, Button, Form, Col, Row } from 'react-bootstrap';
+import { Container, Button, Form, Col, Row, Nav } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { authAtom } from '../../../states/authStates';
@@ -152,20 +152,17 @@ const Register = () => {
           {successMsg && <SuccessMsg msg={successMsg} />}
         </Row>
         <Row className="mb-3 justify-content-center text-center">
-          <Button variant="success" type="submit" style={{ width: '75%' }}>
+          <Button variant="primary" type="submit" style={{ width: '75%' }}>
             Register
           </Button>
         </Row>
-        <Row className="mb-3"></Row>
+        {/* <Row className="mb-3"></Row> */}
         <Row className="mb-3 justify-content-center">
-          <Button
-            href="/login"
-            variant="primary"
-            type="button"
-            style={{ width: '75%' }}
-          >
-            Have an Account? Login
-          </Button>
+          <Col>
+            <Nav className="justify-content-start">
+              <Nav.Link href="/login">Have an Account? Login</Nav.Link>
+            </Nav>
+          </Col>
         </Row>
       </Form>
     </Container>

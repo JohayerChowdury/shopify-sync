@@ -70,7 +70,6 @@ const ChangePassword = () => {
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
-              name="password"
               placeholder="password"
               required
               onChange={(e) => handleInputChange('password', e.target.value)}
@@ -79,8 +78,7 @@ const ChangePassword = () => {
           <Form.Group as={Col} controlId="formGridConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              name="confirmPassword"
-              placeholder="password"
+              placeholder="Repeat password"
               required
               onChange={(e) =>
                 handleInputChange('confirmPassword', e.target.value)
@@ -88,16 +86,12 @@ const ChangePassword = () => {
             />
           </Form.Group>
         </Row>
-        <br />
-        {errorMsg && <ErrorMsg msg={errorMsg} />}
-
-        <Row className="mb-3">
-          <Button variant="primary" type="submit">
+        <Row className="mb-3"> {errorMsg && <ErrorMsg msg={errorMsg} />}</Row>
+        <Row className="mb-3 justify-content-center">
+          <Button variant="primary" type="submit" style={{ width: '75%' }}>
             Confirm
           </Button>
         </Row>
-        <br />
-        <br />
       </Form>
     </Container>
   );

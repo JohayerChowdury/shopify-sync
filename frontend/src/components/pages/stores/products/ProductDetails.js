@@ -48,18 +48,26 @@ function ProductDetails() {
       )}
       {product.created_at && (
         <Card className="flex-fill">
-          <Card.Title>
+          <Card.Title className="mt-1">
             Created At: {new Date(product.created_at).toLocaleDateString()}
           </Card.Title>
         </Card>
       )}
       {product.status && (
         <Card className="flex-fill">
-          <Card.Title>Status: {product.status} </Card.Title>
+          <Card.Title className="mt-1">Status: {product.status} </Card.Title>
         </Card>
       )}
-      {product.img && <img>{product.img}</img>}
-
+      {product.image && (
+        <img className="mt-1" src={product.image.src} class="img-thumbnail" />
+      )}
+      {product.images && (
+        <picture>
+          {product.images.forEach((image) => {
+            <img className="mt-1" src={image.src} class="img-thumbnail"></img>;
+          })}
+        </picture>
+      )}
       <Button
         href={'/stores/' + storeId + '/products'}
         className="btn btn-warning mt-5 justify-content-center text-center"

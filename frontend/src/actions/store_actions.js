@@ -1,7 +1,6 @@
 //Purpose: Creator for actions related to stores. Imported StoreService to make async HTTP requests with trigger dispatch on the result
 
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { authAtom, userAtom } from '../states';
+// import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import useFetchWrapper from '../helpers/FetchWrapper';
@@ -10,19 +9,17 @@ function useStoreActions() {
   const baseUrl = `${process.env.REACT_APP_API_URL}/stores`;
   const fetchWrapper = useFetchWrapper();
 
-  const setUser = useSetRecoilState(userAtom);
-  const auth = useRecoilValue(authAtom);
-
   const navigate = useNavigate();
-  const location = useLocation();
 
   return {
     getAll,
+    getAllCount,
     getOne,
     add,
     update,
     remove,
     getProducts,
+    getProductsCount,
     sync,
     getOneProduct,
   };
@@ -36,10 +33,18 @@ function useStoreActions() {
     }
   }
 
+  async function getAllCount() {
+    try {
+      const numStores = await fetchWrapper.get(`${baseUrl}/count`);
+      return numStores;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function getOne(storeId) {
     try {
       const overallRoute = `${baseUrl}/${storeId}`;
-      console.log(overallRoute);
       const store = await fetchWrapper.get(overallRoute);
       return store;
     } catch (err) {
@@ -80,6 +85,16 @@ function useStoreActions() {
       const overallRoute = `${baseUrl}/${storeId}/products`;
       const products = await fetchWrapper.get(overallRoute);
       return products;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getProductsCount(storeId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}/products/count`;
+      const numProducts = await fetchWrapper.get(overallRoute);
+      return numProducts;
     } catch (err) {
       console.log(err);
     }

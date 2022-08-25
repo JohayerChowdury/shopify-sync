@@ -27,7 +27,7 @@ function useFetchWrapper() {
         requestOptions.data = body;
       }
       return axios.request(requestOptions).catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response);
       });
     };
   }

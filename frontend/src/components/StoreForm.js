@@ -4,7 +4,6 @@
 //  https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
 
 import { React, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 import { useUserActions, useStoreActions } from '../actions';
@@ -169,12 +168,12 @@ function StoreForm() {
           </Form.Control.Feedback>
         </Form.Group>
         <Row>
-          <Col className="md-2">
+          <Col>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               Add Shopify Store
             </Button>
           </Col>
-          <Col className="md-2">
+          <Col>
             <a href="/stores" className="btn btn-danger">
               Back to All Stores
             </a>
