@@ -20,7 +20,7 @@ const storeSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Please provide the email of the owner',
+    required: 'Please provide the ID of the owner',
   },
   products: [
     {
@@ -28,6 +28,11 @@ const storeSchema = new mongoose.Schema({
       ref: 'Product',
     },
   ],
+});
+
+storeSchema.pre('remove', function (next) {
+  // Remove all the assignment docs that reference the removed person.
+  this.model('Product').remove({ store: this._id }, next);
 });
 
 module.exports = mongoose.model('Store', storeSchema);

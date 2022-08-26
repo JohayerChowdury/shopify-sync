@@ -27,15 +27,17 @@ function useUserActions() {
       const overallRoute = `${baseUrl}${route}`;
       const user_1 = await fetchWrapper.post(overallRoute, user);
       //store user details and jwt token in local storage to keep user logged in between page refreshes
-      if(route == '/login'){
-      localStorage.setItem('user', JSON.stringify(user_1));
-      setAuth(user_1);
-      setUser(user_1);
-      //get return url from location state or default to home page
-      const { from } = location.state || { from: { pathname: '/' } };
-      navigate(from);
+      if (route == '/login') {
+        localStorage.setItem('user', JSON.stringify(user_1));
+        setAuth(user_1);
+        setUser(user_1);
+        //get return url from location state or default to home page
+        const { from } = location.state || { from: { pathname: '/' } };
+        navigate(from);
       }
-
+      // else if (route == '/register') {
+      //   navigate('/login');
+      // }
     } catch (err) {
       console.log(err);
     }
@@ -52,10 +54,8 @@ function useUserActions() {
     }
   }
 
-
   function profile() {
-   return  (JSON.parse(localStorage.getItem("user")));
-
+    return JSON.parse(localStorage.getItem('user'));
   }
 }
 

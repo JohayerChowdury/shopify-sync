@@ -19,6 +19,7 @@ module.exports = async (req, res, next) => {
       return res.status(401).send('Unauthorized!');
     }
     req.userId = verified._id;
+    // console.log('Req.userId in authentication middleware is: ' + req.userId);
     next();
   } catch (err) {
     return res.status(500).send({ message: err.message || 'Error Occurred' });

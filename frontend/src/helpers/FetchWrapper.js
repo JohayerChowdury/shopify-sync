@@ -26,8 +26,9 @@ function useFetchWrapper() {
         requestOptions.headers['Content-Type'] = 'application/json';
         requestOptions.data = body;
       }
-      console.log(requestOptions);
-      return axios.request(requestOptions);
+      return axios.request(requestOptions).catch((err) => {
+        console.log(err.response);
+      });
     };
   }
 

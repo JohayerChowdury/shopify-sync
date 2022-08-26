@@ -1,7 +1,6 @@
 //Purpose: Creator for actions related to stores. Imported StoreService to make async HTTP requests with trigger dispatch on the result
 
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { authAtom, userAtom } from '../states';
+// import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import useFetchWrapper from '../helpers/FetchWrapper';
@@ -10,19 +9,17 @@ function useStoreActions() {
   const baseUrl = `${process.env.REACT_APP_API_URL}/stores`;
   const fetchWrapper = useFetchWrapper();
 
-  const setUser = useSetRecoilState(userAtom);
-  const auth = useRecoilValue(authAtom);
-
   const navigate = useNavigate();
-  const location = useLocation();
 
   return {
     getAll,
+    getAllCount,
     getOne,
     add,
     update,
     remove,
     getProducts,
+    getProductsCount,
     sync,
     getOneProduct,
   };
@@ -36,10 +33,18 @@ function useStoreActions() {
     }
   }
 
+  async function getAllCount() {
+    try {
+      const numStores = await fetchWrapper.get(`${baseUrl}/count`);
+      return numStores;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function getOne(storeId) {
     try {
       const overallRoute = `${baseUrl}/${storeId}`;
-      console.log(overallRoute);
       const store = await fetchWrapper.get(overallRoute);
       return store;
     } catch (err) {
@@ -50,7 +55,6 @@ function useStoreActions() {
   async function add(store) {
     try {
       const new_store = await fetchWrapper.post(baseUrl, store);
-      console.log('Store actions add store: ' + new_store);
       navigate('/stores');
     } catch (err) {
       console.log(err);
@@ -86,11 +90,21 @@ function useStoreActions() {
     }
   }
 
+  async function getProductsCount(storeId) {
+    try {
+      const overallRoute = `${baseUrl}/${storeId}/products/count`;
+      const numProducts = await fetchWrapper.get(overallRoute);
+      return numProducts;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function sync(storeId) {
     try {
       const overallRoute = `${baseUrl}/${storeId}/products`;
       await fetchWrapper.post(overallRoute);
-      navigate(`/stores/${storeId}`);
+      navigate(`/stores/${storeId}/products`);
     } catch (err) {
       console.log(err);
     }

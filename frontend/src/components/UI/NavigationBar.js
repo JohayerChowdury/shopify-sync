@@ -14,7 +14,7 @@ const Navigation = () => {
       <Navbar bg="dark" expand="lg" variant="dark">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>Home</Navbar.Brand>
+            <Navbar.Brand>Shopify Sync</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -35,14 +35,7 @@ const Navigation = () => {
               </Nav>
             ) : (
               // when the user isn't logged in
-              <Nav className="ml-auto">
-                <LinkContainer to="/register">
-                  <Nav.Link>Register</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/login">
-                  <Nav.Link>Login</Nav.Link>
-                </LinkContainer>
-              </Nav>
+              <Nav className="ml-auto"></Nav>
             )}
           </Navbar.Collapse>
         </Container>

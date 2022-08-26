@@ -11,6 +11,6 @@ function PrivateRoute({ children }) {
   return auth ? (
     children
   ) : (
-    <Navigate to="/welcome" replace state={{ from: location }} />
+    <Navigate to="/login" replace state={{ from: location }} />
   );
 }

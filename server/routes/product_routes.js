@@ -1,19 +1,19 @@
-const express = require('express');
+//Purpose: Define routes for products resource, using controller methods
 
+const express = require('express');
 const router = express.Router({ mergeParams: true });
-const axios = require('axios').default;
-let StoreModel = require('../models/Store');
-let ProductModel = require('../models/Product');
 const StoreController = require('../controllers/StoreController');
 
+const { authenticationJWT } = require('../middleware');
+
 //GET all documents in MongoDB database
-router.get('/', StoreController.getProducts);
+router.get('/', authenticationJWT, StoreController.getProducts);
+// router.get('/count', authenticationJWT, StoreController.getProductsCount);
 
 //GET specific product
-router.get('/:productId', StoreController.getOneProduct);
+router.get('/:productId', authenticationJWT, StoreController.getOneProduct);
 
-
-
-router.post('/', StoreController.sync);
+//SYNC products
+router.post('/', authenticationJWT, StoreController.sync);
 
 module.exports = router;

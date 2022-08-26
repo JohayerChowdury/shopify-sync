@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert, Nav } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStoreActions, useUserActions } from '../../../actions';
 
@@ -23,22 +23,39 @@ function StoreDetails() {
   const [message, setMessage] = useState('');
   //creating errors array to hold errors
   const [storeFormErrors, setStoreFormErrors] = useState([]);
+  const [numProducts, setNumProducts] = useState();
 
   function getStore(storeId) {
     storeActions
       .getOne(storeId)
       .then((res) => {
         setStore(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  // const retrieveNumProducts = async () => {
+  //   try {
+  //     storeActions
+  //       .getProductsCount()
+  //       .then((res) => {
+  //         setNumProducts(res.data);
+  //         console.log('numProducts in profile: ' + res.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   useEffect(() => {
     if (storeId) {
       getStore(storeId);
+      // retrieveNumProducts(storeId);
     }
   }, [storeId]);
 
@@ -87,6 +104,7 @@ function StoreDetails() {
         .then((res) => {
           console.log(res.data);
           setMessage('Store was updated successfully!');
+          console.log(message);
         })
         .catch((err) => {
           console.log(err);
@@ -102,8 +120,9 @@ function StoreDetails() {
       .remove(storeId)
       .then((res) => {
         console.log(res.data);
-        navigate('/stores');
         setMessage('Store was deleted successfully!');
+        console.log(message);
+        navigate('/stores');
       })
       .catch((err) => {
         console.log(err);
@@ -111,9 +130,13 @@ function StoreDetails() {
   }
 
   return (
-    <div className="container">
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+      {message ? <Alert>{message}</Alert> : ''}
       <Form>
         {/* Form Group for Store Name, apply comments throughout other form groups */}
+        <Row className="mb-3 text-center">
+          <h2>{store.name}</h2>
+        </Row>
         <Form.Group className="mb-3">
           {/* Label in user interface */}
           <Form.Label>Store Name</Form.Label>
@@ -182,26 +205,41 @@ function StoreDetails() {
             {storeFormErrors.address}
           </Form.Control.Feedback>
         </Form.Group>
-        <div className="buttons">
-          <Button variant="danger" type="button" onClick={deleteStore}>
-            Delete
-          </Button>
-          <Button variant="info" type="button" onClick={updateStore}>
-            Update
-          </Button>
-          <p>{message}</p>
-          <a href="/stores" className="btn btn-success">
-            Back to Stores
-          </a>
-          <a
-            href={'/stores/' + storeId + '/products'}
-            className="btn btn-warning"
-          >
-            View Store's Products{' '}
-          </a>
-        </div>
+        {/* <Row>
+          <h5 className="card-text mb-2">
+            {numProducts} total products synced
+          </h5>
+        </Row> */}
+        <Row className="justify-content-center">
+          <Col className="col-auto">
+            <Button
+              variant="secondary"
+              type="button"
+              href={'/stores/' + storeId + '/products'}
+            >
+              View Store's Products
+            </Button>
+          </Col>
+          <Col className="col-auto">
+            <Button variant="danger" type="button" onClick={deleteStore}>
+              Delete
+            </Button>
+          </Col>
+          <Col className="col-auto">
+            <Button variant="primary" type="button" onClick={updateStore}>
+              Save Changes
+            </Button>
+          </Col>
+        </Row>
+        <Row className="mt-3 justify-content-start">
+          <Col>
+            <Nav className="justify-content-start">
+              <Nav.Link href="/stores">Back to Stores</Nav.Link>
+            </Nav>
+          </Col>
+        </Row>
       </Form>
-    </div>
+    </Container>
   );
 }
 export default StoreDetails;

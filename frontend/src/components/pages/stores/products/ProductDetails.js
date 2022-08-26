@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStoreActions, useUserActions } from '../../../../actions';
+import { Container, Card, Row, Col, Nav } from 'react-bootstrap';
 
 function ProductDetails() {
   const userActions = useUserActions();
@@ -29,15 +29,44 @@ function ProductDetails() {
   }, [productId]);
 
   return (
-    <div className="container">
-      <a href={'/stores/' + storeId + '/products'} className="btn btn-warning">
-        Back to Store's Products
-      </a>
-      <h1 className="mb-4">Product Name: {product.title}</h1>
-      <h2>Type: {product.product_type}</h2>
-      <h2>Created At: {new Date(product.created_at).toLocaleDateString()}</h2>
-      <h2>Status: {product.status}</h2>
-    </div>
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+      <h1 className="mb-4 text-center">{product.title}</h1>
+      {product.product_type && (
+        <Card className="flex-fill">
+          <Card.Title>Product Type</Card.Title>
+          <Card.Subtitle className="mt-1">{product.product_type}</Card.Subtitle>
+        </Card>
+      )}
+      {product.created_at && (
+        <Card className="flex-fill">
+          <Card.Title className="mt-1">
+            Created At: {new Date(product.created_at).toLocaleDateString()}
+          </Card.Title>
+        </Card>
+      )}
+      {product.status && (
+        <Card className="flex-fill">
+          <Card.Title className="mt-1">Status: {product.status} </Card.Title>
+        </Card>
+      )}
+      {product.image && (
+        <img className="mt-1 img-thumbnail" src={product.image.src} />
+      )}
+      {product.images && (
+        <picture>
+          {product.images.forEach((image) => {
+            <img className="mt-1 img-thumbnail" src={image.src}></img>;
+          })}
+        </picture>
+      )}
+      <Col>
+        <Nav className="justify-content-start">
+          <Nav.Link href={'/stores/' + storeId + '/products'}>
+            Back to Stores's Products
+          </Nav.Link>
+        </Nav>
+      </Col>
+    </Container>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ErrorMsg from '../../UI/ErrorMsg';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Container, Button, Form, Row, Col } from 'react-bootstrap';
 
 const ForgotPassword = () => {
   const [user, setUser] = useState({
@@ -10,7 +10,7 @@ const ForgotPassword = () => {
     newPasswordAgain: '',
   });
   const link = window.location.href;
-  var parsedLink = link.split('/')
+  var parsedLink = link.split('/');
   const [errorMsg, setErrorMsg] = useState();
 
   const handleSubmit = async (e) => {
@@ -45,50 +45,50 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="register-form-container">
-      <div className="form-title">
-        <h1>Forgot password</h1>
-      </div>
-      <br />
-      {errorMsg && <ErrorMsg msg={errorMsg} />}
-      <form onSubmit={handleSubmit}>
-        <div className="input">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={user.email}
-            required
-            onChange={handleChange}
-            placeholder="Enter email"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="password"
-            name="newPassword"
-            value={user.newPassword}
-            onChange={handleChange}
-            placeholder="Enter new password"
-          />
-        </div>
-        <br />
-        <div className="input">
-          <input
-            type="password"
-            name="newPasswordAgain"
-            value={user.newPasswordAgain}
-            onChange={handleChange}
-            placeholder="Confirm new password"
-          />
-        </div>
-        <br />
-        <Button variant="info" type="submit" style = {{marginLeft: "35%"}}>
-          Change password
-        </Button>
-      </form>
-    </div>
+    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+      <Row className="text-center mt-3 mb-3">
+        <h1>Register</h1>
+      </Row>
+      <Form onSubmit={handleSubmit}>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              name="email"
+              placeholder="Enter email"
+              required
+              onChange={(e) => handleChange('email', e.target.value)}
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              name="password"
+              placeholder="password"
+              required
+              onChange={(e) => handleChange('password', e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="formGridConfirmPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              name="confirmPassword"
+              placeholder="password"
+              required
+              onChange={(e) => handleChange('confirmPassword', e.target.value)}
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3"> {errorMsg && <ErrorMsg msg={errorMsg} />}</Row>
+        <Row className="mb-3">
+          <Button variant="primary" type="submit" style={{ width: '75%' }}>
+            Change your password
+          </Button>
+        </Row>
+      </Form>
+    </Container>
   );
 };
 
