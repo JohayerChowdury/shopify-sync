@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, Card, Col, Row } from 'react-bootstrap';
+import { Container, Button, Card, Col, Row, Image } from 'react-bootstrap';
 
 // import { userAtom } from '../../../states/userStates';
 import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
 import { useStoreActions } from '../../../actions';
+
+import profilePicture from './anon.jpg';
 
 const Profile = () => {
   const auth = useRecoilValue(authAtom);
@@ -40,6 +42,10 @@ const Profile = () => {
       </div> */}
       <Container>
         <Row className="justify-content-center">
+          <Col className="mt-5 shadow p-3 mb-3 rounded">
+            <Image src={profilePicture} thumbnail roundedCircle></Image>
+          </Col>
+          <Col className="col-2"></Col>
           <Col className="mt-5 shadow p-3 mb-3 rounded justify-content-start text-left">
             <h3 className="text-center mb-3">User Information</h3>
             <p>
@@ -58,19 +64,6 @@ const Profile = () => {
             <Row className="justify-content-center">
               <Button href="/change-password" style={{ width: '75%' }}>
                 Change Password
-              </Button>
-            </Row>
-          </Col>
-          <Col className="col-2"></Col>
-          <Col className="mt-5 shadow p-3 mb-3 rounded">
-            <h3 className="text-center mb-3">Store Information</h3>
-            <p>
-              <b># of Shopify Stores In Application: </b>
-              {numStores}
-            </p>
-            <Row className="justify-content-center align-items-flex-end">
-              <Button href="/stores" style={{ width: '75%' }}>
-                Access Your Stores
               </Button>
             </Row>
           </Col>

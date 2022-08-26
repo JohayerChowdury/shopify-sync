@@ -168,15 +168,17 @@ function StoreForm() {
           </Form.Control.Feedback>
         </Form.Group>
         <Row>
-          <Col className="col-4">
-            <Nav className="justify-content-start">
+          <Col className="col-6">
+            <Nav>
               <Nav.Link href="/stores">Back to All Stores</Nav.Link>
             </Nav>
           </Col>
-          <Col className="col-4">
+          <Col className="col-6 justify-content-end">
+            {/* <Row className="justify-content-end"> */}
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               Add Shopify Store
             </Button>
+            {/* </Row> */}
           </Col>
         </Row>
       </Form>

@@ -50,12 +50,12 @@ function ProductDetails() {
         </Card>
       )}
       {product.image && (
-        <img className="mt-1" src={product.image.src} class="img-thumbnail" />
+        <img className="mt-1 img-thumbnail" src={product.image.src} />
       )}
       {product.images && (
         <picture>
           {product.images.forEach((image) => {
-            <img className="mt-1" src={image.src} class="img-thumbnail"></img>;
+            <img className="mt-1 img-thumbnail" src={image.src}></img>;
           })}
         </picture>
       )}
