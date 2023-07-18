@@ -1,11 +1,13 @@
 //Purpose: Create a service module that uses fetch API to send HTTP requests to backend.
 
 import axios from 'axios';
-import { authAtom } from '../states';
 import { useRecoilState } from 'recoil';
 
+import { authAtom } from '../states';
+import { history } from './history';
+
 function useFetchWrapper() {
-  const [auth] = useRecoilState(authAtom);
+  const [auth, setAuth] = useRecoilState(authAtom);
 
   return {
     get: request('GET'),
@@ -26,9 +28,14 @@ function useFetchWrapper() {
         requestOptions.headers['Content-Type'] = 'application/json';
         requestOptions.data = body;
       }
-      return axios.request(requestOptions).catch((err) => {
-        console.log(err.response);
-      });
+
+      console.log('JRC request options', requestOptions);
+      return axios
+        .request(requestOptions)
+        .then(handleResponse)
+        .catch((err) => {
+          console.log(err);
+        });
     };
   }
 
@@ -38,10 +45,28 @@ function useFetchWrapper() {
     const isLoggedIn = !!token;
     const isApiUrl = url.startsWith(process.env.REACT_APP_API_URL);
     if (isLoggedIn && isApiUrl) {
-      return { 'x-access-Token': `${token}`, Accept: 'application/json' };
+      return { 'x-access-token': `${token}`, Accept: 'application/json' };
     } else {
       return {};
     }
+  }
+
+  function handleResponse(response) {
+    const data = response.data;
+
+    if (!response.ok) {
+      if ([401, 403].includes(response.status) && auth?.token) {
+        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+        localStorage.removeItem('user');
+        setAuth(null);
+        history.push('/login');
+      }
+
+      const error = (data && data.message) || response.statusText;
+      return Promise.reject(error);
+    }
+
+    return data;
   }
 }
 export default useFetchWrapper;

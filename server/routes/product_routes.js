@@ -7,13 +7,13 @@ const StoreController = require('../controllers/StoreController');
 const { authenticationJWT } = require('../middleware');
 
 //GET all documents in MongoDB database
-router.get('/', authenticationJWT, StoreController.getProducts);
+router.get('/', [authenticationJWT], StoreController.getProducts);
 // router.get('/count', authenticationJWT, StoreController.getProductsCount);
 
 //GET specific product
-router.get('/:productId', authenticationJWT, StoreController.getOneProduct);
+router.get('/:productId', [authenticationJWT], StoreController.getOneProduct);
 
 //SYNC products
-router.post('/', authenticationJWT, StoreController.sync);
+router.post('/', [authenticationJWT], StoreController.sync);
 
 module.exports = router;

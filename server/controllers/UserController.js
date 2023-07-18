@@ -4,20 +4,20 @@ let UserModel = require('../models/User');
 // let StoreModel = require('../models/Store');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const AWS = require('aws-sdk');
-const ses = new AWS.SES({
-  senderEmail: 'test@shyftlabs.io',
-  region: 'ca-central-1',
-  accessKeyId: 'AKIA3B6GPOCT4YNNP3OB',
-  secretAccessKey: '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',
-});
+// const AWS = require('aws-sdk');
+// const ses = new AWS.SES({
+//   senderEmail: 'test@shyftlabs.io',
+//   region: 'ca-central-1',
+//   accessKeyId: 'AKIA3B6GPOCT4YNNP3OB',
+//   secretAccessKey: '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',
+// });
 const { v4: uuidv1 } = require('uuid');
-var validate = require('uuid-validate');
+// var validate = require('uuid-validate');
 const redis = require('redis');
 const client = redis.createClient();
 
 client.on('connect', function () {
-  console.log('Connected!');
+  console.log('Connected to redis server!');
 });
 client.connect();
 
@@ -64,19 +64,14 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    //checks validity of entry
-    // frontend takes care of following error handling
-    // if (!req.body.email || !req.body.password) {
-    //   return res.status(400).json({ msg: 'Enter in any missing fields' });
-    // }
     const user = await UserModel.findOne({ email: req.body.email }).populate(
       'stores'
     );
     if (!user) {
       return res.status(400).json({ message: "user doesn't exist" });
     }
+
     const valid = await bcrypt.compare(req.body.password, user.password);
-    //needs error handled for incorrect email/password
     if (valid) {
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       res.status(200).send({
@@ -102,11 +97,9 @@ exports.change_password = async (req, res) => {
       email: req.body.email,
     });
     if (!user) {
-      return res
-        .status(400)
-        .json({
-          msg: "User Doesn't Exist, if this is an issue contact test@shyftlabs.io",
-        });
+      return res.status(400).json({
+        msg: "User Doesn't Exist.",
+      });
     }
     const salt = await bcrypt.genSalt(10);
     await bcrypt.hash(req.body.password, salt, function (req, hash) {
@@ -143,11 +136,9 @@ exports.forget_password = async (req, res) => {
       email: req.body.email,
     });
     if (!user) {
-      return res
-        .status(400)
-        .json({
-          msg: 'User doesnt exist, if this is a mistake, please contact test@shyftlabs.io',
-        });
+      return res.status(400).json({
+        msg: 'User doesnt exist.',
+      });
     }
     const salt = await bcrypt.genSalt(10);
     await bcrypt.hash(req.body.password, salt, function (req, hash) {
@@ -168,6 +159,7 @@ exports.forget_password = async (req, res) => {
     return res.status(500).send({ message: err.message || 'Error Occurred' });
   }
 };
+
 exports.verify_user = async (req, res) => {
   try {
     let user = await UserModel.findOne({
@@ -182,33 +174,31 @@ exports.verify_user = async (req, res) => {
     });
     console.log(await client.get('uuid'));
 
-    var params = {
-      Source: 'test@shyftlabs.io',
-      Destination: {
-        ToAddresses: [req.body.email],
-      },
-      Message: {
-        Body: {
-          Html: {
-            Charset: 'UTF-8',
-            Data: `<p><b>Hello,</b></p> 
-            <p>Here is the link to reset your password: ${process.env.EMAIL_WEB_URI}${code}</p> </br>
-            <p>Sincerely,</p>
-            <p>ShyftLabs Service Team</p>`,
-          },
-        },
-        Subject: {
-          Charset: 'UTF-8',
-          Data: 'Password Reset Link',
-        },
-      },
-    };
-    ses
-      .sendEmail(params)
-      .promise()
-      .then((res) => {
-        console.log(res);
-      });
+    // var params = {
+    //   Source: 'test@shyftlabs.io',
+    //   Destination: {
+    //     ToAddresses: [req.body.email],
+    //   },
+    //   Message: {
+    //     Body: {
+    //       Html: {
+    //         Charset: 'UTF-8',
+    //         Data: `<p><b>Hello,</b></p>
+    //         <p>Here is the link to reset your password: ${process.env.EMAIL_WEB_URI}${code}</p> </br>
+    //       },
+    //     },
+    //     Subject: {
+    //       Charset: 'UTF-8',
+    //       Data: 'Password Reset Link',
+    //     },
+    //   },
+    // };
+    // ses
+    //   .sendEmail(params)
+    //   .promise()
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
   } catch (err) {
     console.log(err);
   }
@@ -227,30 +217,3 @@ exports.getOne = async (req, res) => {
     res.status(500).send({ message: err.message || 'Error Occurred' });
   }
 };
-
-// exports.tokenIsValid = async (req, res) => {
-//   // this determines if the jwt token is valid or not (for authorization)
-//   try {
-//     // const authHeader = req.headers['authorization'];
-//     const authHeader =
-//       req.headers.authorization &&
-//       req.headers.authorization.startsWith('Bearer');
-//     const token = authHeader && authHeader.split(' ')[1];
-//     if (token == null) {
-//       //if no token
-//       return res.status(401).send('No token found!');
-//     }
-//     const verified = jwt.verify(token, process.env.JWT_SECRET);
-//     if (!verified) {
-//       //if this doesn't return with the object containing user ID
-//       return res.status(403).send('Not verified!');
-//     }
-//     const user = await User.findById(verified._id); // if user cannot be found based on id
-//     if (!user) {
-//       res.json('false, user not found');
-//     }
-//     res.json(true);
-//   } catch (err) {
-//     return res.status(500).send({ message: err.message || 'Error Occurred' });
-//   }
-// };

@@ -7,15 +7,17 @@ import { React, useState } from 'react';
 import styled from 'styled-components';
 import {
   Container as RBContainer,
-  Row,
+  Row as RBRow,
   Col,
   Form,
   FormGroup as RBFG,
   Button,
   Nav,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 import { useUserActions, useStoreActions } from '../actions';
+// import ErrorMsg from './UI/ErrorMsg';
 
 const Container = styled(RBContainer)`
   margin-top: 25px;
@@ -29,11 +31,19 @@ const Container = styled(RBContainer)`
   }
 `;
 
+const Row = styled(RBRow)`
+  margin-bottom: 3px;
+  justify-content: center;
+  text-align: center;
+`;
+
 const FormGroup = styled(RBFG)`
   margin-bottom: 3px;
 `;
 
 function StoreForm() {
+  const navigate = useNavigate();
+
   const userActions = useUserActions();
   const currentUser = userActions.profile();
 
@@ -104,6 +114,7 @@ function StoreForm() {
             access_token: res.access_token,
             address: res.address,
           });
+          navigate('/stores');
         })
         .catch((err) => {
           console.log(err);
@@ -114,14 +125,11 @@ function StoreForm() {
   return (
     <Container className='rounded'>
       <Form onReset={clearForm}>
-        <Row className='mb-3 text-center'>
+        <Row>
           <h2>Provide Shopify Store Details</h2>
         </Row>
-        {/* Form Group for Store Name, apply comments throughout other form groups */}
         <FormGroup>
-          {/* Label in user interface */}
           <Form.Label>Store Name</Form.Label>
-          {/* Attributes of form */}
           <Form.Control
             required
             type='text'
@@ -129,12 +137,10 @@ function StoreForm() {
             value={storeForm.name}
             name='name'
             id='name'
-            // when form is being written in, the handleInputChange function is called for the specific
             onChange={(e) => handleInputChange('name', e.target.value)}
             //isInvalid property of Form that checks to alert user if there are any errors present
             isInvalid={!!storeFormErrors.name}
           />
-          {/* alert user of specific form errors */}
           <Form.Control.Feedback type='invalid'>
             {storeFormErrors.name}
           </Form.Control.Feedback>
@@ -186,20 +192,23 @@ function StoreForm() {
             {storeFormErrors.address}
           </Form.Control.Feedback>
         </FormGroup>
-        <Row>
-          <Col className='col-6'>
-            <Nav>
+        <RBRow className='mb-3'>
+          <Col>
+            <Nav className='justify-content-start'>
               <Nav.Link href='/stores'>Back to All Stores</Nav.Link>
             </Nav>
           </Col>
-          <Col className='col-6 justify-content-end'>
-            {/* <Row className="justify-content-end"> */}
-            <Button variant='primary' type='submit' onClick={handleSubmit}>
+          <Col>
+            <Button
+              className='justify-content-end'
+              variant='primary'
+              type='submit'
+              onClick={handleSubmit}
+            >
               Add Shopify Store
             </Button>
-            {/* </Row> */}
           </Col>
-        </Row>
+        </RBRow>
       </Form>
     </Container>
   );

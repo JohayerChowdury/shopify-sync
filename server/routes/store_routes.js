@@ -12,10 +12,10 @@ const { authenticationJWT } = require('../middleware');
 //   res.render('stores/index', { stores: stores });
 // });
 
-storeRouter.get('/', authenticationJWT, StoreController.getAll);
-storeRouter.get('/count', authenticationJWT, StoreController.getAllCount);
+storeRouter.get('/', [authenticationJWT], StoreController.getAll);
+storeRouter.get('/count', [authenticationJWT], StoreController.getAllCount);
 
-storeRouter.post('/', authenticationJWT, StoreController.add);
+storeRouter.post('/', [authenticationJWT], StoreController.add);
 
 //FOR EJS VIEW: stores/add
 // storeRouter.get('/add', (req, res) => {
@@ -35,7 +35,7 @@ storeRouter.post('/', authenticationJWT, StoreController.add);
 const productsRoute = require('./product_routes');
 storeRouter.use(
   '/:storeId/products',
-  authenticationJWT,
+  [authenticationJWT],
   (req, res, next) => {
     req.storeId = req.params.storeId;
     next();
@@ -45,9 +45,8 @@ storeRouter.use(
 
 storeRouter
   .route('/:storeId')
-
-  .get(authenticationJWT, StoreController.getOne)
-  .put(authenticationJWT, StoreController.update)
-  .delete(authenticationJWT, StoreController.delete);
+  .get([authenticationJWT], StoreController.getOne)
+  .put([authenticationJWT], StoreController.update)
+  .delete([authenticationJWT], StoreController.delete);
 
 module.exports = storeRouter;

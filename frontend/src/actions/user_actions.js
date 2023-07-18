@@ -27,7 +27,7 @@ function useUserActions() {
       const overallRoute = `${baseUrl}${route}`;
       const user_1 = await fetchWrapper.post(overallRoute, user);
       //store user details and jwt token in local storage to keep user logged in between page refreshes
-      if (route == '/login') {
+      if (route == '/login' && user_1) {
         localStorage.setItem('user', JSON.stringify(user_1));
         setAuth(user_1);
         setUser(user_1);

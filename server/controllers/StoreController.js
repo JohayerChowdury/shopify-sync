@@ -1,6 +1,5 @@
 //Purpose: Create a controller that calls Mongoose functions and can be exported.
 
-let UserModel = require('../models/User');
 let StoreModel = require('../models/Store');
 let ProductModel = require('../models/Product');
 const axios = require('axios');
@@ -77,7 +76,7 @@ exports.getOne = async (req, res) => {
   }
 };
 
-exports.add = (req, res) => {
+exports.add = async (req, res) => {
   // const user = await UserModel.findOne({ownerId: })
   if (!req.body.url) {
     res.status(400).send({ message: 'url cannot be empty!' });
@@ -88,21 +87,31 @@ exports.add = (req, res) => {
   if (!req.body.name) {
     res.status(400).send({ message: 'name cannot be empty!' });
   }
-  // console.log('Owner in store controller add method is: ' + req.userId);
-  const store = new StoreModel({
+
+  // need to add error for duplicate name for StoreModel
+  // const store = await StoreModel.find({ name: req.body.name })
+  //   .populate('owner')
+  //   .exec();
+  // if (store) {
+  //   res.status(500).send('Store name already taken');
+  // }
+
+  const newStore = new StoreModel({
     name: req.body.name,
     url: req.body.url,
     access_token: req.body.access_token,
     address: req.body.address,
     owner: req.userId,
   });
-  store
+
+  newStore
     .save()
     .then((data) => {
-      res.send(data);
+      console.log('JRC data in store controller', data);
+      res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message || 'Error Occurred' });
+      res.status(500).send('Error Occurred in saving store');
     });
 };
 
@@ -178,11 +187,9 @@ exports.getProducts = async (req, res) => {
 
 exports.sync = async (req, res) => {
   let storeId = req.params.storeId;
-  console.log('JRC storeId', storeId);
   //CHANGE!!!
   const store = await StoreModel.findById(storeId).populate('products').exec();
-  console.log('JRC store', store);
-  const shopify_route = `https://admin.shopify.com/store/${store.url}/products.json`;
+  const shopify_route = `https://${store.url}.myshopify.com/admin/api/2023-07/products.json`;
   axios
     .get(shopify_route, {
       // GET 'list of products'
@@ -192,14 +199,15 @@ exports.sync = async (req, res) => {
     })
     .then(async (res) => {
       console.log(
-        'There are ' + res.data.products.length + ' products in shopify store.'
+        'There are ' +
+          res.data?.products?.length +
+          ' products in shopify store.'
       );
       //CHANGE !!!
       await updateProducts(Object.values(res.data.products), storeId);
       console.log('Finished uploading to MongoDB database');
       //CHANGE !!!
       const products = await ProductModel.find({ store: storeId });
-      console.log('JRC products', products);
       res.send(products);
     })
     .catch((err) => {

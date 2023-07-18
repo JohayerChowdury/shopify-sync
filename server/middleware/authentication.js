@@ -9,8 +9,8 @@ module.exports = async (req, res, next) => {
       req.headers['x-access-token'] ||
       req.headers.authorization ||
       req.body.token;
-    if (token == null) {
-      //if no token
+
+    if (token == null || token == undefined) {
       return res.status(403).send('No token found!');
     }
     const verified = jwt.verify(token, process.env.JWT_SECRET);

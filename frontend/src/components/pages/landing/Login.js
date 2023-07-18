@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   const [inputUser, setInputUser] = useState(initialInputUserState);
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const userActions = useUserActions();
 
@@ -86,6 +86,7 @@ const Login = () => {
     userActions
       .login(user, '/login')
       .then((res) => {
+        setErrorMsg(null);
         setInputUser({
           email: res.email,
           password: res.password,
