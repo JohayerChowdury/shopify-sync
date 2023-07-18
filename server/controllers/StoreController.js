@@ -180,8 +180,9 @@ exports.sync = async (req, res) => {
   let storeId = req.params.storeId;
   //CHANGE!!!
   const store = await StoreModel.findById(storeId).populate('products').exec();
+  const shopify_route = `https://admin.shopify.com/store/${store.url}/products.json`;
   axios
-    .get(`https://${store.url}.myshopify.com/admin/api/2022-07/products.json`, {
+    .get(shopify_route, {
       // GET 'list of products'
       headers: {
         'X-Shopify-Access-Token': `${store.access_token}`, // required to access our instance
