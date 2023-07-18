@@ -3,24 +3,28 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
+    required: `Please provide the username.`,
   },
   full_name: {
     type: String,
+    required: `Please provide the user's full name.`,
   },
   password: {
     type: String, // encrypted type instead of String
+    required: `Please provide the user's password.`,
   },
   email: {
     type: String,
     index: { unique: true },
+    required: `Please provide the user's email.`,
   },
+
   stores: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Store',
     },
   ],
-  required: ['email', 'password'],
 });
 
 UserSchema.pre('remove', function (next) {

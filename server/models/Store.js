@@ -20,7 +20,7 @@ const storeSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: 'Please provide the ID of the owner',
+    required: 'Please provide the ID of the owner.',
   },
   products: [
     {
