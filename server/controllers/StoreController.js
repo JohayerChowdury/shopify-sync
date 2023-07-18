@@ -178,8 +178,10 @@ exports.getProducts = async (req, res) => {
 
 exports.sync = async (req, res) => {
   let storeId = req.params.storeId;
+  console.log('JRC storeId', storeId);
   //CHANGE!!!
   const store = await StoreModel.findById(storeId).populate('products').exec();
+  console.log('JRC store', store);
   const shopify_route = `https://admin.shopify.com/store/${store.url}/products.json`;
   axios
     .get(shopify_route, {
@@ -197,10 +199,14 @@ exports.sync = async (req, res) => {
       console.log('Finished uploading to MongoDB database');
       //CHANGE !!!
       const products = await ProductModel.find({ store: storeId });
+      console.log('JRC products', products);
       res.send(products);
     })
     .catch((err) => {
-      res.send(err);
+      console.log('it errored: ', err);
+      res
+        .status(500)
+        .send({ message: err.message || 'Error in syncing products.' });
     });
 };
 
