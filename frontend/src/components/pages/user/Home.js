@@ -13,14 +13,14 @@ function Home() {
 
   return (
     <>
-      <div className="welcome-banner mb-3">
-        <div className="welcome-title mb-3">
+      <div className='welcome-banner mb-3'>
+        <div className='welcome-title mb-3'>
           <h1>Welcome, {auth.data.user.full_name}</h1>
         </div>
       </div>
       <Container>
-        <Row className="mt-10 p-4 mb-6 justify-content-center text-center">
-          <Col className="col-3">
+        <Row className='mt-10 p-4 mb-6 justify-content-center text-center'>
+          <Col className='col-3'>
             <Card>
               <Card.Title>Connects to MongoDB automatically</Card.Title>
               <Card.Text>
@@ -29,33 +29,22 @@ function Home() {
               </Card.Text>
             </Card>
           </Col>
-          <Col className="col-3">
+          <Col className='col-3'>
             <Card>
               <Card.Title>Add your shopify stores</Card.Title>
               <Card.Text>
                 Seamlessly add your stores by clicking below.
               </Card.Text>
-              <Card.Link href="/add-store">Click here to add stores</Card.Link>
+              <Card.Link href='/add-store'>Click here to add stores</Card.Link>
             </Card>
           </Col>
-          <Col className="col-3">
+          <Col className='col-3'>
             <Card>
               <Card.Title>Sync your products</Card.Title>
               <Card.Text>
                 Sync your products from your Shopify instance to the database to
                 view all your products in one service.
               </Card.Text>
-            </Card>
-          </Col>
-          <Col className="col-3">
-            <Card>
-              <Card.Title>Developed by Shyftlabs</Card.Title>
-              <Card.Text>
-                To learn more about the company, click the link below.
-              </Card.Text>
-              <Card.Link href="https://shyftlabs.io/">
-                ShyftLabs Website
-              </Card.Link>
             </Card>
           </Col>
         </Row>

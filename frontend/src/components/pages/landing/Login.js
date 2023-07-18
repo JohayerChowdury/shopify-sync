@@ -1,15 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import ErrorMsg from '../../UI/ErrorMsg';
-import SuccessMsg from '../../UI/SuccessMsg';
-import { Container, Form, Button, Row, Col, Nav } from 'react-bootstrap';
+import styled from 'styled-components';
+import {
+  Container as RBContainer,
+  Form as RBForm,
+  FormGroup as RBFormGroup,
+  FormControl,
+  Button,
+  Row as RBRow,
+  Col,
+  Nav,
+} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
-
-import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../../../actions/user_actions';
 
-const Login = (props) => {
+import { authAtom } from '../../../states';
+import { useUserActions } from '../../../actions';
+import ErrorMsg from '../../UI/ErrorMsg';
+
+const Container = styled(RBContainer)`
+  margin-top: 25px;
+  margin-bottom: 3px;
+  padding: 3px;
+  background: white;
+  box-shadow: 0px 2px 10px gray;
+  width: 50%;
+  @media (min-width: 992px) {
+    width: 33.33%;
+  }
+`;
+
+const Row = styled(RBRow)`
+  margin-bottom: 3px;
+  justify-content: center;
+  text-align: center;
+`;
+
+const Form = styled(RBForm)`
+  justify-content: center;
+`;
+
+const FormGroup = styled(RBFormGroup)`
+  margin-bottom: 5px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+`;
+
+const Login = () => {
   const navigate = useNavigate();
   const auth = useRecoilValue(authAtom);
 
@@ -20,7 +57,6 @@ const Login = (props) => {
 
   const [inputUser, setInputUser] = useState(initialInputUserState);
   const [errorMsg, setErrorMsg] = useState();
-  const [successMsg, setSuccessMsg] = useState();
 
   const userActions = useUserActions();
 
@@ -29,11 +65,8 @@ const Login = (props) => {
     if (auth) {
       navigate('/');
     }
-    if (props.success) {
-      console.log(props.success);
-      setSuccessMsg(props.success);
-    }
   }, []);
+  //add auth in what needs to be changed in useEffect?
 
   const handleInputChange = (field, value) => {
     setInputUser({
@@ -43,7 +76,7 @@ const Login = (props) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // prevents form from being submitted automatically
+    e.preventDefault();
 
     let user = {
       email: inputUser.email,
@@ -57,7 +90,6 @@ const Login = (props) => {
           email: res.email,
           password: res.password,
         });
-        // navigate('/');
       })
       .catch((error) => {
         console.log(error);
@@ -68,73 +100,53 @@ const Login = (props) => {
   };
 
   return (
-    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
-      <Form onSubmit={handleSubmit} className="justify-content-center">
-        <Row className="mb-3 text-center">
+    <Container className='rounded'>
+      <Form onSubmit={handleSubmit}>
+        <Row className='mt-1'>
           <h2>Login</h2>
         </Row>
-        <Form.Group className="mb-3 text-center" controlId="formGridEmail">
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
+        <FormGroup controlId='formGridEmail'>
+          <FormControl
+            type='email'
+            placeholder='Enter email'
             required
             onChange={(e) => handleInputChange('email', e.target.value)}
           />
-        </Form.Group>
-        <Form.Group className="text-center" controlId="formGridPassword">
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
+        </FormGroup>
+        <FormGroup controlId='formGridPassword'>
+          <FormControl
+            type='password'
+            placeholder='Enter password'
             required
             onChange={(e) => handleInputChange('password', e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Row className="mb-3 justify-content-center text-center">
-          {errorMsg && <ErrorMsg msg={errorMsg} />}
-        </Row>
-        <Row className="mb-3 justify-content-center text-center">
-          {successMsg && <SuccessMsg msg={successMsg} />}
-        </Row>
-        <Row className="mb-3 justify-content-center">
-          <Button variant="primary" type="submit" style={{ width: '95%' }}>
+          ></FormControl>
+        </FormGroup>
+        <Row>
+          <Button
+            variant='primary'
+            type='submit'
+            style={{ width: '45%', marginTop: '5px' }}
+          >
             Login
           </Button>
         </Row>
-        {/* <Row className="mb-3">
-          <Col className="auto text-right">
-            <a href="/register" className="text-left">
-              Sign Up
-            </a>
-          </Col>
-          <Col className="auto text-right">
-            <a href="/verify-user" className="text-right">
-              Forgot Password?
-            </a>
-          </Col>
-        </Row> */}
-        {/* <Row className="mb-3">
-          <Col className="col-auto justify-content-start">
-            <LinkContainer to="/register" className="text-left">
-              <Nav.Link>Sign Up</Nav.Link>
-            </LinkContainer>
-          </Col>
-          <Col className="col-auto justify-content-end">
-            <LinkContainer to="/verify-user" className="text-right">
-              <Nav.Link>Forgot Password?</Nav.Link>
-            </LinkContainer>
-          </Col> */}
-        <Row className="mb-3">
+        {errorMsg && (
+          <Row>
+            <ErrorMsg msg={errorMsg} />
+          </Row>
+        )}
+        <RBRow className='mb-3'>
           <Col>
-            <Nav className="justify-content-start">
-              <Nav.Link href="/register">Sign Up</Nav.Link>
+            <Nav className='justify-content-start'>
+              <Nav.Link href='/register'>Sign Up</Nav.Link>
             </Nav>
           </Col>
           <Col>
-            <Nav className="justify-content-end">
-              <Nav.Link href="/verify-user">Forgot Password?</Nav.Link>
+            <Nav className='justify-content-end'>
+              <Nav.Link href='/verify-user'>Forgot Password?</Nav.Link>
             </Nav>
           </Col>
-        </Row>
+        </RBRow>
       </Form>
     </Container>
   );

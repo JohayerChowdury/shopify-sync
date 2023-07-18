@@ -4,9 +4,34 @@
 //  https://dev.to/alecgrey/controlled-forms-with-front-and-backend-validations-using-react-bootstrap-5a2
 
 import { React, useState } from 'react';
-import { Container, Row, Col, Form, Button, Nav } from 'react-bootstrap';
+import styled from 'styled-components';
+import {
+  Container as RBContainer,
+  Row,
+  Col,
+  Form,
+  FormGroup as RBFG,
+  Button,
+  Nav,
+} from 'react-bootstrap';
 
 import { useUserActions, useStoreActions } from '../actions';
+
+const Container = styled(RBContainer)`
+  margin-top: 25px;
+  margin-bottom: 3px;
+  padding: 3px;
+  background: white;
+  box-shadow: 0px 2px 10px gray;
+  width: 50%;
+  @media (min-width: 992px) {
+    width: 33.33%;
+  }
+`;
+
+const FormGroup = styled(RBFG)`
+  margin-bottom: 3px;
+`;
 
 function StoreForm() {
   const userActions = useUserActions();
@@ -46,25 +71,19 @@ function StoreForm() {
   const findStoreFormErrors = () => {
     const { name, url, access_token } = storeForm;
     const newErrors = {};
-    // name errors
     if (!name || name === '') newErrors.name = 'cannot be blank!';
     else if (name.length > 30) newErrors.name = 'name is too long!';
-    // url errors
     if (!url || url === '') newErrors.url = 'cannot be blank!';
-    // access_token errors
     if (!access_token || access_token === '')
       newErrors.access_token = 'cannot be blank!';
 
     return newErrors;
   };
 
-  //when submitting, run this function
   function handleSubmit(e) {
-    //prevents reloads after clicking submit
     e.preventDefault();
     // get our new errors
     const newErrors = findStoreFormErrors();
-    // Conditional logic:
     if (Object.keys(newErrors).length > 0) {
       // We got errors!
       setStoreFormErrors(newErrors);
@@ -93,89 +112,89 @@ function StoreForm() {
   }
 
   return (
-    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
+    <Container className='rounded'>
       <Form onReset={clearForm}>
-        <Row className="mb-3 text-center">
+        <Row className='mb-3 text-center'>
           <h2>Provide Shopify Store Details</h2>
         </Row>
         {/* Form Group for Store Name, apply comments throughout other form groups */}
-        <Form.Group className="mb-3">
+        <FormGroup>
           {/* Label in user interface */}
           <Form.Label>Store Name</Form.Label>
           {/* Attributes of form */}
           <Form.Control
             required
-            type="text"
-            placeholder="Store Name"
+            type='text'
+            placeholder='Store Name'
             value={storeForm.name}
-            name="name"
-            id="name"
+            name='name'
+            id='name'
             // when form is being written in, the handleInputChange function is called for the specific
             onChange={(e) => handleInputChange('name', e.target.value)}
             //isInvalid property of Form that checks to alert user if there are any errors present
             isInvalid={!!storeFormErrors.name}
           />
           {/* alert user of specific form errors */}
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.name}
           </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
+        </FormGroup>
+        <FormGroup>
           <Form.Label>Store URL</Form.Label>
           <Form.Control
             required
-            type="text"
-            placeholder="what comes before .myshopify.com"
+            type='text'
+            placeholder='what comes before .myshopify.com'
             value={storeForm.url}
-            name="url"
-            id="url"
+            name='url'
+            id='url'
             onChange={(e) => handleInputChange('url', e.target.value)}
             isInvalid={!!storeFormErrors.url}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.url}
           </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
+        </FormGroup>
+        <FormGroup>
           <Form.Label>Store Access Token</Form.Label>
           <Form.Control
             required
-            type="text"
-            placeholder="Store access token"
+            type='text'
+            placeholder='Store access token'
             value={storeForm.access_token}
-            name="access_token"
-            id="access_token"
+            name='access_token'
+            id='access_token'
             onChange={(e) => handleInputChange('access_token', e.target.value)}
             isInvalid={!!storeFormErrors.access_token}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.access_token}
           </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
+        </FormGroup>
+        <FormGroup>
           <Form.Label>Address</Form.Label>
           <Form.Control
-            type="text"
-            placeholder="Address"
+            type='text'
+            placeholder='Address'
             value={storeForm.address}
-            name="address"
-            id="address"
+            name='address'
+            id='address'
             onChange={(e) => handleInputChange('address', e.target.value)}
             isInvalid={!!storeFormErrors.address}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.address}
           </Form.Control.Feedback>
-        </Form.Group>
+        </FormGroup>
         <Row>
-          <Col className="col-6">
+          <Col className='col-6'>
             <Nav>
-              <Nav.Link href="/stores">Back to All Stores</Nav.Link>
+              <Nav.Link href='/stores'>Back to All Stores</Nav.Link>
             </Nav>
           </Col>
-          <Col className="col-6 justify-content-end">
+          <Col className='col-6 justify-content-end'>
             {/* <Row className="justify-content-end"> */}
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
+            <Button variant='primary' type='submit' onClick={handleSubmit}>
               Add Shopify Store
             </Button>
             {/* </Row> */}
