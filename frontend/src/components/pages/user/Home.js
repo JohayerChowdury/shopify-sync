@@ -20,7 +20,7 @@ function Home() {
       </div>
       <Container>
         <Row className='mt-10 p-4 mb-6 justify-content-center text-center'>
-          <Col className='col-3'>
+          {/* <Col className='col-3'>
             <Card>
               <Card.Title>Connects to MongoDB automatically</Card.Title>
               <Card.Text>
@@ -28,7 +28,7 @@ function Home() {
                 MongoDB to store information securely and efficiently.
               </Card.Text>
             </Card>
-          </Col>
+          </Col> */}
           <Col className='col-3'>
             <Card>
               <Card.Title>Add your shopify stores</Card.Title>
