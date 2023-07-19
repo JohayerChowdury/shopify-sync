@@ -29,7 +29,6 @@ function useFetchWrapper() {
         requestOptions.data = body;
       }
 
-      console.log('JRC request options', requestOptions);
       return (
         axios
           .request(requestOptions)

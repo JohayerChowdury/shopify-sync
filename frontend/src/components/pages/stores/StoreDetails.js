@@ -1,12 +1,27 @@
 import { React, useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Nav } from 'react-bootstrap';
+import styled from 'styled-components';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button as RBButton,
+  Nav,
+} from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useStoreActions } from '../../../actions';
 import { DiscardChanges } from '../../../atoms';
 
-function StoreDetails() {
+const Button = styled(RBButton)`
+  display: flex;
+  width: 250px;
+  justify-content: center;
+  margin: 10px;
+`;
+
+function StoreDetails({ ...props }) {
   const storeActions = useStoreActions();
   const { storeId } = useParams();
   let navigate = useNavigate();
@@ -130,6 +145,7 @@ function StoreDetails() {
         handleDiscard={handleDiscard}
         discardTitle='Are you sure you want to delete your store?'
         discardContent={`By clicking 'Discard All Changes', your store will be deleted. `}
+        {...props}
       />
       <Form>
         {/* Form Group for Store Name, apply comments throughout other form groups */}
@@ -206,29 +222,29 @@ function StoreDetails() {
           </h5>
         </Row> */}
         <Row className='justify-content-center'>
-          <Col className='col-auto'>
-            <Button
-              variant='secondary'
-              type='button'
-              href={'/stores/' + storeId + '/products'}
-            >
-              View Store's Products
-            </Button>
-          </Col>
-          <Col className='col-auto'>
-            <Button
-              variant='danger'
-              type='button'
-              onClick={() => setDiscardOpen(true)}
-            >
-              Delete
-            </Button>
-          </Col>
-          <Col className='col-auto'>
-            <Button variant='primary' type='button' onClick={updateStore}>
-              Save Changes
-            </Button>
-          </Col>
+          {/*     <Col className='col-3'> */}
+          <Button variant='primary' type='button' onClick={updateStore}>
+            Save Changes
+          </Button>
+          {/* </Col> */}
+          {/* <Col className='col-3'> */}
+          <Button
+            variant='secondary'
+            type='button'
+            href={'/stores/' + storeId + '/products'}
+          >
+            View Store's Products
+          </Button>
+          {/* </Col> */}
+          {/* <Col className='col-3'> */}
+          <Button
+            variant='danger'
+            type='button'
+            onClick={() => setDiscardOpen(true)}
+          >
+            Delete
+          </Button>
+          {/* </Col>*/}
         </Row>
         <Row className='mt-3 justify-content-start'>
           <Col>
