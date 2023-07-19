@@ -13,6 +13,8 @@ const DiscardChanges = ({
   setOpenDialog,
   handleDiscard = () => {},
   handleEditing,
+  discardTitle = 'All Changes Will Be Discarded',
+  discardContent = 'This will reset the form.',
 }) => {
   const handleClose = () => {
     setOpenDialog(false);
@@ -20,19 +22,23 @@ const DiscardChanges = ({
 
   return (
     <Dialog open={openDialog} onClose={handleClose}>
-      <MuiDialogTitle fontWeight='600'>
-        All Changes Will Be Discarded
-      </MuiDialogTitle>
+      <MuiDialogTitle fontWeight='600'>{discardTitle}</MuiDialogTitle>
       <DialogContent>
-        <DialogContentText>{`This will reset the form.`}</DialogContentText>
+        <DialogContentText>{discardContent}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <MuiButton size='large' color='error' onClick={handleDiscard}>
+        <MuiButton
+          size='large'
+          color='error'
+          onClick={handleDiscard}
+          style={{ fontWeight: '600' }}
+        >
           Discard All Changes
         </MuiButton>
         <MuiButton
           size='large'
           onClick={handleEditing ? handleEditing : handleClose}
+          style={{ fontWeight: '600' }}
         >
           Continue Editing
         </MuiButton>

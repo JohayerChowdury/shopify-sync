@@ -1,14 +1,14 @@
 import { React, useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Alert, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Nav } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useStoreActions, useUserActions } from '../../../actions';
+import { toast } from 'react-toastify';
+
+import { useStoreActions } from '../../../actions';
+import { DiscardChanges } from '../../../atoms';
 
 function StoreDetails() {
-  const userActions = useUserActions();
   const storeActions = useStoreActions();
-  //allows us to find storeId in parameters
   const { storeId } = useParams();
-  //allows us to redirect to different pages
   let navigate = useNavigate();
 
   const initialStoreState = {
@@ -17,23 +17,20 @@ function StoreDetails() {
     access_token: '',
     address: '',
   };
-  //creating store array to reference store
-  const [store, setStore] = useState(initialStoreState);
-  //creating message array for updating store
-  const [message, setMessage] = useState('');
-  //creating errors array to hold errors
-  const [storeFormErrors, setStoreFormErrors] = useState([]);
-  const [numProducts, setNumProducts] = useState();
 
-  function getStore(storeId) {
-    storeActions
-      .getOne(storeId)
-      .then((res) => {
-        setStore(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const [discardOpen, setDiscardOpen] = useState(false);
+
+  const [store, setStore] = useState(initialStoreState);
+  const [storeFormErrors, setStoreFormErrors] = useState([]);
+  // const [numProducts, setNumProducts] = useState();
+
+  async function getStore(storeId) {
+    try {
+      const res = await storeActions.getOne(storeId);
+      setStore(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // const retrieveNumProducts = async () => {
@@ -74,7 +71,7 @@ function StoreDetails() {
   };
 
   const findStoreFormErrors = () => {
-    const { name, url, access_token, address } = store;
+    const { name, url, access_token } = store;
     const newErrors = {};
     // name errors
     if (!name || name === '') newErrors.name = 'cannot be blank!';
@@ -89,7 +86,7 @@ function StoreDetails() {
   };
 
   //when updating, run this function
-  function updateStore(e) {
+  async function updateStore(e) {
     //prevents reloads after clicking submit
     e.preventDefault();
     // get our new errors
@@ -99,29 +96,20 @@ function StoreDetails() {
       // We got errors!
       setStoreFormErrors(newErrors);
     } else {
-      storeActions
-        .update(storeId, store)
-        .then((res) => {
-          console.log(res.data);
-          setMessage('Store was updated successfully!');
-          console.log(message);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        const res = await storeActions.update(storeId, store);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
-  //when delting, run this function
-  function deleteStore(e) {
-    //prevents reloads after clicking submit
-    e.preventDefault();
+  function deleteStore() {
     storeActions
       .remove(storeId)
       .then((res) => {
         console.log(res.data);
-        setMessage('Store was deleted successfully!');
-        console.log(message);
         navigate('/stores');
       })
       .catch((err) => {
@@ -129,79 +117,86 @@ function StoreDetails() {
       });
   }
 
+  const handleDiscard = () => {
+    deleteStore();
+    toast.success('Store was deleted!');
+  };
+
   return (
-    <Container className="mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4">
-      {message ? <Alert>{message}</Alert> : ''}
+    <Container className='mt-5 shadow p-3 mb-3 bg-white rounded col-xs-6 col-lg-4'>
+      <DiscardChanges
+        openDialog={discardOpen}
+        setOpenDialog={setDiscardOpen}
+        handleDiscard={handleDiscard}
+        discardTitle='Are you sure you want to delete your store?'
+        discardContent={`By clicking 'Discard All Changes', your store will be deleted. `}
+      />
       <Form>
         {/* Form Group for Store Name, apply comments throughout other form groups */}
-        <Row className="mb-3 text-center">
+        <Row className='mb-3 text-center'>
           <h2>{store.name}</h2>
         </Row>
-        <Form.Group className="mb-3">
-          {/* Label in user interface */}
+        <Form.Group className='mb-3'>
           <Form.Label>Store Name</Form.Label>
-          {/* Attributes of form */}
           <Form.Control
             required
-            type="text"
-            placeholder="Store Name"
+            type='text'
+            placeholder='Store Name'
             value={store.name}
-            name="name"
-            id="name"
-            // when form is being written in, the handleInputChange function is called for the specific
+            name='name'
+            id='name'
             onChange={(e) => handleInputChange('name', e.target.value)}
             //isInvalid property of Form that checks to alert user if there are any errors present
             isInvalid={!!storeFormErrors.name}
           />
-          {/* alert user of specific form errors */}
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.name}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className='mb-3'>
           <Form.Label>Store URL</Form.Label>
           <Form.Control
             required
-            type="text"
-            placeholder="what comes before .myshopify.com"
+            type='text'
+            placeholder='what comes before .myshopify.com'
             value={store.url}
-            name="url"
-            id="url"
+            name='url'
+            id='url'
             onChange={(e) => handleInputChange('url', e.target.value)}
             isInvalid={!!storeFormErrors.url}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.url}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className='mb-3'>
           <Form.Label>Store Access Token</Form.Label>
           <Form.Control
             required
-            type="text"
-            placeholder="Store access token"
+            type='text'
+            placeholder='Store access token'
             value={store.access_token}
-            name="access_token"
-            id="access_token"
+            name='access_token'
+            id='access_token'
             onChange={(e) => handleInputChange('access_token', e.target.value)}
             isInvalid={!!storeFormErrors.access_token}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.access_token}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className='mb-3'>
           <Form.Label>Address</Form.Label>
           <Form.Control
-            type="text"
-            placeholder="Address"
+            type='text'
+            placeholder='Address'
             value={store.address}
-            name="address"
-            id="address"
+            name='address'
+            id='address'
             onChange={(e) => handleInputChange('address', e.target.value)}
             isInvalid={!!storeFormErrors.address}
           />
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type='invalid'>
             {storeFormErrors.address}
           </Form.Control.Feedback>
         </Form.Group>
@@ -210,31 +205,35 @@ function StoreDetails() {
             {numProducts} total products synced
           </h5>
         </Row> */}
-        <Row className="justify-content-center">
-          <Col className="col-auto">
+        <Row className='justify-content-center'>
+          <Col className='col-auto'>
             <Button
-              variant="secondary"
-              type="button"
+              variant='secondary'
+              type='button'
               href={'/stores/' + storeId + '/products'}
             >
               View Store's Products
             </Button>
           </Col>
-          <Col className="col-auto">
-            <Button variant="danger" type="button" onClick={deleteStore}>
+          <Col className='col-auto'>
+            <Button
+              variant='danger'
+              type='button'
+              onClick={() => setDiscardOpen(true)}
+            >
               Delete
             </Button>
           </Col>
-          <Col className="col-auto">
-            <Button variant="primary" type="button" onClick={updateStore}>
+          <Col className='col-auto'>
+            <Button variant='primary' type='button' onClick={updateStore}>
               Save Changes
             </Button>
           </Col>
         </Row>
-        <Row className="mt-3 justify-content-start">
+        <Row className='mt-3 justify-content-start'>
           <Col>
-            <Nav className="justify-content-start">
-              <Nav.Link href="/stores">Back to Stores</Nav.Link>
+            <Nav className='justify-content-start'>
+              <Nav.Link href='/stores'>Back to Stores</Nav.Link>
             </Nav>
           </Col>
         </Row>

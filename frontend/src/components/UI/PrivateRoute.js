@@ -1,4 +1,4 @@
-import { Route, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { authAtom } from '../../states/authStates';
@@ -11,6 +11,6 @@ function PrivateRoute({ children }) {
   return auth ? (
     children
   ) : (
-    <Navigate to="/login" replace state={{ from: location }} />
+    <Navigate to='/login' replace state={{ from: location }} />
   );
 }

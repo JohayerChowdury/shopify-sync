@@ -18,7 +18,9 @@ const UserSchema = new mongoose.Schema({
     index: { unique: true },
     required: `Please provide the user's email.`,
   },
-
+  // profilePicture: {
+  //   type: String
+  // },
   stores: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -1,0 +1,68 @@
+/* html {
+  min-height: 100%;
+  overflow: hidden;
+} */
+
+/* input[type='email'],
+input[type='text'],
+input[type='password'] {
+  width: 75%;
+  margin-left: 10%;
+  padding: 12px, 20px;
+  display: inline-block;
+  border: 1px solid #000;
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #000;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+} */
+/* ::placeholder {
+  color: #4c4c4d;
+} */
+
+.welcome-title {
+  text-align: center;
+  /* font-family: 'georgia', sans-serif; */
+  color: #ffffff;
+}
+
+.welcome-banner {
+  padding: 16px;
+  background-color: #000;
+  justify-content: center;
+  height: 100px;
+}
+
+.typewriter {
+  display: flex;
+  justify-content: center;
+}
+
+.typewriter h1 {
+  color: inherit;
+  font-family: inherit;
+  overflow: hidden;
+  border-right: 0.15em solid lightgreen;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: lightgreen;
+  }
+}

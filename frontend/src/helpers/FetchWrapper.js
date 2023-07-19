@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 
 import { authAtom } from '../states';
-import { history } from './history';
+// import { history } from './history';
 
 function useFetchWrapper() {
   const [auth, setAuth] = useRecoilState(authAtom);
@@ -30,12 +30,14 @@ function useFetchWrapper() {
       }
 
       console.log('JRC request options', requestOptions);
-      return axios
-        .request(requestOptions)
-        .then(handleResponse)
-        .catch((err) => {
-          console.log(err);
-        });
+      return (
+        axios
+          .request(requestOptions)
+          // .then(handleResponse)
+          .catch((err) => {
+            console.log(err);
+          })
+      );
     };
   }
 
@@ -51,22 +53,22 @@ function useFetchWrapper() {
     }
   }
 
-  function handleResponse(response) {
-    const data = response.data;
+  // function handleResponse(response) {
+  //   const data = response.data;
 
-    if (!response.ok) {
-      if ([401, 403].includes(response.status) && auth?.token) {
-        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        localStorage.removeItem('user');
-        setAuth(null);
-        history.push('/login');
-      }
+  //   if (!response.ok) {
+  //     if ([401, 403].includes(response.status) && auth?.token) {
+  //       // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+  //       localStorage.removeItem('user');
+  //       setAuth(null);
+  //       history.push('/login');
+  //     }
 
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
-    }
+  //     const error = (data && data.message) || response.statusText;
+  //     return Promise.reject(error);
+  //   }
 
-    return data;
-  }
+  //   return data;
+  // }
 }
 export default useFetchWrapper;

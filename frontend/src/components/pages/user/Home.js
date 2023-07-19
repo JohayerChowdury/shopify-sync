@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
-import { userAtom } from '../../../states/userStates';
-import { authAtom } from '../../../states/authStates';
 import { useRecoilValue } from 'recoil';
-import { useUserActions } from '../../../actions/user_actions';
-import { Container, Card, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import { CardContent, Card as MuiCard } from '@mui/material';
+
+import { authAtom } from '../../../states/authStates';
+
+const Card = styled(MuiCard)`
+  height: 300px;
+  width: 300px;
+  margin: 20px;
+`;
 
 function Home() {
   const auth = useRecoilValue(authAtom);
-  const user = useRecoilValue(userAtom);
-  const userActions = useUserActions();
 
   return (
     <>
       <div className='welcome-banner mb-3'>
-        <div className='welcome-title mb-3'>
+        <div className='welcome-title mb-3 typewriter'>
           <h1>Welcome, {auth.data.user.full_name}</h1>
         </div>
       </div>
@@ -29,24 +34,24 @@ function Home() {
               </Card.Text>
             </Card>
           </Col> */}
-          <Col className='col-3'>
-            <Card>
-              <Card.Title>Add your shopify stores</Card.Title>
-              <Card.Text>
-                Seamlessly add your stores by clicking below.
-              </Card.Text>
-              <Card.Link href='/add-store'>Click here to add stores</Card.Link>
-            </Card>
-          </Col>
-          <Col className='col-3'>
-            <Card>
-              <Card.Title>Sync your products</Card.Title>
-              <Card.Text>
+          {/* <Col className='col-3'> */}
+          <Card>
+            <CardContent>
+              <h3>Add your shopify stores</h3>
+              <p>Seamlessly add your stores by clicking below.</p>
+              <a href='/add-store'>Click here to add stores</a>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <h3>Sync your products</h3>
+              <p>
                 Sync your products from your Shopify instance to the database to
                 view all your products in one service.
-              </Card.Text>
-            </Card>
-          </Col>
+              </p>
+            </CardContent>
+          </Card>
+          {/* </Col> */}
         </Row>
       </Container>
     </>

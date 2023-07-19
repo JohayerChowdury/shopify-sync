@@ -107,7 +107,6 @@ exports.add = async (req, res) => {
   newStore
     .save()
     .then((data) => {
-      console.log('JRC data in store controller', data);
       res.status(200).send(data);
     })
     .catch((err) => {
@@ -208,7 +207,7 @@ exports.sync = async (req, res) => {
       console.log('Finished uploading to MongoDB database');
       //CHANGE !!!
       const products = await ProductModel.find({ store: storeId });
-      res.send(products);
+      // res.send(products);
     })
     .catch((err) => {
       console.log('it errored: ', err);

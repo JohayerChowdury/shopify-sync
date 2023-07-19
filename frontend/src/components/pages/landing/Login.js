@@ -15,7 +15,7 @@ import { useRecoilValue } from 'recoil';
 
 import { authAtom } from '../../../states';
 import { useUserActions } from '../../../actions';
-import ErrorMsg from '../../UI/ErrorMsg';
+import { Loading } from '../../../atoms';
 
 const Container = styled(RBContainer)`
   margin-top: 25px;
@@ -47,6 +47,7 @@ const FormGroup = styled(RBFormGroup)`
 `;
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const auth = useRecoilValue(authAtom);
 
@@ -56,7 +57,6 @@ const Login = () => {
   };
 
   const [inputUser, setInputUser] = useState(initialInputUserState);
-  const [errorMsg, setErrorMsg] = useState('');
 
   const userActions = useUserActions();
 
@@ -83,22 +83,22 @@ const Login = () => {
       password: inputUser.password,
     };
 
-    userActions
-      .login(user, '/login')
-      .then((res) => {
-        setErrorMsg(null);
-        setInputUser({
-          email: res.email,
-          password: res.password,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        setErrorMsg(
-          'Email or password is incorrect, please enter valid credentials.'
-        );
-      });
+    try {
+      setLoading(true);
+      await userActions.login(user, '/login');
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const handleNavLinkClick = () => {
+    setLoading(true);
+  };
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   return (
     <Container className='rounded'>
@@ -131,11 +131,6 @@ const Login = () => {
             Login
           </Button>
         </Row>
-        {errorMsg && (
-          <Row>
-            <ErrorMsg msg={errorMsg} />
-          </Row>
-        )}
         <RBRow className='mb-3'>
           <Col>
             <Nav className='justify-content-start'>
@@ -144,7 +139,9 @@ const Login = () => {
           </Col>
           <Col>
             <Nav className='justify-content-end'>
-              <Nav.Link href='/verify-user'>Forgot Password?</Nav.Link>
+              <Nav.Link href='/verify-user' onClick={handleNavLinkClick}>
+                Forgot Password?
+              </Nav.Link>
             </Nav>
           </Col>
         </RBRow>

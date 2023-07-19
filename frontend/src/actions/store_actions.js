@@ -1,7 +1,8 @@
 //Purpose: Creator for actions related to stores. Imported StoreService to make async HTTP requests with trigger dispatch on the result
 
 // import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import useFetchWrapper from '../helpers/FetchWrapper';
 
@@ -30,6 +31,7 @@ function useStoreActions() {
       return stores;
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
@@ -49,24 +51,37 @@ function useStoreActions() {
       return store;
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
   async function add(store) {
     try {
       const new_store = await fetchWrapper.post(baseUrl, store);
-      navigate('/stores');
+      if (new_store) {
+        toast.success('Store added!');
+        navigate('/stores');
+      } else {
+        toast.error('Unsuccessful in adding store.');
+      }
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
   async function update(storeId, store) {
     try {
       const overallRoute = `${baseUrl}/${storeId}`;
-      const update_store = await fetchWrapper.put(overallRoute, store);
+      const update = await fetchWrapper.put(overallRoute, store);
+      if (update) {
+        toast.success('Successfully updated store!');
+      } else {
+        toast.error('Unsuccessful in updating store.');
+      }
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
@@ -77,6 +92,7 @@ function useStoreActions() {
       navigate('/stores');
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
@@ -87,6 +103,7 @@ function useStoreActions() {
       return products;
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
@@ -97,6 +114,7 @@ function useStoreActions() {
       return numProducts;
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
@@ -104,9 +122,11 @@ function useStoreActions() {
     try {
       const overallRoute = `${baseUrl}/${storeId}/products`;
       await fetchWrapper.post(overallRoute);
+      toast.success('Successfully synced your products to this app!');
       navigate(`/stores/${storeId}/products`);
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 
@@ -117,6 +137,7 @@ function useStoreActions() {
       return product;
     } catch (err) {
       console.log(err);
+      toast.error(`Please try again as the following error occured. ${err}`);
     }
   }
 }

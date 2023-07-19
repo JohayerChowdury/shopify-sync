@@ -17,7 +17,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import { useUserActions, useStoreActions } from '../actions';
-// import ErrorMsg from './UI/ErrorMsg';
 // import { DiscardChanges, UnsavedChanges } from './../atoms';
 
 const Container = styled(RBContainer)`
@@ -39,7 +38,7 @@ const Row = styled(RBRow)`
 `;
 
 const FormGroup = styled(RBFG)`
-  margin-bottom: 3px;
+  margin: 15px;
 `;
 
 function StoreForm() {
@@ -126,7 +125,7 @@ function StoreForm() {
   return (
     <Container className='rounded'>
       <Form onReset={clearForm}>
-        <Row>
+        <Row className='mt-3'>
           <h2>Provide Shopify Store Details</h2>
         </Row>
         <FormGroup>
@@ -193,19 +192,14 @@ function StoreForm() {
             {storeFormErrors.address}
           </Form.Control.Feedback>
         </FormGroup>
-        <RBRow className='mb-3'>
+        <RBRow className='mt-3 mb-3'>
           <Col>
             <Nav className='justify-content-start'>
               <Nav.Link href='/stores'>Back to All Stores</Nav.Link>
             </Nav>
           </Col>
-          <Col>
-            <Button
-              className='justify-content-end'
-              variant='primary'
-              type='submit'
-              onClick={handleSubmit}
-            >
+          <Col className='text-align-end'>
+            <Button variant='primary' type='submit' onClick={handleSubmit}>
               Add Shopify Store
             </Button>
           </Col>

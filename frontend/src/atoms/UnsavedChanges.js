@@ -1,82 +1,84 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { Prompt } from 'react-router';
-import {
-  Dialog,
-  DialogActions,
-  DialogTitle as MuiDialogTitle,
-  DialogContent,
-  DialogContentText,
-  Button as MuiButton,
-} from '@mui/material';
+// Prompt not supported in react-router v6, either refactor for v6 or downgrade to v5
 
-export const UserConfirmation = (message, callback) => {
-  const container = document.createElement('div');
-  container.setAttribute('custom-confirmation-navigation', '');
-  document.body.appendChild(container);
+// import React, { useEffect } from 'react';
+// import ReactDOM from 'react-dom';
+// import { usePrompt } from 'react-router-prompt';
+// import {
+//   Dialog,
+//   DialogActions,
+//   DialogTitle as MuiDialogTitle,
+//   DialogContent,
+//   DialogContentText,
+//   Button as MuiButton,
+// } from '@mui/material';
 
-  const cleanUp = (callbackState) => {
-    ReactDOM.unmountComponentAtNode(container);
-    document.body.removeChild(container);
-    callback(callbackState);
-  };
+// export const UserConfirmation = (message, callback) => {
+//   const container = document.createElement('div');
+//   container.setAttribute('custom-confirmation-navigation', '');
+//   document.body.appendChild(container);
 
-  ReactDOM.render(
-    <Dialog open={true}>
-      <MuiDialogTitle
-        fontFamily="'Source Sans Pro', sans-serif"
-        fontWeight='600'
-      >
-        You Have Unsaved Changes
-      </MuiDialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          {message
-            ? message
-            : `Leaving the page without saving will undo any changes you have made.`}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <MuiButton size='large' onClick={() => cleanUp(true)}>
-          Leave the Page
-        </MuiButton>
-        <MuiButton size='large' onClick={() => cleanUp(false)}>
-          Stay on The Page
-        </MuiButton>
-      </DialogActions>
-    </Dialog>,
-    container
-  );
-};
+//   const cleanUp = (callbackState) => {
+//     ReactDOM.unmountComponentAtNode(container);
+//     document.body.removeChild(container);
+//     callback(callbackState);
+//   };
 
-const UnsavedChanges = ({ dirty }) => {
-  const initializeBeforeUnload = (dirty) => {
-    window.onbeforeunload = (event) => {
-      if (dirty) {
-        const e = event || window.event;
-        e.preventDefault();
-        if (e) {
-          e.returnValue = '';
-        }
-        return '';
-      }
-    };
-  };
+//   ReactDOM.render(
+//     <Dialog open={true}>
+//       <MuiDialogTitle
+//         fontFamily="'Source Sans Pro', sans-serif"
+//         fontWeight='600'
+//       >
+//         You Have Unsaved Changes
+//       </MuiDialogTitle>
+//       <DialogContent>
+//         <DialogContentText>
+//           {message
+//             ? message
+//             : `Leaving the page without saving will undo any changes you have made.`}
+//         </DialogContentText>
+//       </DialogContent>
+//       <DialogActions>
+//         <MuiButton size='large' onClick={() => cleanUp(true)}>
+//           Leave the Page
+//         </MuiButton>
+//         <MuiButton size='large' onClick={() => cleanUp(false)}>
+//           Stay on The Page
+//         </MuiButton>
+//       </DialogActions>
+//     </Dialog>,
+//     container
+//   );
+// };
 
-  useEffect(() => {
-    initializeBeforeUnload(dirty);
+// const UnsavedChanges = ({ dirty }) => {
+//   const initializeBeforeUnload = (dirty) => {
+//     window.onbeforeunload = (event) => {
+//       if (dirty) {
+//         const e = event || window.event;
+//         e.preventDefault();
+//         if (e) {
+//           e.returnValue = '';
+//         }
+//         return '';
+//       }
+//     };
+//   };
 
-    return () => {
-      window.onbeforeunload = undefined;
-    };
-  }, [dirty]);
+//   useEffect(() => {
+//     initializeBeforeUnload(dirty);
 
-  return (
-    <Prompt
-      when={dirty}
-      message='Leaving the page without saving will undo any changes you have made.'
-    />
-  );
-};
+//     return () => {
+//       window.onbeforeunload = undefined;
+//     };
+//   }, [dirty]);
 
-export default UnsavedChanges;
+//   return (
+//     <Prompt
+//       when={dirty}
+//       message='Leaving the page without saving will undo any changes you have made.'
+//     />
+//   );
+// };
+
+// export default UnsavedChanges;
